@@ -1,14 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
+import LayoutRapper from "@/app/(public)/components/LayoutRapper"
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const poppins = Poppins({
+  weight:["100","200","300","400","600","700","800","900"],
   subsets: ["latin"],
 });
 
@@ -25,9 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${poppins.className} antialiased bg-gray-50/95 max-w-[1680px] mx-auto`}
       >
-        {children}
+        <LayoutRapper>{children}</LayoutRapper>
       </body>
     </html>
   );
