@@ -13,15 +13,15 @@ export default function LayoutWrapper({
 
   if (isDashboardRoute) {
     return (
-      <div className="flex h-screen">
-        <AdminSidebar/>
-        <div className="w-full p-5 h-screen overflow-y-scroll">{children}</div>
+      <div className='flex h-screen'>
+        <AdminSidebar />
+        <div className='w-full p-5 h-screen overflow-y-scroll'>{children}</div>
       </div>
     );
   }
 
   return (
-    <div>
+    <div className='px-4 sm:px-16'>
       <Header />
       {children}
     </div>
