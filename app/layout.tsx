@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import LayoutRapper from "@/app/(public)/components/LayoutRapper"
+import LayoutRapper from "@/app/(public)/components/LayoutRapper";
 import "./globals.css";
 
 const poppins = Poppins({
-  weight:["100","200","300","400","600","700","800","900"],
+  weight: ["100", "200", "300", "400", "600", "700", "800", "900"],
   subsets: ["latin"],
 });
 
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body
         className={`${poppins.className} antialiased bg-[#E2F3F9] max-w-[1680px] mx-auto`}
       >
