@@ -8,16 +8,18 @@ const Header = () => {
     <header className='py-4'>
       <div className='flex items-center justify-between'>
         <div>
-          <Image
-            src={"/logo.png"}
-            width={120}
-            height={80}
-            alt='site-logo'
-            className='size-auto'
-          />
+          <Link href={"/"}>
+            <Image
+              src={"/logo.png"}
+              width={120}
+              height={80}
+              alt='site-logo'
+              className='size-auto object-cover'
+            />
+          </Link>
         </div>
         <nav>
-          <ul className='flex items-center justify-between gap-x-14'>
+          <ul className='hidden md:flex items-center justify-between gap-x-14'>
             <li>
               <Link href={"/"}>Home</Link>
             </li>
