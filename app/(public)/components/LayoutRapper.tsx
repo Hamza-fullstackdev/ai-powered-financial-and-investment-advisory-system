@@ -1,27 +1,27 @@
-"use client";
-import { usePathname } from "next/navigation";
-import Header from "@/app/(public)/components/Header";
-import AdminSidebar from "@/app/(admin)/components/Sidebar";
+'use client';
+import { usePathname } from 'next/navigation';
+import Header from '@/app/(public)/components/Header';
+import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/app/(admin)/components/AppSidebar';
 
-export default function LayoutWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LayoutWrapper({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const isDashboardRoute = pathname.startsWith("/app");
+  const isDashboardRoute = pathname.startsWith('/app');
 
   if (isDashboardRoute) {
     return (
-      <div className='flex h-screen'>
-        <AdminSidebar />
-        <div className='w-full p-5 h-screen overflow-y-scroll'>{children}</div>
-      </div>
+      <SidebarProvider>
+        <AppSidebar />
+        <main>
+          <SidebarTrigger />
+          {children}
+        </main>
+      </SidebarProvider>
     );
   }
 
   return (
-    <div className='px-4 sm:px-16'>
+    <div className="px-4 sm:px-16">
       <Header />
       {children}
     </div>
