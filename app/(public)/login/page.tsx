@@ -11,11 +11,12 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { loginUser } from '@/lib/features/user/UserSlice';
 import { AlertCircle } from 'lucide-react';
-import { set } from 'mongoose';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 const page = () => {
   const [formData, setFormData] = useState({});
@@ -23,6 +24,7 @@ const page = () => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useRouter();
+  const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,6 +44,7 @@ const page = () => {
       const data = await res.json();
       if (res.ok) {
         navigate.push('/app');
+        dispatch(loginUser(data.user));
       } else {
         setError(true);
         setErrorMessage(data.message);
