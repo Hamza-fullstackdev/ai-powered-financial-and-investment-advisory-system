@@ -12,6 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { AlertCircle } from 'lucide-react';
+import { set } from 'mongoose';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -44,10 +45,12 @@ const page = () => {
       } else {
         setError(true);
         setErrorMessage(data.message);
+        setLoading(false);
       }
     } catch (error) {
       setError(true);
       setErrorMessage('Invalid email or password');
+      setLoading(false);
     }
   };
   return (
@@ -69,17 +72,31 @@ const page = () => {
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-1">
               <Label htmlFor="email">Email</Label>
-              <Input type="email" id="email" name="email" onChange={handleChange} />
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                required
+                autoComplete="on"
+                onChange={handleChange}
+              />
             </div>
             <div className="flex flex-col gap-1">
               <Label htmlFor="passwrod">Password</Label>
-              <Input type="password" id="password" name="password" onChange={handleChange} />
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                required
+                autoComplete="on"
+                onChange={handleChange}
+              />
             </div>
           </div>
         </CardContent>
         <CardFooter className="mt-5">
           <Button type="submit" className="w-full cursor-pointer" size={'lg'}>
-            Login
+            {loading ? 'Loading...' : 'Login'}
           </Button>
         </CardFooter>
       </form>
