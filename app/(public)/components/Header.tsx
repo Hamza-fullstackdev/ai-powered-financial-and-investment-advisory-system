@@ -49,10 +49,12 @@ const Header = () => {
       } else {
         setError(true);
         setErrorMessage(data.message || 'Something went wrong!');
+        setLoading(false);
       }
     } catch (err) {
       setError(true);
       setErrorMessage('Error occured while submitting form data');
+      setLoading(false);
     }
   };
   return (
