@@ -17,6 +17,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+import Google from './auth/Google';
 
 const Header = () => {
   const [formData, setFormData] = useState({});
@@ -180,6 +181,14 @@ const Header = () => {
                       Login now
                     </Link>
                   </span>
+                  <div className="relative my-5 flex items-center">
+                    <div className="flex-grow border-t border-gray-300"></div>
+                    <span className="mx-4 flex-shrink text-gray-600">or</span>
+                    <div className="flex-grow border-t border-gray-300"></div>
+                  </div>
+                  <div>
+                    <Google />
+                  </div>
                 </form>
               </div>
             </DialogContent>

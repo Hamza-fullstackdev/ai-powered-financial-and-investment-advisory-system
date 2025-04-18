@@ -12,19 +12,16 @@ const userSchema = new Schema<IUser>(
   {
     fname: {
       type: String,
-      required: true,
       trim: true,
       minlength: 3,
     },
     lname: {
       type: String,
-      required: true,
       trim: true,
       minlength: 3,
     },
     email: {
       type: String,
-      required: true,
       trim: true,
       unique: true,
       lowercase: true,

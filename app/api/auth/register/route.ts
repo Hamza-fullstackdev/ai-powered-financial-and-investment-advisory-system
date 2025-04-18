@@ -18,9 +18,6 @@ export async function POST(req: Request) {
   if (!email.includes('@')) {
     return NextResponse.json({ message: 'Please enter a valid email address' }, { status: 400 });
   }
-  if (!fname || !lname) {
-    return NextResponse.json({ message: 'Please fill all fields' }, { status: 400 });
-  }
   if (fname.length < 3 || lname.length < 3) {
     return NextResponse.json(
       { message: 'Name must be at least 3 characters long' },

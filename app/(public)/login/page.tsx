@@ -17,6 +17,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import Google from '@/app/(public)/components/auth/Google';
 
 const page = () => {
   const [formData, setFormData] = useState({});
@@ -85,7 +86,7 @@ const page = () => {
               />
             </div>
             <div className="flex flex-col gap-1">
-              <Label htmlFor="passwrod">Password</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
                 type="password"
                 id="password"
@@ -110,6 +111,14 @@ const page = () => {
             Register Now!
           </Link>
         </span>
+      </div>
+      <div className="px-6 relative flex items-center">
+        <div className="flex-grow border-t border-gray-300"></div>
+        <span className="mx-4 flex-shrink text-gray-600">or</span>
+        <div className="flex-grow border-t border-gray-300"></div>
+      </div>
+      <div className="px-6">
+        <Google />
       </div>
     </Card>
   );
