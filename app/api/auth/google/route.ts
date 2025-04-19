@@ -4,6 +4,7 @@ import { config } from '@/app/api/utils/env-config';
 import { hashedPassword } from '@/app/api/utils/hashing';
 import { NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
+import Notification from '@/app/model/Notification';
 
 export async function POST(req: Request) {
   await connectToDatabase();
@@ -12,6 +13,12 @@ export async function POST(req: Request) {
     const isUserExist = await User.findOne({ email });
     if (isUserExist) {
       const token = jwt.sign({ id: isUserExist._id.toString() }, config.jwtSecretKey as string);
+      await Notification.create({
+        userId: isUserExist._id,
+        title: 'Welcome back!',
+        message: `Welcome back ${isUserExist.fname}!, we are excited to see you again!`,
+        type: 'login',
+      });
       const response = NextResponse.json(
         {
           message: 'User logged in successfully',
@@ -46,6 +53,12 @@ export async function POST(req: Request) {
       try {
         await newUser.save();
         const token = jwt.sign({ id: newUser._id }, config.jwtSecretKey as string);
+        await Notification.create({
+          userId: newUser._id,
+          title: 'Welcome aboard!',
+          message: `Welcome aboard ${newUser.fname}!, we are excited to have you!`,
+          type: 'signup',
+        });
         const response = NextResponse.json(
           {
             message: 'User created successfully',

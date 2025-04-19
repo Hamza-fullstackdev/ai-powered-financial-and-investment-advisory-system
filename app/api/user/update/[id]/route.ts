@@ -1,5 +1,6 @@
 import { connectToDatabase } from '@/app/api/utils/db';
 import { hashedPassword } from '@/app/api/utils/hashing';
+import Notification from '@/app/model/Notification';
 import User from '@/app/model/User';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -37,6 +38,12 @@ export async function PATCH(req: NextRequest, context: any) {
     if (!updatedUser) {
       return NextResponse.json({ message: 'Error updating user' }, { status: 500 });
     }
+    await Notification.create({
+      userId: updatedUser._id,
+      title: 'Profile Updated!',
+      message: `Dear ${updatedUser.fname}, your profile has been updated successfully.`,
+      type: 'profile',
+    });
     return NextResponse.json(
       {
         message: 'User updated successfully',

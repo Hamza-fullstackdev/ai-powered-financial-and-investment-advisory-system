@@ -178,10 +178,12 @@ export function AppSidebar() {
                     <CreditCard />
                     Billing
                   </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Bell />
-                    Notifications
-                  </DropdownMenuItem>
+                  <Link href={'/app/notifications'}>
+                    <DropdownMenuItem>
+                      <Bell />
+                      Notifications
+                    </DropdownMenuItem>
+                  </Link>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <Logout />
