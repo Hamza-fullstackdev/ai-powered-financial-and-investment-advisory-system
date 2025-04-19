@@ -9,6 +9,8 @@ interface UserState {
   userAgent: string | null;
   signupMethod: string;
   isAuthenticated: boolean;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 }
 
 const initialState: UserState = {
@@ -20,6 +22,8 @@ const initialState: UserState = {
   userAgent: '',
   signupMethod: '',
   isAuthenticated: false,
+  createdAt: null,
+  updatedAt: null,
 };
 
 const userSlice = createSlice({
