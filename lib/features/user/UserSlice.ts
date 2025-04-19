@@ -29,18 +29,24 @@ const userSlice = createSlice({
         isAuthenticated: true,
       };
     },
-    logoutUser(state) {
+    logoutUser() {
       return {
         ...initialState,
       };
     },
-    deleteUser(state) {
+    deleteUser() {
       return {
         ...initialState,
+      };
+    },
+    updateUser(state, action: PayloadAction<Partial<Omit<UserState, 'isAuthenticated' | '_id'>>>) {
+      return {
+        ...state,
+        ...action.payload,
       };
     },
   },
 });
 
-export const { loginUser, logoutUser, deleteUser } = userSlice.actions;
+export const { loginUser, logoutUser, deleteUser, updateUser } = userSlice.actions;
 export default userSlice.reducer;

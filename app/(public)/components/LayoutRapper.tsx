@@ -12,9 +12,9 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     return (
       <SidebarProvider>
         <AppSidebar />
-        <main>
+        <main className="w-full">
           <SidebarTrigger />
-          {children}
+          <div className="px-4 sm:px-6">{children}</div>
         </main>
       </SidebarProvider>
     );
