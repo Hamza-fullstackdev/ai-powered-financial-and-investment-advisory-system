@@ -6,6 +6,8 @@ interface UserState {
   lname: string;
   email: string;
   profileImg: string | null;
+  userAgent: string | null;
+  signupMethod: string;
   isAuthenticated: boolean;
 }
 
@@ -15,6 +17,8 @@ const initialState: UserState = {
   lname: '',
   email: '',
   profileImg: '',
+  userAgent: '',
+  signupMethod: '',
   isAuthenticated: false,
 };
 

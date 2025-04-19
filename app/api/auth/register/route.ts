@@ -36,6 +36,7 @@ export async function POST(req: Request) {
         email,
         password: encryptedPassword,
         profileImg,
+        signupMethod: 'form',
       });
       return NextResponse.json({ message: 'User created successfully' }, { status: 201 });
     }

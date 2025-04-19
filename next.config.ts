@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: 'moicjaafyhsjcbmfeviv.supabase.co',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+        pathname: '/**',
+      },
     ],
   },
 };

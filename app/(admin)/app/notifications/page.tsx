@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { LogInIcon } from 'lucide-react';
 import { format } from 'date-fns';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const page = () => {
   type Notification = {
@@ -17,6 +18,7 @@ const page = () => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getNotifications = async () => {
+      setLoading(true);
       try {
         const res = await fetch('/api/user/notifications', {
           method: 'GET',
@@ -25,6 +27,7 @@ const page = () => {
           },
         });
         const data = await res.json();
+        setLoading(false);
         if (res.ok) {
           setNotifications(data.notifications);
         } else {
@@ -45,21 +48,29 @@ const page = () => {
             <CardDescription>Your activity arround app will appear here.</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex flex-col gap-3">
-              {notifications.length > 0 ? (
-                notifications.map((notification) => (
-                  <Alert key={notification._id} className="w-full" variant="default">
-                    <LogInIcon className="h-4 w-4" />
-                    <AlertTitle>{notification.title}</AlertTitle>
-                    <AlertDescription>
-                      {notification.message} ({format(new Date(notification.createdAt), 'PPpp')})
-                    </AlertDescription>
-                  </Alert>
-                ))
-              ) : (
-                <div className="text-center text-muted-foreground">No notifications yet.</div>
-              )}
-            </div>
+            {loading ? (
+              <div className="flex flex-col gap-3">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <Skeleton key={index} className="w-full h-[50px]" />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3">
+                {notifications.length > 0 ? (
+                  notifications.map((notification) => (
+                    <Alert key={notification._id} className="w-full" variant="default">
+                      <LogInIcon className="h-4 w-4" />
+                      <AlertTitle>{notification.title}</AlertTitle>
+                      <AlertDescription>
+                        {notification.message} ({format(new Date(notification.createdAt), 'PPpp')})
+                      </AlertDescription>
+                    </Alert>
+                  ))
+                ) : (
+                  <div className="text-center text-muted-foreground">No notifications yet.</div>
+                )}
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>

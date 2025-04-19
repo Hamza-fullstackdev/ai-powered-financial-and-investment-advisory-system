@@ -28,6 +28,8 @@ export async function POST(req: Request) {
             lname: isUserExist.lname,
             email: isUserExist.email,
             profileImg: isUserExist.profileImg,
+            userAgent: req.headers.get('user-agent'),
+            signupMethod: 'google',
             createdAt: isUserExist.createdAt,
             updatedAt: isUserExist.updatedAt,
           },
@@ -49,6 +51,7 @@ export async function POST(req: Request) {
         email: email,
         password: await hashedPassword(generatedPassword),
         profileImg: profileImg,
+        signupMethod: 'google',
       });
       try {
         await newUser.save();
@@ -68,6 +71,8 @@ export async function POST(req: Request) {
               lname: newUser.lname,
               email: newUser.email,
               profileImg: newUser.profileImg,
+              userAgent: req.headers.get('user-agent'),
+              signupMethod: 'google',
               createdAt: newUser.createdAt,
               updatedAt: newUser.updatedAt,
             },

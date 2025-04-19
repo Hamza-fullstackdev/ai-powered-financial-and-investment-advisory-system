@@ -12,6 +12,7 @@ import { updateUser } from '@/lib/features/user/UserSlice';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -30,6 +31,7 @@ const page = () => {
   const currentUser = useSelector((state: RootState) => state.user);
   const [previewUrl, setPreviewUrl] = useState(currentUser?.profileImg || '/logo.png');
   const [progress, setProgress] = useState(13);
+  const router = useRouter();
 
   useEffect(() => {
     const timer = setTimeout(() => setProgress(60), 500);
@@ -93,6 +95,7 @@ const page = () => {
       setLoading(false);
       if (res.ok) {
         dispatch(updateUser(data.user));
+        router.push('/app/profile');
       } else {
         setError(true);
         setErrorMessage(data.message);
@@ -185,6 +188,14 @@ const page = () => {
                   placeholder="********"
                   onChange={handleChange}
                 />
+                {currentUser?.signupMethod === 'google' ? (
+                  <span className="text-xs text-red-500">
+                    Since you are signed using google, we recommend you to set password for the
+                    future
+                  </span>
+                ) : (
+                  ''
+                )}
               </div>
             </div>
             <div className="mt-4">

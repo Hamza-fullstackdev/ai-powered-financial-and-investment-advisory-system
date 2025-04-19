@@ -65,6 +65,8 @@ export async function POST(req: Request) {
           lname: isUserExist.lname,
           email: isUserExist.email,
           profileImg: isUserExist.profileImg,
+          userAgent: req.headers.get('user-agent'),
+          signupMethod: isUserExist.signupMethod,
           createdAt: isUserExist.createdAt,
           updatedAt: isUserExist.updatedAt,
         },
