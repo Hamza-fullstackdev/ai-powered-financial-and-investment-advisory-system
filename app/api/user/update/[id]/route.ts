@@ -3,9 +3,9 @@ import { hashedPassword } from '@/app/api/utils/hashing';
 import User from '@/app/model/User';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: any) {
   await connectToDatabase();
-  const { id } = await context.params;
+  const { id } = context.params;
   const { fname, lname, email, password, profileImg } = await req.json();
   try {
     const user = await User.findById(id);
