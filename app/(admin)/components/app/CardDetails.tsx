@@ -18,7 +18,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { Plus, Wallet } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { BadgeHelp, Plus, Wallet } from 'lucide-react';
 import Image from 'next/image';
 import React from 'react';
 
@@ -42,7 +43,7 @@ const CardDetails = () => {
               </div>
             </div>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="h-[500px] md:h-[550px] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Add Financial Details</DialogTitle>
               <DialogDescription>
@@ -99,6 +100,39 @@ const CardDetails = () => {
               </div>
               <Separator className="my-4" />
               <DialogHeader>
+                <DialogTitle>Budget Details</DialogTitle>
+                <DialogDescription>
+                  Your budget details help us enhance your experience
+                </DialogDescription>
+              </DialogHeader>
+              <Separator className="my-4" />
+              <div>
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-3">
+                    <Label htmlFor="budgetAmount">Monthly Budget</Label>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <BadgeHelp size={15} />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>
+                          Entered amount will be the targeted amount you want to save from monthly
+                          income
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </div>
+                  <Input
+                    id="budgetAmount"
+                    name="budgetAmount"
+                    type="number"
+                    placeholder="Target amount for the month"
+                    required
+                  />
+                </div>
+              </div>
+              <Separator className="my-4" />
+              <DialogHeader>
                 <DialogTitle>Card Details</DialogTitle>
                 <DialogDescription>
                   Your card details are used to make payments and purchases securely.
@@ -117,7 +151,7 @@ const CardDetails = () => {
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <Label htmlFor="cardHolder">Card Holder</Label>
+                  <Label htmlFor="cardHolder">Card Holder Name</Label>
                   <Input
                     id="cardHolder"
                     name="cardHolder"
