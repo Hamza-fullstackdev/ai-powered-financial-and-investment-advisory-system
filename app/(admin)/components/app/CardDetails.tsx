@@ -25,6 +25,11 @@ import React, { useState } from 'react';
 
 const CardDetails = () => {
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -32,9 +37,9 @@ const CardDetails = () => {
       [e.target.name]: e.target.value,
     });
   };
-  console.log(JSON.stringify(formData));
   const handleFormData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const res = await fetch('/api/user/account-details', {
         method: 'POST',
@@ -44,17 +49,35 @@ const CardDetails = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+      setLoading(false);
       if (res.ok) {
-        console.log('Success:', data);
+        setSuccess(true);
+        setSuccessMessage('Account has been created successfully');
+        setLoading(false);
+        setFormData({});
       } else {
-        console.error('Error:', data);
+        setError(true);
+        setErrorMessage(data.message || 'Unable to create account');
+        setLoading(false);
       }
     } catch (error) {
-      console.error('Error:', error);
+      setError(true);
+      setErrorMessage('Unable to create account, please try again later');
+      setLoading(false);
     }
   };
   return (
     <div className="my-10">
+      {error && (
+        <div className="fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
+          <p className="text-red-500 text-sm">Error: {errorMessage}</p>
+        </div>
+      )}
+      {success && (
+        <div className="fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
+          <p className="text-green-500 text-sm">Success: {successMessage}</p>
+        </div>
+      )}
       <div>
         <h2 className="text-xl font-semibold">Financial details</h2>
         <p className="text-gray-500">Add your expenses details below to get started</p>
@@ -212,7 +235,7 @@ const CardDetails = () => {
                 </div>
               </div>
               <div>
-                <Button type="submit" className="w-full mt-4">
+                <Button disabled={loading} type="submit" className="w-full mt-4 cursor-pointer">
                   Save Details
                 </Button>
               </div>

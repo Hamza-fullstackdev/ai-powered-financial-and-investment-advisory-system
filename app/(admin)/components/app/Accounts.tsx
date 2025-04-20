@@ -1,8 +1,37 @@
+'use client';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { Badge, TrendingUpIcon } from 'lucide-react';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+type AccountDetails = {
+  totalBalance: number;
+  amountInvested: number;
+  monthlyIncome: number;
+  accountType: string;
+  monthlyBudget: number;
+  userId: string;
+};
 const Accounts = () => {
+  const [accountDetails, setAccountDetails] = useState<AccountDetails | null>(null);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const getAccountDetails = async () => {
+      setLoading(true);
+      const res = await fetch('/api/user/get-account', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (res.ok) {
+        setAccountDetails(data.getAccountInfo);
+      }
+    };
+    getAccountDetails();
+  }, []);
   return (
     <div className="my-5">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -10,7 +39,11 @@ const Accounts = () => {
           <CardHeader className="relative">
             <CardDescription>Net Worth</CardDescription>
             <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-              $1,250
+              {loading ? (
+                <Skeleton className="w-full h-[50px]" />
+              ) : (
+                `$${accountDetails?.totalBalance || 0}.00`
+              )}
             </CardTitle>
             <div className="absolute right-4 top-4">
               <Badge className="flex gap-1 rounded-lg text-xs">
@@ -27,7 +60,11 @@ const Accounts = () => {
           <CardHeader className="relative">
             <CardDescription>Investments</CardDescription>
             <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-              $1,000
+              {loading ? (
+                <Skeleton className="w-full h-[50px]" />
+              ) : (
+                `$${accountDetails?.amountInvested || 0}.00`
+              )}
             </CardTitle>
             <div className="absolute right-4 top-4">
               <Badge className="flex gap-1 rounded-lg text-xs">
@@ -44,7 +81,11 @@ const Accounts = () => {
           <CardHeader className="relative">
             <CardDescription>Monthly Income</CardDescription>
             <CardTitle className="@[250px]/card:text-3xl text-2xl font-semibold tabular-nums">
-              $30,000
+              {loading ? (
+                <Skeleton className="w-full h-[50px]" />
+              ) : (
+                `$${accountDetails?.monthlyIncome || 0}.00`
+              )}
             </CardTitle>
             <div className="absolute right-4 top-4">
               <Badge className="flex gap-1 rounded-lg text-xs">
