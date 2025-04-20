@@ -5,9 +5,9 @@ import { RootState } from '@/lib/store';
 import Image from 'next/image';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Logout from '../../components/Logout';
-import { Button } from '@/components/ui/button';
+import Logout from '@/app/(admin)/components/Logout';
 import { format } from 'date-fns';
+import DeleteAccount from '@/app/(admin)/components/DeleteAccount';
 
 const page = () => {
   const currentUser = useSelector((state: RootState) => state.user);
@@ -69,9 +69,7 @@ const page = () => {
                 </div>
                 <Separator className="my-4" />
                 <div className="mt-4 flex items-end justify-end">
-                  <Button variant={'destructive'} className="cursor-pointer" size={'lg'}>
-                    Delete Account
-                  </Button>
+                  <DeleteAccount />
                 </div>
               </div>
             </div>
