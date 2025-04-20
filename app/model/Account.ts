@@ -7,11 +7,6 @@ interface IAccount extends Document {
   accountType: string;
   monthlyBudget: number;
   userId: mongoose.Schema.Types.ObjectId;
-  cardDetails: {
-    cardNumber: string;
-    holderName: string;
-    cardCvc: number;
-  }[];
 }
 const accountSchema = new Schema<IAccount>(
   {
@@ -45,25 +40,6 @@ const accountSchema = new Schema<IAccount>(
       ref: 'User',
       required: true,
     },
-    cardDetails: [
-      {
-        cardNumber: {
-          type: String,
-          trim: true,
-          required: true,
-        },
-        holderName: {
-          type: String,
-          trim: true,
-          required: true,
-        },
-        cardCvc: {
-          type: Number,
-          trim: true,
-          required: true,
-        },
-      },
-    ],
   },
   { timestamps: true }
 );

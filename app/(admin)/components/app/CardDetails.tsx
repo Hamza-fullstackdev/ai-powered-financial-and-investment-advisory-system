@@ -21,9 +21,38 @@ import { Separator } from '@/components/ui/separator';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { BadgeHelp, Plus, Wallet } from 'lucide-react';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 
 const CardDetails = () => {
+  const [formData, setFormData] = useState({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  console.log(JSON.stringify(formData));
+  const handleFormData = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const res = await fetch('/api/user/account-details', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        console.log('Success:', data);
+      } else {
+        console.error('Error:', data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   return (
     <div className="my-10">
       <div>
@@ -52,7 +81,7 @@ const CardDetails = () => {
               </DialogDescription>
             </DialogHeader>
             <Separator />
-            <form>
+            <form onSubmit={handleFormData}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
                   <Label htmlFor="totalBalance">Total Balance</Label>
@@ -62,6 +91,7 @@ const CardDetails = () => {
                     type="number"
                     placeholder="In banks, cash, etc."
                     required
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -72,6 +102,7 @@ const CardDetails = () => {
                     type="number"
                     placeholder="Stocks, bonds, etc."
                     required
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -82,13 +113,18 @@ const CardDetails = () => {
                     type="number"
                     placeholder="Stocks, bonds, etc."
                     required
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-col gap-1">
                   <Label htmlFor="accountType">Account Type</Label>
-                  <Select name="accountType" required onValueChange={(value) => console.log(value)}>
+                  <Select
+                    name="accountType"
+                    required
+                    onValueChange={(value) => setFormData({ ...formData, accountType: value })}
+                  >
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select Account Type" />
+                      <SelectValue id="accountType" placeholder="Select Account Type" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="personal">Personal</SelectItem>
@@ -109,7 +145,7 @@ const CardDetails = () => {
               <div>
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-3">
-                    <Label htmlFor="budgetAmount">Monthly Budget</Label>
+                    <Label htmlFor="monthlyBudget">Monthly Budget</Label>
                     <Tooltip>
                       <TooltipTrigger>
                         <BadgeHelp size={15} />
@@ -123,11 +159,12 @@ const CardDetails = () => {
                     </Tooltip>
                   </div>
                   <Input
-                    id="budgetAmount"
-                    name="budgetAmount"
+                    id="monthlyBudget"
+                    name="monthlyBudget"
                     type="number"
                     placeholder="Target amount for the month"
                     required
+                    onChange={handleChange}
                   />
                 </div>
               </div>
@@ -148,6 +185,7 @@ const CardDetails = () => {
                     type="number"
                     placeholder="XXXX XXXX XXXX XXXX"
                     required
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-col gap-1">
@@ -158,11 +196,19 @@ const CardDetails = () => {
                     type="text"
                     placeholder="John Doe"
                     required
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <Label htmlFor="cvc">CVC</Label>
-                  <Input id="cvc" name="cvc" type="number" placeholder="XXX" required />
+                  <Label htmlFor="cardCvc">CVC</Label>
+                  <Input
+                    id="cardCvc"
+                    name="cardCvc"
+                    type="number"
+                    placeholder="XXX"
+                    required
+                    onChange={handleChange}
+                  />
                 </div>
               </div>
               <div>
