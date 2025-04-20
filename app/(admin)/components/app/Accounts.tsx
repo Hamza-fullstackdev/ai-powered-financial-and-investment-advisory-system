@@ -14,7 +14,7 @@ type AccountDetails = {
 };
 const Accounts = () => {
   const [accountDetails, setAccountDetails] = useState<AccountDetails | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const getAccountDetails = async () => {
       setLoading(true);
@@ -28,6 +28,7 @@ const Accounts = () => {
       setLoading(false);
       if (res.ok) {
         setAccountDetails(data.getAccountInfo);
+        setLoading(false);
       }
     };
     getAccountDetails();

@@ -1,279 +1,96 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogHeader,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-  DialogDescription,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { BadgeHelp, Plus, Wallet } from 'lucide-react';
+import { Wallet } from 'lucide-react';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import AccountDetailsForm from './AccountDetailsForm';
+import { Skeleton } from '@/components/ui/skeleton';
+
+type CardDetails = {
+  cardNumber: string;
+  cardHolder: string;
+  cardCvc: string;
+};
 
 const CardDetails = () => {
-  const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [success, setSuccess] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-  const handleFormData = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await fetch('/api/user/account-details', {
-        method: 'POST',
+  const [showCard, setShowCard] = useState(false);
+  const [cardDetails, setCardDetails] = useState<CardDetails[]>([]);
+  useEffect(() => {
+    const getCardDetails = async () => {
+      setLoading(true);
+      const res = await fetch('/api/user/card-details', {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
       });
       const data = await res.json();
       setLoading(false);
       if (res.ok) {
-        setSuccess(true);
-        setSuccessMessage('Account has been created successfully');
-        setLoading(false);
-        setFormData({});
-      } else {
-        setError(true);
-        setErrorMessage(data.message || 'Unable to create account');
+        setCardDetails(data.getCardInfo);
         setLoading(false);
       }
-    } catch (error) {
-      setError(true);
-      setErrorMessage('Unable to create account, please try again later');
-      setLoading(false);
-    }
-  };
+      if (data.length > 0) {
+        setShowCard(false);
+      } else {
+        setShowCard(true);
+      }
+    };
+    getCardDetails();
+  }, []);
   return (
     <div className="my-10">
-      {error && (
-        <div className="fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
-          <p className="text-red-500 text-sm">Error: {errorMessage}</p>
-        </div>
-      )}
-      {success && (
-        <div className="fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
-          <p className="text-green-500 text-sm">Success: {successMessage}</p>
-        </div>
-      )}
       <div>
         <h2 className="text-xl font-semibold">Financial details</h2>
         <p className="text-gray-500">Add your expenses details below to get started</p>
       </div>
       <Separator className="my-4" />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Dialog>
-          <DialogTrigger asChild>
-            <div className="w-full h-full bg-gray-50 border border-gray-500 border-dotted rounded-lg cursor-pointer">
-              <div className="flex items-center justify-center h-full py-16">
-                <div className="text-center">
-                  <Plus size={35} className="mx-auto text-gray-500" />
-                  <p className="mt-2 text-sm text-gray-600">Add Details to get started</p>
-                </div>
-              </div>
-            </div>
-          </DialogTrigger>
-          <DialogContent className="h-[500px] md:h-[550px] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>Add Financial Details</DialogTitle>
-              <DialogDescription>
-                Your financial details help us enhance your experience through our AI finance system
-                — securely and privately.
-              </DialogDescription>
-            </DialogHeader>
-            <Separator />
-            <form onSubmit={handleFormData}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="totalBalance">Total Balance</Label>
-                  <Input
-                    id="totalBalance"
-                    name="totalBalance"
-                    type="number"
-                    placeholder="In banks, cash, etc."
-                    required
-                    onChange={handleChange}
+        {showCard && <AccountDetailsForm />}
+        {loading ? (
+          <Skeleton className="w-full md:w-[400px] h-[250px] col-span-2" />
+        ) : (
+          cardDetails.map((card, index) => {
+            const cardNumberChunks = card.cardNumber.match(/.{1,4}/g) || [];
+            return (
+              <div
+                key={index}
+                className="relative w-full h-full py-5 px-5 border border-gray-500 rounded-lg bg-gradient-to-r from-[#0f172a] via-[#1e3a8a] to-[#3b82f6] text-white"
+              >
+                <div className="flex items-center justify-between">
+                  <Wallet size={30} />
+                  <Image
+                    src={'/visa-logo-white.webp'}
+                    alt="visa"
+                    width={50}
+                    height={50}
+                    className="size-auto rounded-full"
                   />
                 </div>
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="amountInvested">Amount Invested</Label>
-                  <Input
-                    id="amountInvested"
-                    name="amountInvested"
-                    type="number"
-                    placeholder="Stocks, bonds, etc."
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="monthlyIncome">Monthly Income</Label>
-                  <Input
-                    id="monthlyIncome"
-                    name="monthlyIncome"
-                    type="number"
-                    placeholder="Stocks, bonds, etc."
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="accountType">Account Type</Label>
-                  <Select
-                    name="accountType"
-                    required
-                    onValueChange={(value) => setFormData({ ...formData, accountType: value })}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue id="accountType" placeholder="Select Account Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="personal">Personal</SelectItem>
-                      <SelectItem value="business">Business</SelectItem>
-                      <SelectItem value="savings">Savings</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <Separator className="my-4" />
-              <DialogHeader>
-                <DialogTitle>Budget Details</DialogTitle>
-                <DialogDescription>
-                  Your budget details help us enhance your experience
-                </DialogDescription>
-              </DialogHeader>
-              <Separator className="my-4" />
-              <div>
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center gap-3">
-                    <Label htmlFor="monthlyBudget">Monthly Budget</Label>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <BadgeHelp size={15} />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>
-                          Entered amount will be the targeted amount you want to save from monthly
-                          income
-                        </p>
-                      </TooltipContent>
-                    </Tooltip>
+                <div className="mt-10">
+                  <div>
+                    <h3 className="text-2xl flex gap-5 tracking-widest">
+                      {cardNumberChunks.map((chunk, idx) => (
+                        <span key={idx}>{chunk}</span>
+                      ))}
+                    </h3>
+                    <div className="mt-2 flex items-center justify-between">
+                      <div>
+                        <p className="text-sm text-gray-500">Card Holder</p>
+                        <h4 className="text-lg tracking-widest">{card.cardHolder}</h4>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-100">Cvc</p>
+                        <h4 className="text-lg tracking-widest">{card.cardCvc}</h4>
+                      </div>
+                    </div>
                   </div>
-                  <Input
-                    id="monthlyBudget"
-                    name="monthlyBudget"
-                    type="number"
-                    placeholder="Target amount for the month"
-                    required
-                    onChange={handleChange}
-                  />
                 </div>
               </div>
-              <Separator className="my-4" />
-              <DialogHeader>
-                <DialogTitle>Card Details</DialogTitle>
-                <DialogDescription>
-                  Your card details are used to make payments and purchases securely.
-                </DialogDescription>
-              </DialogHeader>
-              <Separator className="my-4" />
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="cardNumber">Card Number</Label>
-                  <Input
-                    id="cardNumber"
-                    name="cardNumber"
-                    type="number"
-                    placeholder="XXXX XXXX XXXX XXXX"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="cardHolder">Card Holder Name</Label>
-                  <Input
-                    id="cardHolder"
-                    name="cardHolder"
-                    type="text"
-                    placeholder="John Doe"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <Label htmlFor="cardCvc">CVC</Label>
-                  <Input
-                    id="cardCvc"
-                    name="cardCvc"
-                    type="number"
-                    placeholder="XXX"
-                    required
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <div>
-                <Button disabled={loading} type="submit" className="w-full mt-4 cursor-pointer">
-                  Save Details
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
-        <div className="relative w-full h-full py-5 px-5 border border-gray-500 rounded-lg bg-gradient-to-r from-[#0f172a] via-[#1e3a8a] to-[#3b82f6] text-white">
-          <div className="flex items-center justify-between">
-            <Wallet size={30} />
-            <Image
-              src={'/visa-logo-white.webp'}
-              alt="visa"
-              width={50}
-              height={50}
-              className="size-auto rounded-full"
-            />
-          </div>
-          <div className="mt-10">
-            <div>
-              <h3 className="text-2xl flex gap-5 tracking-widest">
-                <span>1111</span>
-                <span>1111</span>
-                <span>1111</span>
-                <span>1111</span>
-              </h3>
-              <div className="mt-2 flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-500">Card Holder</p>
-                  <h4 className="text-lg tracking-widest">HAMZA ILYAS</h4>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-100">Cvc</p>
-                  <h4 className="text-lg tracking-widest">333</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+            );
+          })
+        )}
       </div>
     </div>
   );
