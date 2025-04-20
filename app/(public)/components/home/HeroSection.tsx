@@ -9,7 +9,7 @@ const HeroSection = () => {
     <section className="pt-20">
       <div className="w-[90%] mx-auto">
         <div>
-          <h1 className="font-bold text-3xl md:text-5xl text-center leading-tight">
+          <h1 className="font-bold text-4xl md:text-5xl text-center leading-tight">
             Ai Powered <span className="text-green-600">Financial and Investment</span> Advisory
             System
           </h1>
