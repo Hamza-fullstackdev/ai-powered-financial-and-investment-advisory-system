@@ -61,7 +61,9 @@ const CardDetails = () => {
                 <div className="flex items-center justify-between">
                   <Wallet size={30} />
                   <Image
-                    src={'/visa-logo-white.webp'}
+                    src={
+                      'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/Visa-logo-white.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5Xzk0NmRhMmU1LWU0MWEtNDhlZC04Y2MwLTkxYjMyN2EwNTNhZSJ9.eyJ1cmwiOiJhcHAvVmlzYS1sb2dvLXdoaXRlLndlYnAiLCJpYXQiOjE3NDUyNDQ2ODUsImV4cCI6MTgwODMxNjY4NX0.cTXAjqGbQcT_9mcHchoZKm35OaUQKOBSE0vepH6xuJo'
+                    }
                     alt="visa"
                     width={50}
                     height={50}
@@ -78,7 +80,7 @@ const CardDetails = () => {
                     <div className="mt-2 flex items-center justify-between">
                       <div>
                         <p className="text-sm text-gray-500">Card Holder</p>
-                        <h4 className="text-lg tracking-widest">{card.cardHolder}</h4>
+                        <h4 className="text-lg tracking-widest uppercase">{card.cardHolder}</h4>
                       </div>
                       <div>
                         <p className="text-sm text-gray-100">Cvc</p>

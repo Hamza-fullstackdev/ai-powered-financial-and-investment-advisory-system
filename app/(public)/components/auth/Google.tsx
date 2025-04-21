@@ -66,7 +66,9 @@ const Google = () => {
         className="w-full flex items-center justify-center cursor-pointer gap-2 px-5 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 transition duration-200"
       >
         <Image
-          src={'/Google_icons.webp'}
+          src={
+            'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/Google_Icons.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5Xzk0NmRhMmU1LWU0MWEtNDhlZC04Y2MwLTkxYjMyN2EwNTNhZSJ9.eyJ1cmwiOiJhcHAvR29vZ2xlX0ljb25zLndlYnAiLCJpYXQiOjE3NDUyNDQ2NTAsImV4cCI6MTgwODMxNjY1MH0.T793YtXTrxc7CL-jSUaUcAIXxSIcmVhZul9TvM-uMUo'
+          }
           alt="Google-logo"
           width={20}
           height={20}
