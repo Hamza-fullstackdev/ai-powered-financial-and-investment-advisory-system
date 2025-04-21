@@ -8,6 +8,15 @@ import ReactMarkdown from 'react-markdown';
 import { Skeleton } from '@/components/ui/skeleton';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 export default function AiAssistant() {
   const promptOptions = [
@@ -25,7 +34,6 @@ export default function AiAssistant() {
     { prompt: 'Best robo‑advisor picks' },
     { prompt: 'Risk management techniques' },
   ];
-  const [selectedPrompt, setSelectedPrompt] = useState('');
   const [promptToSend, setPromptToSend] = useState('');
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
@@ -145,7 +153,7 @@ Here is the user prompt: ${e.target.value}`);
           </span>
         ))}
       </div>
-      <div className="prose max-w-none my-8 text-[15px] text-gray-600">
+      <div className="prose w-full my-8 text-[15px] text-gray-600">
         {loading && <p>Thinking...</p>}
         {loading ? (
           Array.from({ length: 15 }).map((_, index) => (
@@ -167,6 +175,12 @@ Here is the user prompt: ${e.target.value}`);
                 <strong className="font-semibold text-black" {...props} />
               ),
               em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
+              table: ({ node, ...props }) => <Table {...props} />,
+              thead: ({ node, ...props }) => <TableHeader {...props} />,
+              th: ({ node, ...props }) => <TableHead className="italic text-gray-700" {...props} />,
+              tbody: ({ node, ...props }) => <TableBody {...props} />,
+              tr: ({ node, ...props }) => <TableRow {...props} />,
+              td: ({ node, ...props }) => <TableCell {...props} />,
             }}
           >
             {visibleWords.join(' ')}
