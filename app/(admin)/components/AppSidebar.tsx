@@ -8,8 +8,10 @@ import {
   HandCoins,
   Home,
   Inbox,
+  Newspaper,
   Search,
   Settings,
+  ShoppingBag,
   UserRound,
 } from 'lucide-react';
 
@@ -53,6 +55,16 @@ export function AppSidebar() {
       title: 'Ai Assistant',
       url: '/app/ai-assistant',
       icon: Inbox,
+    },
+    {
+      title: 'Market place',
+      url: '/app/marketplace',
+      icon: ShoppingBag,
+    },
+    {
+      title: 'Latest News',
+      url: '/app/news',
+      icon: Newspaper,
     },
     {
       title: 'Cards',

@@ -21,8 +21,8 @@ const page = () => {
           </CardHeader>
           <CardContent>
             <div>
-              <div className="shadow p-4">
-                <div className="flex flex-wrap md:flex-nowrap gap-y-3 items-center justify-between">
+              <div className="shadow md:p-4">
+                <div className="flex flex-wrap md:flex-nowrap gap-3 items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="rounded-full w-[60px] h-[60px] overflow-hidden">
                       <Image
@@ -34,10 +34,12 @@ const page = () => {
                       />
                     </div>
                     <div>
-                      <h2 className="text-lg font-semibold">
+                      <h2 className="md:text-lg font-semibold">
                         {currentUser.fname} {currentUser.lname}
                       </h2>
-                      <p className="text-sm text-muted-foreground">Email: {currentUser.email}</p>
+                      <p className="text-xs md:text-sm text-muted-foreground">
+                        Email: {currentUser.email}
+                      </p>
                     </div>
                   </div>
                   <div>
@@ -56,7 +58,7 @@ const page = () => {
                   <div className="flex flex-col gap-1">
                     <h3 className="font-semibold">Login Method: </h3>
                     <p className="text-green-500 italic text-sm capitalize">
-                      Sign up using {currentUser.signupMethod}
+                      Last logged in using {currentUser.signupMethod}
                     </p>
                   </div>
                   <div className="flex flex-col gap-1">

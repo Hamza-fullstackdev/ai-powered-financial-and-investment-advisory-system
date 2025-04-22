@@ -22,7 +22,6 @@ export default function AiAssistant() {
   const promptOptions = [
     { prompt: 'Best investment plans' },
     { prompt: 'Should I invest in Bitcoin?' },
-    { prompt: 'Stocks List' },
     { prompt: 'Retirement portfolio strategies' },
     { prompt: 'Top dividend stocks 2025' },
     { prompt: 'Asset allocation for beginners' },
@@ -31,7 +30,6 @@ export default function AiAssistant() {
     { prompt: 'Tax‑efficient investing tips' },
     { prompt: 'Emerging markets to watch' },
     { prompt: 'Dollar‑cost averaging guide' },
-    { prompt: 'Best robo‑advisor picks' },
     { prompt: 'Risk management techniques' },
   ];
   const [promptToSend, setPromptToSend] = useState('');
@@ -123,10 +121,10 @@ Here is the user prompt: ${e.target.value}`);
     return () => clearInterval(interval);
   }, [response]);
   return (
-    <section className="w-full min-h-screen">
+    <section className="w-full">
       <div className="my-10">
-        <h1 className="font-bold text-3xl md:text-4xl text-center leading-tight">
-          {currentUser?.fname}&apos;s AI Assistant is live! <br />
+        <h1 className="font-bold text-2xl md:text-4xl text-center leading-tight">
+          {currentUser?.fname}&apos;s AI Assistant is live! <br className="hidden md:block" />
           Ask now to get expert AI suggestions
         </h1>
       </div>
@@ -142,12 +140,12 @@ Here is the user prompt: ${e.target.value}`);
           />
         </div>
       </form>
-      <div className="mt-3 flex items-center flex-wrap gap-3" hidden={loading}>
+      <div className="mt-3 flex items-center flex-wrap gap-2" hidden={loading}>
         {promptOptions.map(({ prompt }, idx) => (
           <span
             onClick={() => handlePrompt(prompt)}
             key={idx}
-            className="text-sm text-gray-600 border border-gray-400 px-3 py-1 rounded-full cursor-pointer"
+            className="text-xs md:text-sm text-gray-600 border border-gray-400 px-3 py-1 rounded-full cursor-pointer"
           >
             {prompt}
           </span>

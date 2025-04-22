@@ -69,12 +69,12 @@ const AccountDetailsForm = () => {
   return (
     <>
       {error && (
-        <div className="fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
+        <div className="z-10 fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
           <p className="text-red-500 text-sm">Error: {errorMessage}</p>
         </div>
       )}
       {success && (
-        <div className="fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
+        <div className="z-10 fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
           <p className="text-green-500 text-sm">Success: {successMessage}</p>
         </div>
       )}

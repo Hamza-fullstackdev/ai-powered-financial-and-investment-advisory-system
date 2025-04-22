@@ -21,7 +21,7 @@ const Herosection = () => {
   return (
     <div>
       <div className="mt-5 mb-3">
-        <h1 className="text-3xl md:text-[32px] font-bold text-center md:text-left">Dashboard</h1>
+        <h1 className="text-3xl md:text-[32px] font-bold">Dashboard</h1>
       </div>
       <Card>
         <CardContent>

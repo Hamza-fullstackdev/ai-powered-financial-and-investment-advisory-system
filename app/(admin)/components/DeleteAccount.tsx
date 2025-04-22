@@ -49,7 +49,6 @@ const DeleteAccount = () => {
         onClick={handleDelete}
         variant={'destructive'}
         className="cursor-pointer"
-        size={'lg'}
       >
         {loading ? 'Deleting...' : 'Delete Account'}
       </Button>
