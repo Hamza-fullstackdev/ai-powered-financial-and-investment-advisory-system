@@ -24,8 +24,7 @@ Traditional financial advisory services often lack personalization, require high
 
 ---
 
-## **Features**  
-### **User Features**  
+## **Features**    
 - **User Portfolio Tracker:** Sign up, log in, and manage a personalized investment portfolio with real-time performance updates.  
 - **AI-Based Financial Advice (via AI Modal):** Receive tailored financial guidance and investment recommendations based on your goals and risk profile.  
 - **Risk Profile Assessment:** Complete an AI-driven risk assessment to better understand your risk tolerance and get personalized investment strategies.  
@@ -33,6 +32,18 @@ Traditional financial advisory services often lack personalization, require high
 - **Investment Suggestions (AI Insights):** Get dynamic investment suggestions, rebalancing advice, and asset allocation tips based on market trends and your personal preferences.  
 - **News & Alerts Section:** Stay informed with the latest financial news, market alerts, and AI-curated updates relevant to your investments..
 - **Chat with AI Advisor:** Engage in real-time conversations with an AI financial advisor to get instant answers to investment questions and strategic advice.
+
+---
+
+---
+
+## **Tech Stack**
+- **Programing Languages:** Typescript
+- **Framework:** Next.js, Tailwind Css, Redux Toolkit    
+- **Database:** MongoDB, Firebase 
+- **Cloud Storage:** Supabase (for image uploads)  
+- **AI Modal:** Gemini LLM
+- **Authentication:** JSON Web Tokens (JWT), bcrypt  
 
 ---
 
