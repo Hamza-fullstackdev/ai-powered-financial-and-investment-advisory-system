@@ -76,7 +76,6 @@ Please give:
       if (res.text) {
         setOpenModal(true);
         setLoading(false);
-        setResponse(res.text ?? 'Somethings went wrong');
         setFormData({
           age: '',
           income: '',
@@ -88,6 +87,7 @@ Please give:
           lossTolerance: '',
           takeLoan: '',
         });
+        setResponse(res.text ?? 'Somethings went wrong');
       }
     } catch (error) {
       setLoading(false);
@@ -279,7 +279,7 @@ Please give:
             </div>
           </CardContent>
           <CardFooter className="flex justify-end">
-            <Dialog open={openModal} onOpenChange={setOpenModal}>
+            <Dialog open={openModal} onOpenChange={() => setOpenModal(false)}>
               <DialogTrigger asChild>
                 <Button disabled={loading} size={'lg'} type="submit" className="cursor-pointer">
                   Calculate Risk Using Ai

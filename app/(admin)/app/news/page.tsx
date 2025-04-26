@@ -164,7 +164,7 @@ export default function page() {
                         Summarize news using Ai
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="overflow-y-auto">
+                    <DialogContent className="h-[500px] md:h-auto overflow-y-auto">
                       <DialogHeader>
                         <DialogTitle>Summarized news using Ai</DialogTitle>
                       </DialogHeader>
