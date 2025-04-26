@@ -11,7 +11,6 @@ import rehypeRaw from 'rehype-raw';
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -66,7 +65,6 @@ Here is the user prompt: ${e.target.value}`);
         contents: promptToSend,
       });
       setLoading(false);
-      console.log(res);
       if (res.text) {
         setResponse(res.text ?? 'Somethings Wrong');
         setLoading(false);
