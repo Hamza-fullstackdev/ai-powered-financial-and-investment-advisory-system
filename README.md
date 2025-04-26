@@ -35,8 +35,6 @@ Traditional financial advisory services often lack personalization, require high
 
 ---
 
----
-
 ## **Tech Stack**
 - **Programing Languages:** Typescript
 - **Framework:** Next.js, Tailwind Css, Redux Toolkit    
