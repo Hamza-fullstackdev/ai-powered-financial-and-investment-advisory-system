@@ -41,7 +41,7 @@ export default function page() {
         );
         const geminiResponse = await ai.models.generateContent({
           model: 'gemini-2.0-flash',
-          contents: `Please suggest if investing in this stock is a good idea (in short paragraph): ${parmsValue}`,
+          contents: `Act Like you are a professional financial and investment advisory assistant.And then suggest if investing in this stock is a good idea (in short paragraph): ${parmsValue}`,
         });
         const data = await res.json();
         setLoading(false);
@@ -164,7 +164,7 @@ export default function page() {
                         Summarize news using Ai
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="h-[500px] md:h-[550px] overflow-y-auto">
+                    <DialogContent className="overflow-y-auto">
                       <DialogHeader>
                         <DialogTitle>Summarized news using Ai</DialogTitle>
                       </DialogHeader>
