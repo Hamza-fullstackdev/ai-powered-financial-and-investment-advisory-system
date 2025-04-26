@@ -2,10 +2,10 @@
 import {
   BadgeCheck,
   Bell,
-  Calendar,
   ChevronsUpDown,
   CreditCard,
   HandCoins,
+  Handshake,
   Home,
   Inbox,
   Newspaper,
@@ -67,9 +67,9 @@ export function AppSidebar() {
       icon: Newspaper,
     },
     {
-      title: 'Cards',
-      url: '#',
-      icon: Calendar,
+      title: 'Risk Assessment',
+      url: '/app/risk-assessment',
+      icon: Handshake,
     },
     {
       title: 'Investment Plans',
