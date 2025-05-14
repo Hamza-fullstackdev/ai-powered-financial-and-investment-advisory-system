@@ -73,7 +73,7 @@ const HeroSection = () => {
               />
               <h3 className="font-semibold">Consult with Ai agent</h3>
               <div className="mt-5">
-                <Link href={'/'}>
+                <Link href={'/login'}>
                   <Button className="rounded-full cursor-pointer" size={'xl'}>
                     Get Started
                   </Button>

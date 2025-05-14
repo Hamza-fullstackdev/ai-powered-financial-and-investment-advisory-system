@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { error } from 'console';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import Link from 'next/link';
 
 interface AccountDetails {
   totalBalance: number;
@@ -119,10 +120,19 @@ const Herosection = () => {
             </Alert>
           )}
           <div className="mt-4 flex flex-col gap-1">
-            <h2 className="font-semibold text-sm">
-              Monthly Budget{' '}
-              <span className="capitalize">({accountInfo?.accountType} account)</span>
-            </h2>
+            <div className="flex flex-row items-center justify-between gap-5">
+              <h2 className="font-semibold text-sm">
+                Monthly Budget{' '}
+                <span className="capitalize">({accountInfo?.accountType} account)</span>
+              </h2>
+              <div>
+                <Link href="/app/spendings">
+                  <Button variant="outline" className="cursor-pointer" size={'sm'}>
+                    Add Spendings
+                  </Button>
+                </Link>
+              </div>
+            </div>
             <div className="flex flex-row items-center gap-3">
               {!isEditing ? (
                 <>
