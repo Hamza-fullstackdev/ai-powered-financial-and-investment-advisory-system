@@ -29,7 +29,6 @@ const AccountDetailsForm = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
-  // const showCard = localStorage.getItem(JSON.stringify('card-details'));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -53,6 +52,7 @@ const AccountDetailsForm = () => {
       if (res.ok) {
         setSuccess(true);
         setSuccessMessage('Account has been created successfully');
+        window.location.reload();
         setLoading(false);
         setFormData({});
       } else {
@@ -69,12 +69,12 @@ const AccountDetailsForm = () => {
   return (
     <>
       {error && (
-        <div className="z-10 fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
+        <div className="z-99 fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
           <p className="text-red-500 text-sm">Error: {errorMessage}</p>
         </div>
       )}
       {success && (
-        <div className="z-10 fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
+        <div className="z-99 fixed top-5 right-8 bg-white p-3 rounded-md shadow-md">
           <p className="text-green-500 text-sm">Success: {successMessage}</p>
         </div>
       )}

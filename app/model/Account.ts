@@ -6,6 +6,7 @@ interface IAccount extends Document {
   monthlyIncome: number;
   accountType: string;
   monthlyBudget: number;
+  monthlySpendings: number;
   userId: mongoose.Schema.Types.ObjectId;
 }
 const accountSchema = new Schema<IAccount>(
@@ -34,6 +35,11 @@ const accountSchema = new Schema<IAccount>(
       type: Number,
       trim: true,
       required: true,
+    },
+    monthlySpendings: {
+      type: Number,
+      trim: true,
+      default: 0,
     },
     userId: {
       type: mongoose.Schema.Types.ObjectId,

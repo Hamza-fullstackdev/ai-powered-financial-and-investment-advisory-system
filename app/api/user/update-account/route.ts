@@ -11,11 +11,11 @@ export async function PATCH(req: Request) {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
     if (!token) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
     const decoded = jwt.verify(token, config.jwtSecretKey as string) as { id: string };
     if (!decoded.id) {
-      return NextResponse.json({ error: 'Invalid token' }, { status: 403 });
+      return NextResponse.json({ message: 'Invalid token' }, { status: 403 });
     }
     const userId = decoded.id;
     const { monthlyBudget } = await req.json();
@@ -28,7 +28,7 @@ export async function PATCH(req: Request) {
       { new: true }
     );
     if (!updateAccount) {
-      return NextResponse.json({ error: 'Account not found' }, { status: 404 });
+      return NextResponse.json({ message: 'Account not found' }, { status: 404 });
     }
     return NextResponse.json({ message: 'Account updated successfully' }, { status: 200 });
   } catch (error) {

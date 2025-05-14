@@ -7,6 +7,8 @@ import { Check, Pen, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { error } from 'console';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 interface AccountDetails {
   totalBalance: number;
@@ -14,6 +16,7 @@ interface AccountDetails {
   monthlyIncome: number;
   accountType: string;
   monthlyBudget: number;
+  monthlySpendings: number;
   userId: string;
 }
 
@@ -25,10 +28,15 @@ const Herosection = () => {
     monthlyIncome: 0,
     accountType: '',
     monthlyBudget: 0,
+    monthlySpendings: 0,
     userId: '',
   });
-  const [spendings, setSpendings] = useState(1000);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     const getUserAccountInfo = async () => {
       const res = await fetch('/api/user/get-account', {
         method: 'GET',
@@ -37,8 +45,10 @@ const Herosection = () => {
         },
       });
       const data = await res.json();
+      setLoading(false);
       if (res.ok) {
         setAccountInfo(data.getAccountInfo);
+        setLoading(false);
       }
     };
     getUserAccountInfo();
@@ -46,32 +56,54 @@ const Herosection = () => {
 
   const handleCheck = async () => {
     setIsEditing(false);
-    if (accountInfo?.monthlyBudget > spendings) {
-      const res = await fetch('/api/user/update-account', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          monthlyBudget: accountInfo?.monthlyBudget,
-        }),
-      });
-      await res.json();
-      if (res.ok) {
-        window.location.reload();
-      } else {
-        console.log('Smoething went wrong');
+    if (accountInfo?.monthlyBudget > accountInfo?.monthlySpendings) {
+      setLoading(true);
+      try {
+        const res = await fetch('/api/user/update-account', {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            monthlyBudget: accountInfo?.monthlyBudget,
+          }),
+        });
+        const data = await res.json();
+        setLoading(false);
+        if (res.ok) {
+          setLoading(false);
+        } else {
+          setError(true);
+          setErrorMessage(data.message);
+          setTimeout(() => {
+            setError(false);
+            setErrorMessage('');
+          }, 2000);
+          setLoading(false);
+        }
+      } catch (error) {
+        setError(true);
+        setErrorMessage('Something went wrong!');
+        setTimeout(() => {
+          setError(false);
+          setErrorMessage('');
+        }, 2000);
+        setLoading(false);
       }
     } else {
-      alert('Monthly budget should be greater than spendings');
+      setError(true);
+      setErrorMessage('Monthly budget cannot be less than spendings');
       window.location.reload();
+      setLoading(false);
     }
   };
 
   const handleCancel = () => {
     setIsEditing(false);
   };
-  const percentage = parseFloat(((spendings / accountInfo?.monthlyBudget) * 100).toFixed(0));
+  const percentage = parseFloat(
+    ((accountInfo?.monthlySpendings / accountInfo?.monthlyBudget) * 100).toFixed(0)
+  );
   return (
     <div>
       <div className="mt-5 mb-3">
@@ -79,14 +111,29 @@ const Herosection = () => {
       </div>
       <Card>
         <CardContent>
+          {error && (
+            <Alert variant={'destructive'}>
+              <AlertTitle>Error</AlertTitle>
+              <X className="w-4 h-4" />
+              <AlertDescription>{errorMessage}</AlertDescription>
+            </Alert>
+          )}
           <div className="mt-4 flex flex-col gap-1">
-            <h2 className="font-semibold text-sm">Monthly Budget ({accountInfo?.accountType})</h2>
+            <h2 className="font-semibold text-sm">
+              Monthly Budget{' '}
+              <span className="capitalize">({accountInfo?.accountType} account)</span>
+            </h2>
             <div className="flex flex-row items-center gap-3">
               {!isEditing ? (
                 <>
-                  <Label htmlFor="amount" className="text-gray-600">
-                    ${spendings || 0} out of ${accountInfo?.monthlyBudget || 0} spent
-                  </Label>
+                  {loading ? (
+                    <Skeleton className="w-[200px] h-[30px]" />
+                  ) : (
+                    <Label htmlFor="amount" className="text-gray-600">
+                      ${accountInfo?.monthlySpendings || 0} out of $
+                      {accountInfo?.monthlyBudget || 0} spent
+                    </Label>
+                  )}
                   <Button
                     variant="outline"
                     className="cursor-pointer"
@@ -121,7 +168,6 @@ const Herosection = () => {
               )}
             </div>
             <Progress
-              color="red"
               value={percentage}
               className={`mt-2 [&>div]:${percentage > 80 ? 'bg-destructive' : 'bg-primary'}`}
             />

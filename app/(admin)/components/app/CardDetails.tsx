@@ -46,7 +46,7 @@ const CardDetails = () => {
         <p className="text-gray-500">Add your expenses details below to get started</p>
       </div>
       <Separator className="my-4" />
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3">
         {showCard && <AccountDetailsForm />}
         {loading ? (
           <Skeleton className="w-full md:w-[400px] h-[250px] col-span-2" />
@@ -72,7 +72,7 @@ const CardDetails = () => {
                 </div>
                 <div className="mt-10">
                   <div>
-                    <h3 className="text-2xl flex gap-5 tracking-widest">
+                    <h3 className="text-[22px] flex gap-5 tracking-widest">
                       {cardNumberChunks.map((chunk, idx) => (
                         <span key={idx}>{chunk}</span>
                       ))}
