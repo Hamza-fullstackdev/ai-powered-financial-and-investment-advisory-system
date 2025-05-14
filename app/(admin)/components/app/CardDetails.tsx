@@ -62,7 +62,7 @@ const CardDetails = () => {
                   <Wallet size={30} />
                   <Image
                     src={
-                      'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/Visa-logo-white.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5Xzk0NmRhMmU1LWU0MWEtNDhlZC04Y2MwLTkxYjMyN2EwNTNhZSJ9.eyJ1cmwiOiJhcHAvVmlzYS1sb2dvLXdoaXRlLndlYnAiLCJpYXQiOjE3NDUyNDQ2ODUsImV4cCI6MTgwODMxNjY4NX0.cTXAjqGbQcT_9mcHchoZKm35OaUQKOBSE0vepH6xuJo'
+                      'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/Visa-logo-white.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2VhNzk2MTdiLWE1MTAtNDNhYy05YTkxLTZkOGMxOTdhMWEzOSJ9.eyJ1cmwiOiJhcHAvVmlzYS1sb2dvLXdoaXRlLndlYnAiLCJpYXQiOjE3NDcyMzMyOTAsImV4cCI6MTc3ODc2OTI5MH0.QpITS5jtRXJ8_sCaHgqVZneixCsNqUOOBUG1JZz2TVU'
                     }
                     alt="visa"
                     width={50}

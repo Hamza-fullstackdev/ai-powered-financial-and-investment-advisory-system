@@ -133,7 +133,7 @@ export default function page() {
                 <img
                   src={`${
                     item?.content?.thumbnail?.resolutions?.[0]?.url ||
-                    'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/no-image.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5Xzk0NmRhMmU1LWU0MWEtNDhlZC04Y2MwLTkxYjMyN2EwNTNhZSJ9.eyJ1cmwiOiJhcHAvbm8taW1hZ2UucG5nIiwiaWF0IjoxNzQ1NjM1MTI1LCJleHAiOjE4MDg3MDcxMjV9.wOj3uLO5SRwqEyKqcnloatxHlDzJmLn3Raxsd5Q4rOE'
+                    'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/no-image.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2VhNzk2MTdiLWE1MTAtNDNhYy05YTkxLTZkOGMxOTdhMWEzOSJ9.eyJ1cmwiOiJhcHAvbm8taW1hZ2UucG5nIiwiaWF0IjoxNzQ3MjMzNjg4LCJleHAiOjE3Nzg3Njk2ODh9.DPkEM4fmPX2QfnK3BP6wv77O0f60md_0Fo_xbP13MSU'
                   }`}
                   alt="news"
                   width={300}
