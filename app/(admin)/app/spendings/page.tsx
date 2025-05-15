@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
+import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react';
 
 const page = () => {
@@ -22,6 +23,8 @@ const page = () => {
     date: '',
     merchantName: '',
   });
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const handleButtonClick = () => {
     ref.current?.click();
   };
@@ -34,12 +37,14 @@ const page = () => {
     formData.append('file', file);
 
     try {
+      setLoading(true);
       const response = await fetch('/api/ai/spendings', {
         method: 'POST',
         body: formData,
       });
 
       const result = await response.json();
+      setLoading(false);
       if (response.ok) {
         setFormData(result);
       } else {
@@ -49,6 +54,36 @@ const page = () => {
       console.error('Upload failed:', error);
     }
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleFormSubmition = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const response = await fetch('/api/user/transaction/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const result = await response.json();
+      setLoading(false);
+      if (response.ok) {
+        router.push('/app');
+      } else {
+        console.log(result.message);
+      }
+    } catch (error) {
+      console.error('Error adding transaction:', error);
+    }
+  };
+
   return (
     <section>
       <Card className="mx-auto w-full md:w-[800px]">
@@ -70,21 +105,24 @@ const page = () => {
             />
             <Button
               onClick={handleButtonClick}
+              disabled={loading}
               className="w-full cursor-pointer bg-gradient-to-r from-[#0f172a] via-[#1e3a8a] to-[#3b82f6] text-white"
             >
-              Scan Script using AI
+              {loading ? 'Scanning...' : 'Scan Script using AI'}
             </Button>
           </div>
           <Separator />
-          <form className="mt-5">
+          <form className="mt-5" onSubmit={handleFormSubmition}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div className="col-span-2 flex flex-col gap-2">
                 <Label htmlFor="merchantName">Merchant or Store:</Label>
                 <Input
                   type="text"
                   id="merchantName"
+                  name="merchantName"
                   placeholder="Merchant"
                   defaultValue={formData?.merchantName}
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -92,8 +130,10 @@ const page = () => {
                 <Input
                   type="number"
                   id="amount"
+                  name="amount"
                   placeholder="0.00"
                   defaultValue={formData?.amount}
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex flex-col gap-2">
@@ -102,10 +142,12 @@ const page = () => {
                   type="date"
                   className="w-full"
                   id="date"
+                  name="date"
                   placeholder="MM/DD/YYYY"
                   defaultValue={
                     formData?.date ? new Date(formData.date).toISOString().split('T')[0] : ''
                   }
+                  onChange={handleChange}
                 />
               </div>
               <div className="col-span-2 flex flex-col gap-2">
@@ -137,14 +179,16 @@ const page = () => {
                 <Input
                   type="text"
                   id="description"
+                  name="description"
                   placeholder="Description"
                   defaultValue={formData?.description}
+                  onChange={handleChange}
                 />
               </div>
             </div>
             <div className="flex justify-center mt-5">
-              <Button type="submit" className="w-full cursor-pointer">
-                Add Spending
+              <Button disabled={loading} type="submit" className="w-full cursor-pointer">
+                {loading ? 'Please wait...' : 'Add Spending'}
               </Button>
             </div>
           </form>

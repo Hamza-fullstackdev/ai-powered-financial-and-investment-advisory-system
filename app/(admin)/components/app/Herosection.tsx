@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Check, Pen, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { error } from 'console';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import Link from 'next/link';
@@ -35,6 +34,7 @@ const Herosection = () => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
+  const [spendings, setSpendings] = useState(0);
 
   useEffect(() => {
     setLoading(true);
@@ -52,7 +52,31 @@ const Herosection = () => {
         setLoading(false);
       }
     };
+    const getSpendings = async () => {
+      setLoading(true);
+      const res = await fetch('/api/user/transaction/get-spendings', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (res.ok) {
+        setSpendings(data.totalAmount);
+        setLoading(false);
+      } else {
+        setError(true);
+        setErrorMessage(data.message);
+        setTimeout(() => {
+          setError(false);
+          setErrorMessage('');
+        }, 2000);
+        setLoading(false);
+      }
+    };
     getUserAccountInfo();
+    getSpendings();
   }, []);
 
   const handleCheck = async () => {
@@ -102,9 +126,7 @@ const Herosection = () => {
   const handleCancel = () => {
     setIsEditing(false);
   };
-  const percentage = parseFloat(
-    ((accountInfo?.monthlySpendings / accountInfo?.monthlyBudget) * 100).toFixed(0)
-  );
+  const percentage = parseFloat(((spendings / accountInfo?.monthlyBudget) * 100).toFixed(0));
   return (
     <div>
       <div className="mt-5 mb-3">
@@ -120,7 +142,7 @@ const Herosection = () => {
             </Alert>
           )}
           <div className="mt-4 flex flex-col gap-1">
-            <div className="flex flex-row items-center justify-between gap-5">
+            <div className="flex flex-row flex-wrap items-center justify-between gap-x-5 gap-y-3">
               <h2 className="font-semibold text-sm">
                 Monthly Budget{' '}
                 <span className="capitalize">({accountInfo?.accountType} account)</span>
@@ -140,8 +162,7 @@ const Herosection = () => {
                     <Skeleton className="w-[200px] h-[30px]" />
                   ) : (
                     <Label htmlFor="amount" className="text-gray-600">
-                      ${accountInfo?.monthlySpendings || 0} out of $
-                      {accountInfo?.monthlyBudget || 0} spent
+                      ${spendings.toFixed(2) || 0} out of ${accountInfo?.monthlyBudget || 0} spent
                     </Label>
                   )}
                   <Button
@@ -185,7 +206,15 @@ const Herosection = () => {
         </CardContent>
         <CardFooter className="flex items-end justify-end">
           <div className="text-xs">
-            <p className="text-gray-500">You have spent {percentage || 0}% of your budget.</p>
+            {spendings > accountInfo?.monthlyBudget ? (
+              <p className="text-red-500">
+                {`You have exceeded your budget by $${(
+                  spendings - accountInfo?.monthlyBudget
+                ).toFixed(2)}`}
+              </p>
+            ) : (
+              <p className="text-gray-500">You have spent {percentage || 0}% of your budget.</p>
+            )}
           </div>
         </CardFooter>
       </Card>
