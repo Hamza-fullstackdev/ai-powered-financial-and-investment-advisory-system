@@ -28,8 +28,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { useState } from 'react';
-import { GoogleGenAI } from '@google/genai';
 import { Loader2 } from 'lucide-react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function page() {
   const [formData, setFormData] = useState({
@@ -46,34 +46,23 @@ export default function page() {
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState('');
-  const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
-        contents: `I want you to analyze a user's risk profile based on the following information. Classify the user as Low Risk, Medium Risk, or High Risk and explain why in 2-3 lines.
-
-User Info:
-1. Age Group: ${formData?.age}
-2. Income Source: ${formData?.income}
-3. Monthly Savings: ${formData?.savings}
-4. Investment Experience: ${formData?.experience}
-5. Investment Time Horizon: ${formData?.timeHorizon}
-6. Reaction to Market Drop: Will do ${formData?.marketDrop}
-7. Financial Goal: ${formData?.financialGoal}
-8. Max Loss Tolerable in 1 Year: ${formData?.lossTolerance}
-9. Credit/Lending Habit: ${formData?.takeLoan} uses credit
-
-Please give:
-- Risk Category (Low/Medium/High)
-- One line explanation
-- Suggested investment strategy in 2 points
-`,
+      const res = await fetch('/api/ai/risk-assessment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
+      const result = await res.json();
       setLoading(false);
-      if (res.text) {
+      if (res.ok) {
+        setError(false);
         setOpenModal(true);
         setLoading(false);
         setFormData({
@@ -87,11 +76,16 @@ Please give:
           lossTolerance: '',
           takeLoan: '',
         });
-        setResponse(res.text ?? 'Somethings went wrong');
+        setResponse(result.aiResponse ?? 'Somethings went wrong');
+      } else {
+        setLoading(false);
+        setError(true);
+        setErrorMessage(result.message ?? 'Somethings went wrong');
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      setError(true);
+      setErrorMessage('Somethings went wrong' + error);
     }
   };
   return (
@@ -106,6 +100,12 @@ Please give:
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {error && (
+              <Alert variant="destructive">
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{errorMessage}</AlertDescription>
+              </Alert>
+            )}
             <Separator />
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               <div className="flex flex-col gap-2">

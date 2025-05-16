@@ -28,9 +28,9 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import { useState } from 'react';
-import { GoogleGenAI } from '@google/genai';
 import { Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function page() {
   const [formData, setFormData] = useState({
@@ -44,32 +44,24 @@ export default function page() {
   const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState('');
-  const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
-        contents: `Help the user plan for the following goal:
-
-Goal: ${formData?.title}
-Target Amount: $${formData?.targetAmount}
-Current Savings: $${formData?.savings}
-Time Horizon: ${formData?.timeHorizon} years
-Risk Preference: ${formData?.riskPreference}
-Monthly Investment Capability: $${formData?.monthlyInvestment}
-Priority: High
-
-Please suggest:
-- Whether the goal is achievable or not
-- How much should the user invest monthly if not achievable
-- What kind of investment plan (safe vs moderate vs aggressive)
-- One motivational line
-`,
+      const res = await fetch('/api/ai/goal-based-planning', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-      setLoading(false);
-      if (res.text) {
+      const result = await res.json();
+      if (res.ok) {
+        setLoading(false);
+        setError(false);
         setOpenModal(true);
         setLoading(false);
         setFormData({
@@ -80,11 +72,16 @@ Please suggest:
           riskPreference: '',
           monthlyInvestment: '',
         });
-        setResponse(res.text ?? 'Somethings went wrong');
+        setResponse(result.aiResponse ?? 'Somethings went wrong');
+      } else {
+        setLoading(false);
+        setError(true);
+        setErrorMessage(result.aiResponse ?? 'Somethings went wrong');
       }
     } catch (error) {
       setLoading(false);
-      console.log(error);
+      setError(true);
+      setErrorMessage('Something went wrong!');
     }
   };
   return (
@@ -99,6 +96,12 @@ Please suggest:
             </CardDescription>
           </CardHeader>
           <CardContent>
+            {error && (
+              <Alert>
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{errorMessage}</AlertDescription>
+              </Alert>
+            )}
             <Separator />
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex flex-col gap-2">
@@ -187,7 +190,7 @@ Please suggest:
                   Generate Ai Response
                 </Button>
               </DialogTrigger>
-              <DialogContent className="h-[500px] md:h-[600px] overflow-auto">
+              <DialogContent className="h-[500px] md:h-[570px] overflow-auto">
                 <DialogHeader>
                   <DialogTitle>Ai Response over your Goal Based Plan</DialogTitle>
                 </DialogHeader>

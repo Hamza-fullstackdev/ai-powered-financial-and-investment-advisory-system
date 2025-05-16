@@ -3,7 +3,6 @@ import { Input } from '@/components/ui/input';
 import { RootState } from '@/lib/store';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { GoogleGenAI } from '@google/genai';
 import ReactMarkdown from 'react-markdown';
 import { Skeleton } from '@/components/ui/skeleton';
 import remarkGfm from 'remark-gfm';
@@ -35,38 +34,22 @@ export default function AiAssistant() {
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const currentUser = useSelector((state: RootState) => state.user);
-  const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
   const [visibleWords, setVisibleWords] = useState<string[]>([]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPromptToSend(`
-     You are a professional financial and investment advisory assistant.
-
-Your ONLY job is to provide advice, analysis, or guidance related to:
-- finance
-- investment
-- personal wealth
-- stock markets
-- economics
-- retirement or savings planning
-
-ONLY answer if the user query is related to these topics.  
-If the query is NOT related to any of these, respond ONLY with:  
-**"I'm only here to assist with finance and investment-related topics."**
-
-Here is the user prompt: ${e.target.value}`);
-  };
   const handleFormData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
-        contents: promptToSend,
+      const res = await fetch('/api/ai/ai-assistant', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt: promptToSend }),
       });
+      const data = await res.json();
       setLoading(false);
-      if (res.text) {
-        setResponse(res.text ?? 'Somethings Wrong');
+      if (res.ok) {
+        setResponse(data?.aiResponse ?? 'Somethings Wrong');
         setLoading(false);
       } else {
         setResponse("I'm only here to assist with finance and investment-related topics.");
@@ -80,14 +63,17 @@ Here is the user prompt: ${e.target.value}`);
   const handlePrompt = async (prompt: string) => {
     try {
       setLoading(true);
-      const res = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
-        contents: `Explain in detail: ${prompt}`,
+      const res = await fetch('/api/ai/ai-assistant', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prompt }),
       });
+      const data = await res.json();
       setLoading(false);
-      console.log(res);
-      if (res.text) {
-        setResponse(res.text ?? 'Somethings Wrong');
+      if (res.ok) {
+        setResponse(data?.aiResponse ?? 'Somethings Wrong');
         setLoading(false);
       } else {
         setResponse("I'm only here to assist with finance and investment-related topics.");
@@ -133,7 +119,7 @@ Here is the user prompt: ${e.target.value}`);
             id="prompt"
             className="w-full py-5"
             placeholder="In Which Stocks to invest?"
-            onChange={handleChange}
+            onChange={(e) => setPromptToSend(e.target.value)}
             disabled={loading}
           />
         </div>

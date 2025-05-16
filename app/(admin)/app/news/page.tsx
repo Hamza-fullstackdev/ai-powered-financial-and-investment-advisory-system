@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import { GoogleGenAI } from '@google/genai';
 import { Dialog } from '@radix-ui/react-dialog';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -21,12 +20,11 @@ export default function page() {
   const [summary, setSummary] = useState('');
   const [stockSummary, setStockSummary] = useState('');
   const [loader, setLoader] = useState(false);
-  const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GEMINI_API_KEY });
 
   const handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if (parmsValue.length > 1) {
+      if (parmsValue.length >= 1) {
         setLoading(true);
         setNews([]);
         const res = await fetch(
@@ -39,14 +37,18 @@ export default function page() {
             },
           }
         );
-        const geminiResponse = await ai.models.generateContent({
-          model: 'gemini-2.0-flash',
-          contents: `Act Like you are a professional financial and investment advisory assistant.And then suggest if investing in this stock is a good idea (in short paragraph): ${parmsValue}`,
+        const aiResponse = await fetch('/api/ai/stock-investment-suggestion', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ stock: parmsValue }),
         });
         const data = await res.json();
+        const stockSuggestion = await aiResponse.json();
         setLoading(false);
-        if (geminiResponse.text) {
-          setStockSummary(geminiResponse.text);
+        if (aiResponse.ok) {
+          setStockSummary(stockSuggestion.aiResponse);
           setLoading(false);
         }
         if (data?.data?.main?.stream) {
@@ -70,13 +72,17 @@ export default function page() {
   const callGeminiApi = async (url: string) => {
     try {
       setLoader(true);
-      const res = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
-        contents: `Summarize the content of this article news: ${url}`,
+      const res = await fetch('/api/ai/news-summary', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ url }),
       });
+      const data = await res.json();
       setLoader(false);
-      if (res.text) {
-        setSummary(res.text);
+      if (res.ok) {
+        setSummary(data.aiResponse);
         setLoader(false);
       }
     } catch (error: any) {
