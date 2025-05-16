@@ -16,7 +16,6 @@ interface AccountDetails {
   monthlyIncome: number;
   accountType: string;
   monthlyBudget: number;
-  monthlySpendings: number;
   userId: string;
 }
 
@@ -28,13 +27,13 @@ const Herosection = () => {
     monthlyIncome: 0,
     accountType: '',
     monthlyBudget: 0,
-    monthlySpendings: 0,
     userId: '',
   });
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [spendings, setSpendings] = useState(0);
+  const [showButton, setShowButton] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -50,6 +49,8 @@ const Herosection = () => {
       if (res.ok) {
         setAccountInfo(data.getAccountInfo);
         setLoading(false);
+      } else {
+        setShowButton(false);
       }
     };
     const getSpendings = async () => {
@@ -81,7 +82,7 @@ const Herosection = () => {
 
   const handleCheck = async () => {
     setIsEditing(false);
-    if (accountInfo?.monthlyBudget > accountInfo?.monthlySpendings) {
+    if (accountInfo?.monthlyBudget > spendings) {
       setLoading(true);
       try {
         const res = await fetch('/api/user/update-account', {
@@ -147,13 +148,15 @@ const Herosection = () => {
                 Monthly Budget{' '}
                 <span className="capitalize">({accountInfo?.accountType} account)</span>
               </h2>
-              <div>
-                <Link href="/app/spendings">
-                  <Button variant="outline" className="cursor-pointer" size={'sm'}>
-                    Add Spendings
-                  </Button>
-                </Link>
-              </div>
+              {showButton && (
+                <div>
+                  <Link href="/app/spendings">
+                    <Button variant="outline" className="cursor-pointer" size={'sm'}>
+                      Add Spendings
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
             <div className="flex flex-row items-center gap-3">
               {!isEditing ? (
@@ -165,14 +168,16 @@ const Herosection = () => {
                       ${spendings.toFixed(2) || 0} out of ${accountInfo?.monthlyBudget || 0} spent
                     </Label>
                   )}
-                  <Button
-                    variant="outline"
-                    className="cursor-pointer"
-                    size={'sm'}
-                    onClick={() => setIsEditing(true)}
-                  >
-                    <Pen fontSize={12} />
-                  </Button>
+                  {showButton && (
+                    <Button
+                      variant="outline"
+                      className="cursor-pointer"
+                      size={'sm'}
+                      onClick={() => setIsEditing(true)}
+                    >
+                      <Pen fontSize={12} />
+                    </Button>
+                  )}
                 </>
               ) : (
                 <>
@@ -200,7 +205,9 @@ const Herosection = () => {
             </div>
             <Progress
               value={percentage}
-              className={`mt-2 [&>div]:${percentage > 80 ? 'bg-destructive' : 'bg-primary'}`}
+              className={`mt-2 ${
+                percentage > 80 ? '[&>div]:bg-destructive' : '[&>div]:bg-primary'
+              }`}
             />
           </div>
         </CardContent>

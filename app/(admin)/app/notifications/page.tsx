@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { LogInIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Terminal } from 'lucide-react';
 
 const page = () => {
   type Notification = {
@@ -42,9 +42,9 @@ const page = () => {
   return (
     <section>
       <div>
-        <Card className="w-full md:w-[700px] mx-auto my-10">
+        <Card className="w-full md:w-[900px] mx-auto my-10">
           <CardHeader>
-            <CardTitle>Notifications</CardTitle>
+            <CardTitle className="text-2xl">Notifications</CardTitle>
             <CardDescription>Your activity arround app will appear here.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -59,10 +59,23 @@ const page = () => {
                 {notifications.length > 0 ? (
                   notifications.map((notification) => (
                     <Alert key={notification._id} className="w-full" variant="default">
-                      <LogInIcon className="h-4 w-4" />
-                      <AlertTitle>{notification.title}</AlertTitle>
-                      <AlertDescription>
-                        {notification.message} ({format(new Date(notification.createdAt), 'PPpp')})
+                      <Terminal className="h-4 w-4" />
+                      <AlertTitle className="font-semibold text-green-600">
+                        {notification.title}
+                      </AlertTitle>
+                      <AlertDescription className="text-black">
+                        {notification.message} (
+                        {new Date(notification?.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}{' '}
+                        at{' '}
+                        {new Date(notification?.createdAt).toLocaleTimeString('en-US', {
+                          hour: 'numeric',
+                          minute: 'numeric',
+                        })}
+                        )
                       </AlertDescription>
                     </Alert>
                   ))

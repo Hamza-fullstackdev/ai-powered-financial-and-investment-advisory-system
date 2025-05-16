@@ -36,11 +36,6 @@ const accountSchema = new Schema<IAccount>(
       trim: true,
       required: true,
     },
-    monthlySpendings: {
-      type: Number,
-      trim: true,
-      default: 0,
-    },
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',

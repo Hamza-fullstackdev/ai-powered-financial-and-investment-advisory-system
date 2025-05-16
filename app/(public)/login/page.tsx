@@ -15,9 +15,10 @@ import { loginUser } from '@/lib/features/user/UserSlice';
 import { AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Google from '@/app/(public)/components/auth/Google';
+import { RootState } from '@/lib/store';
 
 const page = () => {
   const [formData, setFormData] = useState({});
@@ -26,10 +27,17 @@ const page = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useRouter();
   const dispatch = useDispatch();
+  const currentUser = useSelector((state: RootState) => state.user);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    if (currentUser) {
+      navigate.push('/app');
+    }
+  }, [currentUser]);
 
   const handleFormData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

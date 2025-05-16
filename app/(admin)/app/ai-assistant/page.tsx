@@ -1,7 +1,7 @@
 'use client';
 import { Input } from '@/components/ui/input';
 import { RootState } from '@/lib/store';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -35,6 +35,8 @@ export default function AiAssistant() {
   const [loading, setLoading] = useState(false);
   const currentUser = useSelector((state: RootState) => state.user);
   const [visibleWords, setVisibleWords] = useState<string[]>([]);
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
   const handleFormData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -100,40 +102,21 @@ export default function AiAssistant() {
       if (index >= words.length) {
         clearInterval(interval);
       }
+      if (bottomRef.current) {
+        bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
     }, 500);
 
     return () => clearInterval(interval);
   }, [response]);
   return (
-    <section className="w-full">
+    <section className="relative w-full">
       <div className="my-10">
         <h1 className="font-bold text-2xl md:text-4xl text-center leading-tight">
-          {currentUser?.fname}&apos;s AI Assistant is live! <br className="hidden md:block" />
-          Ask now to get expert AI suggestions
+          <span className="text-green-600">{currentUser?.fname}&apos;s</span> AI Assistant is live!{' '}
+          <br className="hidden md:block" />
+          Ask now to get expert <span className="text-green-600">AI suggestions</span>
         </h1>
-      </div>
-      <form onSubmit={handleFormData}>
-        <div>
-          <Input
-            type="text"
-            id="prompt"
-            className="w-full py-5"
-            placeholder="In Which Stocks to invest?"
-            onChange={(e) => setPromptToSend(e.target.value)}
-            disabled={loading}
-          />
-        </div>
-      </form>
-      <div className="mt-3 flex items-center flex-wrap gap-2" hidden={loading}>
-        {promptOptions.map(({ prompt }, idx) => (
-          <span
-            onClick={() => handlePrompt(prompt)}
-            key={idx}
-            className="text-xs md:text-sm text-gray-600 border border-gray-400 px-3 py-1 rounded-full cursor-pointer"
-          >
-            {prompt}
-          </span>
-        ))}
       </div>
       <div className="prose w-full my-8 text-[15px] text-gray-600">
         {loading && <p>Thinking...</p>}
@@ -142,32 +125,64 @@ export default function AiAssistant() {
             <Skeleton key={index} className="mt-4 w-full h-[30px]" />
           ))
         ) : (
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            rehypePlugins={[rehypeRaw]}
-            components={{
-              h1: ({ node, ...props }) => <h1 className="text-2xl font-bold mb-2" {...props} />,
-              h2: ({ node, ...props }) => (
-                <h2 className="text-xl font-semibold mt-4 mb-1" {...props} />
-              ),
-              p: ({ node, ...props }) => <p className="mb-2 text-gray-800" {...props} />,
-              ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
-              li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-              strong: ({ node, ...props }) => (
-                <strong className="font-semibold text-black" {...props} />
-              ),
-              em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
-              table: ({ node, ...props }) => <Table {...props} />,
-              thead: ({ node, ...props }) => <TableHeader {...props} />,
-              th: ({ node, ...props }) => <TableHead className="italic text-gray-700" {...props} />,
-              tbody: ({ node, ...props }) => <TableBody {...props} />,
-              tr: ({ node, ...props }) => <TableRow {...props} />,
-              td: ({ node, ...props }) => <TableCell {...props} />,
-            }}
-          >
-            {visibleWords.join(' ')}
-          </ReactMarkdown>
+          <div>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
+              components={{
+                h1: ({ node, ...props }) => (
+                  <h1 className="text-green-600 text-2xl font-bold mb-2" {...props} />
+                ),
+                h2: ({ node, ...props }) => (
+                  <h2 className="text-green-600 text-xl font-semibold mt-4 mb-1" {...props} />
+                ),
+                p: ({ node, ...props }) => <p className="mb-2 text-gray-800" {...props} />,
+                ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
+                li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                strong: ({ node, ...props }) => (
+                  <strong className="font-semibold text-green-700" {...props} />
+                ),
+                em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
+                table: ({ node, ...props }) => <Table {...props} />,
+                thead: ({ node, ...props }) => <TableHeader {...props} />,
+                th: ({ node, ...props }) => (
+                  <TableHead className="italic text-gray-700" {...props} />
+                ),
+                tbody: ({ node, ...props }) => <TableBody {...props} />,
+                tr: ({ node, ...props }) => <TableRow {...props} />,
+                td: ({ node, ...props }) => <TableCell {...props} />,
+              }}
+            >
+              {visibleWords.join(' ')}
+            </ReactMarkdown>
+            <div ref={bottomRef} />
+          </div>
         )}
+      </div>
+      <div className="w-full bg-white z-10 sticky bottom-1">
+        <form onSubmit={handleFormData}>
+          <div>
+            <Input
+              type="text"
+              id="prompt"
+              className="w-full py-5"
+              placeholder="In Which Stocks to invest?"
+              onChange={(e) => setPromptToSend(e.target.value)}
+              disabled={loading}
+            />
+          </div>
+        </form>
+        <div className="mt-3 hidden md:flex items-center flex-wrap gap-2" hidden={loading}>
+          {promptOptions.map(({ prompt }, idx) => (
+            <span
+              onClick={() => handlePrompt(prompt)}
+              key={idx}
+              className="text-xs md:text-sm text-gray-600 border border-gray-400 px-3 py-1 rounded-full cursor-pointer"
+            >
+              {prompt}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );

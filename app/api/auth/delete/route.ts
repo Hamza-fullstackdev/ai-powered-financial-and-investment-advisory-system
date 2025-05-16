@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import Account from '@/app/model/Account';
 import Card from '@/app/model/Card';
+import Transaction from '@/app/model/Transaction';
 
 export async function DELETE(req: NextRequest) {
   await connectToDatabase();
@@ -25,6 +26,7 @@ export async function DELETE(req: NextRequest) {
     await Notification.deleteMany({ userId });
     await Account.deleteMany({ userId });
     await Card.deleteMany({ userId });
+    await Transaction.deleteMany({ userId });
     if (!deletedUser) {
       return NextResponse.json(
         { message: 'Unauthorized, please logout of your account' },

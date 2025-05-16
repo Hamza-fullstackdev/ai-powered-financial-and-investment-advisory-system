@@ -46,12 +46,6 @@ export async function POST(req: Request) {
     if (isAccountExist) {
       return NextResponse.json({ message: 'Card already exists' }, { status: 400 });
     }
-    if (monthlyBudget > monthlyIncome) {
-      return NextResponse.json(
-        { message: 'Monthly budget cannot be greater than monthly income' },
-        { status: 400 }
-      );
-    }
     const newAccount = new Account({
       totalBalance,
       amountInvested,

@@ -111,7 +111,10 @@ const page = () => {
       <Card className="mx-auto w-full md:w-[700px]">
         <CardHeader>
           <CardTitle className="text-center text-xl">
-            {currentUser?.fname} {currentUser?.lname} Profile
+            <span className="text-green-600">
+              {currentUser?.fname} {currentUser?.lname}&apos;s
+            </span>{' '}
+            Profile
           </CardTitle>
           <CardDescription className="text-center">Update you profile</CardDescription>
           {uploading && <Progress value={progress} className={`w-[${progress}%]`} />}

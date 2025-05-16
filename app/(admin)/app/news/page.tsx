@@ -94,7 +94,8 @@ export default function page() {
     <section>
       <div className="my-10">
         <h1 className="font-bold text-2xl md:text-4xl text-center leading-tight">
-          Get latest news and updates about your favourite plateform here
+          Get latest <span className="text-green-600">news and updates</span> about your favourite
+          plateform here
         </h1>
       </div>
       <form onSubmit={handleSubmitForm}>
@@ -110,7 +111,8 @@ export default function page() {
         {news.length > 0 && stockSummary && (
           <div className="my-4">
             <h2 className="text-lg font-semibold">
-              AI Insights: Is Investing in {parmsValue} a Good Idea?
+              AI Insights: Is Investing in <span className="text-green-600">{parmsValue}</span> a
+              Good Idea?
             </h2>
             <div className="text-gray-600">
               <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
@@ -149,7 +151,7 @@ export default function page() {
               </div>
               <div className="p-4">
                 <Link href={`${item?.content?.canonicalUrl.url}`} target="_blank">
-                  <h2 className="font-semibold text-lg">{item?.content?.title}</h2>
+                  <h2 className="font-semibold text-lg">{item?.content?.title.slice(0, 80)}...</h2>
                 </Link>
                 <p className="my-2 text-sm text-gray-600">
                   Author: {item?.content?.provider?.displayName}
@@ -163,7 +165,7 @@ export default function page() {
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button
-                        className="w-full bg-gradient-to-r from-[#0f172a] via-[#1e3a8a] to-[#3b82f6] text-white cursor-pointer"
+                        className="w-full bg-gradient-to-r from-green-700 via-green-600 to-green-500 text-white cursor-pointer"
                         size={'lg'}
                         onClick={() => callGeminiApi(item?.content?.canonicalUrl?.url)}
                       >
