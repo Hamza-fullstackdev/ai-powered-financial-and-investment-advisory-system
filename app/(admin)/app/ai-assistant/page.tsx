@@ -15,7 +15,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { ArrowDownNarrowWide } from 'lucide-react';
+import { ArrowDownNarrowWide, ArrowUp, CornerDownRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface Conversation {
   _id: string;
@@ -40,17 +41,19 @@ export default function AiAssistant() {
     { prompt: 'Risk management techniques' },
   ];
   const [promptToSend, setPromptToSend] = useState('');
-  const [response, setResponse] = useState('');
+  const [inilialLoading, setInilialLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [conservations, setConversations] = useState({} as Conversation);
   const currentUser = useSelector((state: RootState) => state.user);
-  const [visibleWords, setVisibleWords] = useState<string[]>([]);
+  const [directConversation, setDirectConversation] = useState<
+    { prompt: string; response: string; loading?: boolean }[]
+  >([]);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const getUserConservation = async () => {
       try {
-        setLoading(true);
+        setInilialLoading(true);
         const res = await fetch('/api/ai/ai-assistant', {
           method: 'GET',
           headers: {
@@ -58,12 +61,15 @@ export default function AiAssistant() {
           },
         });
         const data = await res.json();
-        setLoading(false);
+        setInilialLoading(false);
         if (res.ok) {
           setConversations(data.conservation);
-          setLoading(false);
+          setInilialLoading(false);
+          setTimeout(() => {
+            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
         } else {
-          setLoading(false);
+          setInilialLoading(false);
         }
       } catch (error) {
         console.log(error);
@@ -73,6 +79,13 @@ export default function AiAssistant() {
   }, []);
   const handleFormData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setDirectConversation((prev) => [
+      ...prev,
+      { prompt: promptToSend, response: '', loading: true },
+    ]);
+    setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 500);
     try {
       setLoading(true);
       const res = await fetch('/api/ai/ai-assistant', {
@@ -85,10 +98,27 @@ export default function AiAssistant() {
       const data = await res.json();
       setLoading(false);
       if (res.ok) {
-        setResponse(data?.aiResponse ?? 'Somethings Wrong');
+        setDirectConversation((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            ...updated[updated.length - 1],
+            response: data.aiResponse,
+            loading: false,
+          };
+          return updated;
+        });
         setLoading(false);
       } else {
-        setResponse("I'm only here to assist with finance and investment-related topics.");
+        setDirectConversation((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            ...updated[updated.length - 1],
+            response: "I'm only here to assist with finance and investment-related topics.",
+            loading: false,
+          };
+          return updated;
+        });
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -98,6 +128,10 @@ export default function AiAssistant() {
 
   const handlePrompt = async (prompt: string) => {
     setPromptToSend(prompt);
+    setDirectConversation((prev) => [...prev, { prompt, response: '', loading: true }]);
+    setTimeout(() => {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 500);
     try {
       setLoading(true);
       const res = await fetch('/api/ai/ai-assistant', {
@@ -110,40 +144,33 @@ export default function AiAssistant() {
       const data = await res.json();
       setLoading(false);
       if (res.ok) {
-        setResponse(data?.aiResponse ?? 'Somethings Wrong');
+        setDirectConversation((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            ...updated[updated.length - 1],
+            response: data.aiResponse,
+            loading: false,
+          };
+          return updated;
+        });
         setLoading(false);
       } else {
-        setResponse("I'm only here to assist with finance and investment-related topics.");
+        setDirectConversation((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1] = {
+            ...updated[updated.length - 1],
+            response: "I'm only here to assist with finance and investment-related topics.",
+            loading: false,
+          };
+          return updated;
+        });
+        setLoading(false);
       }
     } catch (error) {
       console.log(error);
       setLoading(false);
     }
   };
-  console.log(conservations);
-  useEffect(() => {
-    if (!response) return;
-
-    const words = response.split(' ');
-    let index = 0;
-
-    setVisibleWords([]);
-
-    const interval = setInterval(() => {
-      const nextWords = words.slice(index, index + 40);
-      setVisibleWords((prev) => [...prev, ...nextWords]);
-      index += 40;
-
-      if (index >= words.length) {
-        clearInterval(interval);
-      }
-      if (bottomRef.current) {
-        bottomRef.current.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 500);
-
-    return () => clearInterval(interval);
-  }, [response]);
   return (
     <section className="relative w-full">
       <div
@@ -151,8 +178,8 @@ export default function AiAssistant() {
           bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
         }}
         className={`${
-          loading ? 'hidden' : 'block'
-        } cursor-pointer animate-bounce fixed bottom-5 right-5 z-99 w-fit h-fit bg-green-700 shadow-lg rounded-full flex justify-center items-center`}
+          loading || inilialLoading ? 'hidden' : 'block'
+        } cursor-pointer animate-bounce fixed bottom-10 right-5 z-99 w-fit h-fit bg-green-700 shadow-lg rounded-full flex justify-center items-center`}
       >
         <div className="p-3">
           <ArrowDownNarrowWide size={20} className="text-white" />
@@ -166,6 +193,16 @@ export default function AiAssistant() {
         </h1>
       </div>
       <div className="prose w-full my-8 text-[15px] text-gray-600">
+        {inilialLoading && (
+          <>
+            <div className="w-full flex justify-end items-center">
+              <div className="text-black max-w-[80%] w-fit p-5 bg-gray-100 rounded-lg">
+                <Skeleton className="mt-4 w-full md:w-[400px] h-[30px]" />
+              </div>
+            </div>
+            <Skeleton className="mt-4 w-full h-[500px]" />
+          </>
+        )}
         {conservations?.conservation?.map((item, index) => (
           <div key={index}>
             <div className="w-full flex justify-end items-center">
@@ -173,91 +210,108 @@ export default function AiAssistant() {
                 {item?.prompt}
               </p>
             </div>
-            <div className="my-5">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-                components={{
-                  h1: ({ node, ...props }) => (
-                    <h1 className="text-green-600 text-2xl font-bold mb-2" {...props} />
-                  ),
-                  h2: ({ node, ...props }) => (
-                    <h2 className="text-green-600 text-xl font-semibold mt-4 mb-1" {...props} />
-                  ),
-                  p: ({ node, ...props }) => <p className="mb-2 text-gray-800" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
-                  li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-                  strong: ({ node, ...props }) => (
-                    <strong className="font-semibold text-green-700" {...props} />
-                  ),
-                  em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
-                  table: ({ node, ...props }) => <Table {...props} />,
-                  thead: ({ node, ...props }) => <TableHeader {...props} />,
-                  th: ({ node, ...props }) => (
-                    <TableHead className="italic text-gray-700" {...props} />
-                  ),
-                  tbody: ({ node, ...props }) => <TableBody {...props} />,
-                  tr: ({ node, ...props }) => <TableRow {...props} />,
-                  td: ({ node, ...props }) => <TableCell {...props} />,
-                }}
-              >
-                {item?.response}
-              </ReactMarkdown>
+            <div className="my-5 px-3 border-l-2 border-t-2 border-gray-600 rounded-l-lg">
+              <div className="py-5 flex items-start gap-5 border-b-2 border-dashed border-gray-600 rounded-t-lg">
+                <div>
+                  <CornerDownRight size={20} className="text-gray-800" />
+                </div>
+                <div>{item?.prompt}</div>
+              </div>
+              <div className="my-3">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  rehypePlugins={[rehypeRaw]}
+                  components={{
+                    h1: ({ node, ...props }) => (
+                      <h1 className="text-green-600 text-2xl font-bold mb-2" {...props} />
+                    ),
+                    h2: ({ node, ...props }) => (
+                      <h2 className="text-green-600 text-xl font-semibold mt-4 mb-1" {...props} />
+                    ),
+                    p: ({ node, ...props }) => <p className="mb-2 text-gray-800" {...props} />,
+                    ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
+                    li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                    strong: ({ node, ...props }) => (
+                      <strong className="font-semibold text-green-700" {...props} />
+                    ),
+                    em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
+                    table: ({ node, ...props }) => <Table {...props} />,
+                    thead: ({ node, ...props }) => <TableHeader {...props} />,
+                    th: ({ node, ...props }) => (
+                      <TableHead className="italic text-gray-700" {...props} />
+                    ),
+                    tbody: ({ node, ...props }) => <TableBody {...props} />,
+                    tr: ({ node, ...props }) => <TableRow {...props} />,
+                    td: ({ node, ...props }) => <TableCell {...props} />,
+                  }}
+                >
+                  {item?.response}
+                </ReactMarkdown>
+              </div>
             </div>
           </div>
         ))}
-        {loading ? (
-          <>
+        {directConversation.map((item, index) => (
+          <div key={index}>
             <div className="w-full flex justify-end items-center">
-              <p className="text-black max-w-[80%] w-fit p-5 bg-gray-100 rounded-lg">
-                <Skeleton className="mt-4 w-full md:w-[400px] h-[30px]" />
-              </p>
-            </div>
-            <Skeleton className="mt-4 w-full h-[500px]" />
-          </>
-        ) : (
-          <div>
-            <div className="w-full flex justify-end items-center">
-              {promptToSend && (
+              {item?.prompt && (
                 <p className="text-black max-w-[80%] w-fit p-5 bg-gray-100 rounded-lg">
-                  {promptToSend}
+                  {item.prompt}
                 </p>
               )}
             </div>
-            <div className="my-5">
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeRaw]}
-                components={{
-                  h1: ({ node, ...props }) => (
-                    <h1 className="text-green-600 text-2xl font-bold mb-2" {...props} />
-                  ),
-                  h2: ({ node, ...props }) => (
-                    <h2 className="text-green-600 text-xl font-semibold mt-4 mb-1" {...props} />
-                  ),
-                  p: ({ node, ...props }) => <p className="mb-2 text-gray-800" {...props} />,
-                  ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
-                  li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-                  strong: ({ node, ...props }) => (
-                    <strong className="font-semibold text-green-700" {...props} />
-                  ),
-                  em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
-                  table: ({ node, ...props }) => <Table {...props} />,
-                  thead: ({ node, ...props }) => <TableHeader {...props} />,
-                  th: ({ node, ...props }) => (
-                    <TableHead className="italic text-gray-700" {...props} />
-                  ),
-                  tbody: ({ node, ...props }) => <TableBody {...props} />,
-                  tr: ({ node, ...props }) => <TableRow {...props} />,
-                  td: ({ node, ...props }) => <TableCell {...props} />,
-                }}
-              >
-                {visibleWords.join(' ')}
-              </ReactMarkdown>
-            </div>
-            <div ref={bottomRef} />
+
+            {item.loading ? (
+              <>
+                <Skeleton className="mt-4 w-full md:w-[400px] h-[30px]" />
+                <Skeleton className="mt-4 w-full h-[500px]" />
+              </>
+            ) : item.response ? (
+              <div className="my-5 px-3 border-l-2 border-t-2 border-gray-600 rounded-l-lg">
+                <div className="py-5 flex items-start gap-5 border-b-2 border-dashed border-gray-600 rounded-t-lg">
+                  <div>
+                    <CornerDownRight size={20} className="text-gray-800" />
+                  </div>
+                  <div>{item.prompt}</div>
+                </div>
+                <div className="my-3">
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    rehypePlugins={[rehypeRaw]}
+                    components={{
+                      h1: ({ node, ...props }) => (
+                        <h1 className="text-green-600 text-2xl font-bold mb-2" {...props} />
+                      ),
+                      h2: ({ node, ...props }) => (
+                        <h2 className="text-green-600 text-xl font-semibold mt-4 mb-1" {...props} />
+                      ),
+                      p: ({ node, ...props }) => <p className="mb-2 text-gray-800" {...props} />,
+                      ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
+                      li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                      strong: ({ node, ...props }) => (
+                        <strong className="font-semibold text-green-700" {...props} />
+                      ),
+                      em: ({ node, ...props }) => (
+                        <em className="italic text-gray-700" {...props} />
+                      ),
+                      table: ({ node, ...props }) => <Table {...props} />,
+                      thead: ({ node, ...props }) => <TableHeader {...props} />,
+                      th: ({ node, ...props }) => (
+                        <TableHead className="italic text-gray-700" {...props} />
+                      ),
+                      tbody: ({ node, ...props }) => <TableBody {...props} />,
+                      tr: ({ node, ...props }) => <TableRow {...props} />,
+                      td: ({ node, ...props }) => <TableCell {...props} />,
+                    }}
+                  >
+                    {item.response}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            ) : null}
           </div>
-        )}
+        ))}
+        <div ref={bottomRef} />
       </div>
       <div className="w-full bg-white z-10 sticky bottom-1">
         <form onSubmit={handleFormData}>
@@ -265,11 +319,20 @@ export default function AiAssistant() {
             <Input
               type="text"
               id="prompt"
-              className="w-full py-5"
+              className="relative w-full py-5"
               placeholder="In Which Stocks to invest?"
               onChange={(e) => setPromptToSend(e.target.value)}
               disabled={loading}
             />
+          </div>
+          <div>
+            <Button
+              type="submit"
+              className="absolute top-0 right-0 py-5 cursor-pointer rounded-full"
+              disabled={loading || !promptToSend}
+            >
+              <ArrowUp size={20} />
+            </Button>
           </div>
         </form>
         <div className="mt-3 hidden md:flex items-center flex-wrap gap-2" hidden={loading}>

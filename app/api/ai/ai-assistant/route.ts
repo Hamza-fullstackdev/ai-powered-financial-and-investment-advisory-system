@@ -10,7 +10,6 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
 export async function POST(req: Request) {
   const { prompt, userId } = await req.json();
-  console.log(prompt, userId);
   if (!prompt) {
     return NextResponse.json({ message: 'Please give a prompt to continue' }, { status: 400 });
   }

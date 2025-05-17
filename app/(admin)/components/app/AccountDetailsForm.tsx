@@ -109,6 +109,7 @@ const AccountDetailsForm = () => {
                   placeholder="In banks, cash, etc."
                   required
                   onChange={handleChange}
+                  min={0}
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -120,6 +121,7 @@ const AccountDetailsForm = () => {
                   placeholder="Stocks, bonds, etc."
                   required
                   onChange={handleChange}
+                  min={0}
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -131,6 +133,7 @@ const AccountDetailsForm = () => {
                   placeholder="Stocks, bonds, etc."
                   required
                   onChange={handleChange}
+                  min={0}
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -182,6 +185,7 @@ const AccountDetailsForm = () => {
                   placeholder="Target amount for the month"
                   required
                   onChange={handleChange}
+                  min={0}
                 />
               </div>
             </div>
@@ -203,6 +207,7 @@ const AccountDetailsForm = () => {
                   placeholder="XXXX XXXX XXXX XXXX"
                   required
                   onChange={handleChange}
+                  min={0}
                 />
               </div>
               <div className="flex flex-col gap-1">
@@ -225,6 +230,7 @@ const AccountDetailsForm = () => {
                   placeholder="XXX"
                   required
                   onChange={handleChange}
+                  min={0}
                 />
               </div>
             </div>
