@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/logo.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2VhNzk2MTdiLWE1MTAtNDNhYy05YTkxLTZkOGMxOTdhMWEzOSJ9.eyJ1cmwiOiJhcHAvbG9nby5wbmciLCJpYXQiOjE3NDc0OTI4ODUsImV4cCI6MTc3OTAyODg4NX0.M_ivg4GIpYBkw17bzFALjvY8eUBuEyiIJ-tB9kQKHWo" alt="Company Logo" width="500"/>
+</p>
+
 ---
 
 # **AI-Powered Financial & Investment Advisory System**  
@@ -37,7 +41,7 @@ Traditional financial advisory services often lack personalization, require high
 
 ## **Tech Stack**
 - **Programing Languages:** Typescript
-- **Framework:** Next.js, Tailwind Css, Redux Toolkit    
+- **Framework:** Next.js, Tailwind Css, ShadCN, Redux Toolkit    
 - **Database:** MongoDB, Firebase 
 - **Cloud Storage:** Supabase (for image uploads)  
 - **AI Modal:** Gemini LLM

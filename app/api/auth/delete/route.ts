@@ -8,6 +8,7 @@ import { cookies } from 'next/headers';
 import Account from '@/app/model/Account';
 import Card from '@/app/model/Card';
 import Transaction from '@/app/model/Transaction';
+import Conservation from '@/app/model/Conservation';
 
 export async function DELETE(req: NextRequest) {
   await connectToDatabase();
@@ -27,6 +28,7 @@ export async function DELETE(req: NextRequest) {
     await Account.deleteMany({ userId });
     await Card.deleteMany({ userId });
     await Transaction.deleteMany({ userId });
+    await Conservation.deleteMany({ userId });
     if (!deletedUser) {
       return NextResponse.json(
         { message: 'Unauthorized, please logout of your account' },
