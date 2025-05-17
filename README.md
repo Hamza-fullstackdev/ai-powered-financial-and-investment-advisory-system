@@ -67,10 +67,10 @@ Follow these steps to set up the project locally:
      DATABASE=mongodb-database-name
      SALT_ROUNDS=salt-rounds-int
      JWT_SECRET_KEY=your-jwt-key
+     GEMINI_API_KEY=your-gemini-api-key
      NEXT_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
      NEXT_PUBLIC_SUPABASE_URL=your-supabase-URL
      NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anion-key
-     NEXT_PUBLIC_GEMINI_API_KEY=your-gemini-api-key
      NEXT_PUBLIC_GET_NEWS_API=your-news-api-key
      NEXT_PUBLIC_GET_NEWS_HOSTNAME=your-news-api-hostname 
      ```  

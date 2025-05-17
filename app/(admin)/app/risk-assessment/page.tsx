@@ -285,7 +285,7 @@ export default function page() {
                   Calculate Risk Using Ai
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="h-[500px] md:h-[570px] overflow-auto">
                 <DialogHeader>
                   <DialogTitle>Ai Analysis Result</DialogTitle>
                 </DialogHeader>

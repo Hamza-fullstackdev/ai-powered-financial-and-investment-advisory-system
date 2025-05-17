@@ -18,10 +18,10 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: 'Invalid token' }, { status: 403 });
     }
     const userId = decoded.id;
-    const transactions = await Transaction.find({ userId });
+    const transactions = await Transaction.find({ userId }).limit(5).sort({ createdAt: -1 });
 
     const totalAmount = transactions.reduce((sum, txn) => sum + txn.amount, 0);
-    return NextResponse.json({ totalAmount });
+    return NextResponse.json({ transactions, totalAmount });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Something went wrong' }, { status: 500 });

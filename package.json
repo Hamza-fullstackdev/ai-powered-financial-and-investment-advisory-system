@@ -36,6 +36,7 @@
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
     "react-redux": "^9.2.0",
+    "recharts": "^2.15.3",
     "redux-persist": "^6.0.0",
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
