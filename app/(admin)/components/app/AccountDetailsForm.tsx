@@ -80,7 +80,7 @@ const AccountDetailsForm = () => {
       )}
       <Dialog>
         <DialogTrigger asChild>
-          <div className="w-full h-full bg-gray-50 border border-gray-500 border-dotted rounded-lg cursor-pointer">
+          <div className="w-full h-full bg-gray-50 dark:bg-slate-900 border border-gray-500 border-dotted rounded-lg cursor-pointer">
             <div className="flex items-center justify-center h-full py-16">
               <div className="text-center">
                 <Plus size={35} className="mx-auto text-gray-500" />

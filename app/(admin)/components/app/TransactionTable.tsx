@@ -38,9 +38,9 @@ const TransactionTable = () => {
     fetchUserSpendings();
   }, []);
   return (
-    <div className="my-5">
+    <div className={`my-5 hidden:${transactions.length === 0}`}>
       {loading ||
-        (showCard && (
+        (transactions.length > 0 && showCard && (
           <Card>
             <CardHeader>
               <CardTitle className="text-xl">Recent Transactions</CardTitle>

@@ -66,9 +66,9 @@ const Chart = () => {
     fetchUserSpendings();
   }, []);
   return (
-    <div className="my-5">
+    <div className={`my-5 hidden:${chartData.length === 0}`}>
       {loading ||
-        (showCard && (
+        (chartData.length > 0 && showCard && (
           <Card>
             <CardHeader>
               <CardTitle className="text-xl">Most Recent Spendings</CardTitle>
