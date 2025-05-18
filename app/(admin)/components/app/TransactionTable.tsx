@@ -51,10 +51,18 @@ const TransactionTable = () => {
                 <TableCaption>A list of your recent transactions or spendings.</TableCaption>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-black font-semibold">Merchant</TableHead>
-                    <TableHead className="text-black font-semibold">Category</TableHead>
-                    <TableHead className="text-black font-semibold">Date</TableHead>
-                    <TableHead className="text-black font-semibold text-right">Amount</TableHead>
+                    <TableHead className="text-black dark:text-gray-400 font-semibold">
+                      Merchant
+                    </TableHead>
+                    <TableHead className="text-black dark:text-gray-400 font-semibold">
+                      Category
+                    </TableHead>
+                    <TableHead className="text-black dark:text-gray-400 font-semibold">
+                      Date
+                    </TableHead>
+                    <TableHead className="text-black dark:text-gray-400 font-semibold text-right">
+                      Amount
+                    </TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -63,7 +71,7 @@ const TransactionTable = () => {
                       <TableCell className="capitalize">{transaction?.merchantName}</TableCell>
                       <TableCell className="capitalize">{transaction?.category}</TableCell>
                       <TableCell>
-                        {new Date(transaction?.createdAt).toLocaleDateString('en-US', {
+                        {new Date(transaction?.date).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'long',
                           day: 'numeric',

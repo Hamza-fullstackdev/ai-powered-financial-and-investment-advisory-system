@@ -3,6 +3,7 @@ import { Poppins } from 'next/font/google';
 import LayoutRapper from '@/app/(public)/components/LayoutRapper';
 import './globals.css';
 import StoreProvider from './StoreProvider';
+import { ThemeProvider } from '@/lib/themes/theme-provider';
 
 const poppins = Poppins({
   weight: ['100', '200', '300', '400', '600', '700', '800', '900'],
@@ -20,11 +21,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.className} antialiased bg-[#E2F3F9] max-w-[1680px] mx-auto`}>
-        <StoreProvider>
-          <LayoutRapper>{children}</LayoutRapper>
-        </StoreProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <StoreProvider>
+            <LayoutRapper>{children}</LayoutRapper>
+          </StoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -75,7 +75,7 @@ const Chart = () => {
               <CardDescription>
                 <div className="leading-none text-muted-foreground">
                   Showing last 5 transactions in which you spend
-                  <strong className="text-black">
+                  <strong className="text-black dark:text-red-600">
                     {' '}
                     ${chartData.reduce((sum, item) => sum + item.amount, 0).toFixed(2)}
                   </strong>

@@ -16,7 +16,7 @@ const HeroSection = () => {
         </div>
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 items-center gap-10">
           <div>
-            <p className="text-gray-700">
+            <p className="text-gray-700 dark:text-gray-400">
               Our platform delivers personalized financial insights, portfolio strategies, and
               real-time market analysis.
             </p>
