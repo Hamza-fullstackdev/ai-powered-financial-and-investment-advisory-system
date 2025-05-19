@@ -209,7 +209,9 @@ export default function page() {
                           <ul className="list-disc pl-5 mb-2" {...props} />
                         ),
                         li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-                        p: ({ node, ...props }) => <p className="mb-2 text-gray-800" {...props} />,
+                        p: ({ node, ...props }) => (
+                          <p className="mb-2 text-gray-800 dark:text-gray-300" {...props} />
+                        ),
                       }}
                     >
                       {response}

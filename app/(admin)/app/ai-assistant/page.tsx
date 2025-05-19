@@ -206,35 +206,44 @@ export default function AiAssistant() {
         {conservations?.conservation?.map((item, index) => (
           <div key={index}>
             <div className="w-full flex justify-end items-center">
-              <p className="text-black max-w-[80%] w-fit p-5 bg-gray-100 rounded-lg">
+              <p className="text-black max-w-[80%] w-fit p-5 bg-gray-100 dark:bg-slate-800 dark:text-gray-400 rounded-lg">
                 {item?.prompt}
               </p>
             </div>
-            <div className="my-5 px-3 border-l-2 border-t-2 border-gray-600 rounded-l-lg">
+            <div className="my-5 px-3 border-l-2 border-t-2 border-gray-600 dark:bg-slate-800 rounded-l-lg">
               <div className="py-5 flex items-start gap-5 border-b-2 border-dashed border-gray-600 rounded-t-lg">
                 <div>
-                  <CornerDownRight size={20} className="text-gray-800" />
+                  <CornerDownRight size={20} className="text-gray-800 dark:text-slate-400" />
                 </div>
-                <div>{item?.prompt}</div>
+                <div className="dark:text-slate-400">{item?.prompt}</div>
               </div>
-              <div className="my-3">
+              <div className="my-3 py-3">
                 <ReactMarkdown
                   remarkPlugins={[remarkGfm]}
                   rehypePlugins={[rehypeRaw]}
                   components={{
                     h1: ({ node, ...props }) => (
-                      <h1 className="text-green-600 text-2xl font-bold mb-2" {...props} />
+                      <h1 className="text-green-700 text-2xl font-bold mb-2" {...props} />
                     ),
                     h2: ({ node, ...props }) => (
                       <h2 className="text-green-600 text-xl font-semibold mt-4 mb-1" {...props} />
                     ),
-                    p: ({ node, ...props }) => <p className="mb-2 text-gray-800" {...props} />,
-                    ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
-                    li: ({ node, ...props }) => <li className="mb-1" {...props} />,
-                    strong: ({ node, ...props }) => (
-                      <strong className="font-semibold text-green-700" {...props} />
+                    p: ({ node, ...props }) => (
+                      <p className="mb-2 text-gray-800 dark:text-gray-400" {...props} />
                     ),
-                    em: ({ node, ...props }) => <em className="italic text-gray-700" {...props} />,
+                    ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
+                    ol: ({ node, ...props }) => (
+                      <ol className="list-decimal pl-5 mb-2" {...props} />
+                    ),
+                    li: ({ node, ...props }) => (
+                      <li className="mb-1 dark:text-gray-400" {...props} />
+                    ),
+                    strong: ({ node, ...props }) => (
+                      <strong className="font-semibold text-green-600" {...props} />
+                    ),
+                    em: ({ node, ...props }) => (
+                      <em className="italic text-gray-700 dark:text-gray-400" {...props} />
+                    ),
                     table: ({ node, ...props }) => <Table {...props} />,
                     thead: ({ node, ...props }) => <TableHeader {...props} />,
                     th: ({ node, ...props }) => (
@@ -255,7 +264,7 @@ export default function AiAssistant() {
           <div key={index}>
             <div className="w-full flex justify-end items-center">
               {item?.prompt && (
-                <p className="text-black max-w-[80%] w-fit p-5 bg-gray-100 rounded-lg">
+                <p className="text-black max-w-[80%] w-fit p-5 bg-gray-100 dark:bg-slate-800 dark:text-gray-400 rounded-lg">
                   {item.prompt}
                 </p>
               )}
@@ -267,14 +276,14 @@ export default function AiAssistant() {
                 <Skeleton className="mt-4 w-full h-[500px]" />
               </>
             ) : item.response ? (
-              <div className="my-5 px-3 border-l-2 border-t-2 border-gray-600 rounded-l-lg">
+              <div className="my-5 px-3 border-l-2 border-t-2 border-gray-600 dark:bg-slate-800 rounded-l-lg">
                 <div className="py-5 flex items-start gap-5 border-b-2 border-dashed border-gray-600 rounded-t-lg">
                   <div>
-                    <CornerDownRight size={20} className="text-gray-800" />
+                    <CornerDownRight size={20} className="text-gray-800 dark:text-gray-400" />
                   </div>
-                  <div>{item.prompt}</div>
+                  <div className="dark:text-gray-400">{item.prompt}</div>
                 </div>
-                <div className="my-3">
+                <div className="my-3 py-3">
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     rehypePlugins={[rehypeRaw]}
@@ -285,14 +294,21 @@ export default function AiAssistant() {
                       h2: ({ node, ...props }) => (
                         <h2 className="text-green-600 text-xl font-semibold mt-4 mb-1" {...props} />
                       ),
-                      p: ({ node, ...props }) => <p className="mb-2 text-gray-800" {...props} />,
+                      p: ({ node, ...props }) => (
+                        <p className="mb-2 text-gray-800 dark:text-gray-400" {...props} />
+                      ),
                       ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2" {...props} />,
-                      li: ({ node, ...props }) => <li className="mb-1" {...props} />,
+                      ol: ({ node, ...props }) => (
+                        <ol className="list-decimal pl-5 mb-2" {...props} />
+                      ),
+                      li: ({ node, ...props }) => (
+                        <li className="mb-1 dark:text-gray-400" {...props} />
+                      ),
                       strong: ({ node, ...props }) => (
-                        <strong className="font-semibold text-green-700" {...props} />
+                        <strong className="font-semibold text-green-600" {...props} />
                       ),
                       em: ({ node, ...props }) => (
-                        <em className="italic text-gray-700" {...props} />
+                        <em className="italic text-gray-700 dark:text-gray-400" {...props} />
                       ),
                       table: ({ node, ...props }) => <Table {...props} />,
                       thead: ({ node, ...props }) => <TableHeader {...props} />,
@@ -313,13 +329,13 @@ export default function AiAssistant() {
         ))}
         <div ref={bottomRef} />
       </div>
-      <div className="w-full bg-white z-10 sticky bottom-1">
+      <div className="w-full bg-white dark:bg-slate-900 z-10 sticky bottom-0">
         <form onSubmit={handleFormData}>
           <div>
             <Input
               type="text"
               id="prompt"
-              className="relative w-full py-5"
+              className="relative w-full py-5 rounded-full"
               placeholder="In Which Stocks to invest?"
               onChange={(e) => setPromptToSend(e.target.value)}
               disabled={loading}

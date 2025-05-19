@@ -114,7 +114,7 @@ export default function page() {
               AI Insights: Is Investing in <span className="text-green-600">{parmsValue}</span> a
               Good Idea?
             </h2>
-            <div className="text-gray-600">
+            <div className="mt-2 text-gray-600 dark:text-gray-400">
               <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
                 {stockSummary}
               </ReactMarkdown>
@@ -153,11 +153,11 @@ export default function page() {
                 <Link href={`${item?.content?.canonicalUrl.url}`} target="_blank">
                   <h2 className="font-semibold text-lg">{item?.content?.title.slice(0, 80)}...</h2>
                 </Link>
-                <p className="my-2 text-sm text-gray-600">
+                <p className="my-2 text-sm text-gray-600 dark:text-gray-400">
                   Author: {item?.content?.provider?.displayName}
                 </p>
                 <div>
-                  <span className=" text-sm text-gray-600">
+                  <span className=" text-sm text-gray-600 dark:text-gray-400">
                     Published at: {item?.content?.pubDate.slice(0, 10)}
                   </span>
                 </div>
@@ -172,7 +172,7 @@ export default function page() {
                         Summarize news using Ai
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="h-[500px] md:h-auto overflow-y-auto">
+                    <DialogContent className="h-[500px] md:h-[570px] overflow-auto">
                       <DialogHeader>
                         <DialogTitle>Summarized news using Ai</DialogTitle>
                       </DialogHeader>

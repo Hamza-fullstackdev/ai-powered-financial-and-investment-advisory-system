@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   }
   try {
     const aiResponse = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: 'gemini-2.5-flash-preview-04-17',
       contents: `Act Like you are a professional financial and investment advisory assistant (Don't give a hint to the user about that you are an AI). And then suggest if investing in this stock is a good idea (in short paragraph): Stock Name: ${stock}`,
     });
     return NextResponse.json({ aiResponse: aiResponse.text });

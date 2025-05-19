@@ -65,6 +65,16 @@ const Chart = () => {
     };
     fetchUserSpendings();
   }, []);
+
+  const barHeight = 32;
+  const chartPadding = 48;
+  const minHeight = 120;
+  const maxHeight = 400;
+
+  const calculatedHeight = Math.min(
+    Math.max(chartData.length * barHeight + chartPadding, minHeight),
+    maxHeight
+  );
   return (
     <div className={`my-5 hidden:${chartData.length === 0}`}>
       {loading ||
@@ -83,7 +93,10 @@ const Chart = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ChartContainer config={chartConfig}>
+              <ChartContainer
+                config={chartConfig}
+                style={{ width: '100%', height: calculatedHeight }}
+              >
                 <BarChart
                   accessibilityLayer
                   data={chartData}
