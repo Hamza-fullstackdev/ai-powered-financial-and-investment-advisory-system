@@ -15,7 +15,7 @@ export async function POST(req: Request) {
   }
   try {
     const aiResponse = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-preview-04-17',
+      model: 'gemini-2.0-flash',
       contents: `You are a professional financial and investment advisory assistant.
 
 Your ONLY job is to provide detailed advice, analysis, or guidance related to:
