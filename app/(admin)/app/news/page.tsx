@@ -82,6 +82,7 @@ export default function page() {
       const data = await res.json();
       setLoader(false);
       if (res.ok) {
+        setParmsValue('');
         setSummary(data.aiResponse);
         setLoader(false);
       }
@@ -102,6 +103,8 @@ export default function page() {
         <Input
           type="text"
           id="news"
+          name="news"
+          value={parmsValue}
           className="w-full py-5"
           placeholder="TSLA, GOOGL, AMZN, AAPL etc.."
           onChange={(e) => setParmsValue(e.target.value)}

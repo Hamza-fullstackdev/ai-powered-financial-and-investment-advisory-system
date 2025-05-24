@@ -110,6 +110,7 @@ export default function page() {
                   type="text"
                   name="title"
                   id="title"
+                  value={formData.title}
                   required
                   placeholder='e.g. "Retirement Planning", "Buy a house", "Buy a car"'
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
@@ -121,6 +122,7 @@ export default function page() {
                   type="number"
                   name="target-amount"
                   id="target-amount"
+                  value={formData.targetAmount}
                   required
                   min={0}
                   placeholder="Amount in USD, e.g. 100000"
@@ -133,6 +135,7 @@ export default function page() {
                   type="number"
                   name="monthly-investment"
                   id="monthly-investment"
+                  value={formData.monthlyInvestment}
                   required
                   min={0}
                   placeholder="Amount in USD, (e.g., “I can invest $300 monthly for this goal”)"
@@ -145,6 +148,7 @@ export default function page() {
                   type="number"
                   name="savings"
                   id="savings"
+                  value={formData.savings}
                   required
                   min={0}
                   placeholder="Amount in USD,  “I already saved $5,000”"
@@ -157,6 +161,7 @@ export default function page() {
                   type="number"
                   name="time-horizon"
                   id="time-horizon"
+                  value={formData.timeHorizon}
                   required
                   min={0}
                   max={10}
@@ -169,6 +174,7 @@ export default function page() {
                 <Select
                   name="risk-preference"
                   required
+                  value={formData.riskPreference}
                   onValueChange={(value) => setFormData({ ...formData, riskPreference: value })}
                 >
                   <SelectTrigger className="w-full">
@@ -211,6 +217,9 @@ export default function page() {
                         li: ({ node, ...props }) => <li className="mb-1" {...props} />,
                         p: ({ node, ...props }) => (
                           <p className="mb-2 text-gray-800 dark:text-gray-300" {...props} />
+                        ),
+                        strong: ({ node, ...props }) => (
+                          <strong className="font-semibold text-green-600" {...props} />
                         ),
                       }}
                     >

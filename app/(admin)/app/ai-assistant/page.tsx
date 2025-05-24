@@ -107,6 +107,7 @@ export default function AiAssistant() {
           };
           return updated;
         });
+        setPromptToSend('');
         setLoading(false);
       } else {
         setDirectConversation((prev) => {
@@ -118,6 +119,7 @@ export default function AiAssistant() {
           };
           return updated;
         });
+        setPromptToSend('');
         setLoading(false);
       }
     } catch (error) {
@@ -153,6 +155,7 @@ export default function AiAssistant() {
           };
           return updated;
         });
+        setPromptToSend('');
         setLoading(false);
       } else {
         setDirectConversation((prev) => {
@@ -164,6 +167,7 @@ export default function AiAssistant() {
           };
           return updated;
         });
+        setPromptToSend('');
         setLoading(false);
       }
     } catch (error) {
@@ -337,6 +341,7 @@ export default function AiAssistant() {
               id="prompt"
               className="relative w-full py-5 rounded-full"
               placeholder="In Which Stocks to invest?"
+              value={promptToSend}
               onChange={(e) => setPromptToSend(e.target.value)}
               disabled={loading}
             />

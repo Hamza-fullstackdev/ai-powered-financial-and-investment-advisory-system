@@ -113,6 +113,7 @@ export default function page() {
                 <Select
                   name="age"
                   required
+                  value={formData.age}
                   onValueChange={(value) => setFormData({ ...formData, age: value })}
                 >
                   <SelectTrigger className="w-full">
@@ -132,6 +133,7 @@ export default function page() {
                 <Select
                   name="income"
                   required
+                  value={formData.income}
                   onValueChange={(value) => setFormData({ ...formData, income: value })}
                 >
                   <SelectTrigger className="w-full">
@@ -151,6 +153,7 @@ export default function page() {
                 <Select
                   name="savings"
                   required
+                  value={formData.savings}
                   onValueChange={(value) => setFormData({ ...formData, savings: value })}
                 >
                   <SelectTrigger className="w-full">
@@ -169,6 +172,7 @@ export default function page() {
                 <Select
                   name="experience"
                   required
+                  value={formData.experience}
                   onValueChange={(value) => setFormData({ ...formData, experience: value })}
                 >
                   <SelectTrigger className="w-full">
@@ -187,6 +191,7 @@ export default function page() {
                 <Select
                   name="time-horizon"
                   required
+                  value={formData.timeHorizon}
                   onValueChange={(value) => setFormData({ ...formData, timeHorizon: value })}
                 >
                   <SelectTrigger className="w-full">
@@ -205,6 +210,7 @@ export default function page() {
                 <Select
                   name="market-drop"
                   required
+                  value={formData.marketDrop}
                   onValueChange={(value) => setFormData({ ...formData, marketDrop: value })}
                 >
                   <SelectTrigger className="w-full">
@@ -223,6 +229,7 @@ export default function page() {
                 <Select
                   name="financial-goal"
                   required
+                  value={formData.financialGoal}
                   onValueChange={(value) => setFormData({ ...formData, financialGoal: value })}
                 >
                   <SelectTrigger className="w-full">
@@ -243,6 +250,7 @@ export default function page() {
                 <Select
                   name="loss-tolerance"
                   required
+                  value={formData.lossTolerance}
                   onValueChange={(value) => setFormData({ ...formData, lossTolerance: value })}
                 >
                   <SelectTrigger className="w-full">
@@ -263,6 +271,7 @@ export default function page() {
                 <Select
                   name="take-loan"
                   required
+                  value={formData.takeLoan}
                   onValueChange={(value) => setFormData({ ...formData, takeLoan: value })}
                 >
                   <SelectTrigger className="w-full">
