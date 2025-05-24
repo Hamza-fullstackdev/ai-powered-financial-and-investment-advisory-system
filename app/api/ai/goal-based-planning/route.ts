@@ -17,7 +17,7 @@ export async function POST(req: Request) {
   }
   try {
     const aiResponse = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-preview-04-17',
+      model: 'gemini-2.0-flash',
       contents: `Help the user plan for the following goal:
 
 Goal: ${title}

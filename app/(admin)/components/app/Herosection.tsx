@@ -55,7 +55,7 @@ const Herosection = () => {
     };
     const getSpendings = async () => {
       setLoading(true);
-      const res = await fetch('/api/user/transaction/get-spendings', {
+      const res = await fetch('/api/user/transaction/get-all-spendings', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

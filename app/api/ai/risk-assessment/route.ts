@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   }
   try {
     const aiResponse = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-preview-04-17',
+      model: 'gemini-2.0-flash',
       contents: `I want you to analyze a user's risk profile based on the following information. Classify the user as Low Risk, Medium Risk, or High Risk and explain why in 2-3 lines.
 
 User Info:

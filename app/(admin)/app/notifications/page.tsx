@@ -63,8 +63,8 @@ const page = () => {
                       <AlertTitle className="font-semibold text-green-600">
                         {notification.title}
                       </AlertTitle>
-                      <AlertDescription className="text-black">
-                        {notification.message} (
+                      <AlertDescription className="text-black dark:text-gray-400">
+                        {notification.message} - (
                         {new Date(notification?.createdAt).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'long',
