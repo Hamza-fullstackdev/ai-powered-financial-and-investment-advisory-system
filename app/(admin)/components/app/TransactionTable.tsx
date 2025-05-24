@@ -66,7 +66,7 @@ const TransactionTable = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {transactions.map((transaction: any) => (
+                  {transactions.slice(0, 5).map((transaction: any) => (
                     <TableRow key={transaction?._id}>
                       <TableCell className="capitalize">{transaction?.merchantName}</TableCell>
                       <TableCell className="capitalize">{transaction?.category}</TableCell>

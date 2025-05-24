@@ -18,7 +18,7 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: 'Invalid token' }, { status: 403 });
     }
     const userId = decoded.id;
-    const transactions = await Transaction.find({ userId }).limit(5).sort({ createdAt: -1 });
+    const transactions = await Transaction.find({ userId }).sort({ createdAt: -1 });
 
     return NextResponse.json({ transactions });
   } catch (error) {

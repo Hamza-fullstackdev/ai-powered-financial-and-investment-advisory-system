@@ -6,11 +6,11 @@ import {
   CreditCard,
   Goal,
   HandCoins,
+  HandCoinsIcon,
   Handshake,
   Home,
   Inbox,
   Newspaper,
-  Settings,
   ShoppingBag,
   UserRound,
 } from 'lucide-react';
@@ -76,11 +76,6 @@ export function AppSidebar() {
       url: '/app/goal-based-planning',
       icon: Goal,
     },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings,
-    },
   ];
   return (
     <Sidebar>
@@ -116,6 +111,29 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Features</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a href={'/app/profile'}>
+                    <UserRound />
+                    <span>Profile</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a href={'/app/transactions'}>
+                    <HandCoinsIcon />
+                    <span>Transactions</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

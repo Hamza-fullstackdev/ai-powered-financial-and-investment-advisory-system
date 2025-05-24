@@ -39,7 +39,7 @@ export async function GET(req: Request) {
         },
       },
     ]);
-    console.log(spendingByCategory);
+
     return NextResponse.json({ spendingByCategory }, { status: 200 });
   } catch (error) {
     console.error(error);
