@@ -1,14 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis, YAxis } from 'recharts';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   ChartConfig,
   ChartContainer,
@@ -17,7 +10,7 @@ import {
 } from '@/components/ui/chart';
 
 const chartConfig = {
-  amount: {
+  totalAmount: {
     label: 'Amount',
     color: '#000000',
   },
@@ -31,15 +24,15 @@ const Chart = () => {
   const [loading, setLoading] = useState(false);
   const [chartData, setChartData] = useState([
     {
+      totalAmount: 0,
       category: '',
-      amount: 0,
     },
   ]);
 
   useEffect(() => {
     const fetchUserSpendings = async () => {
       setLoading(true);
-      const res = await fetch('/api/user/transaction/get-spendings', {
+      const res = await fetch('/api/user/transaction/statistics', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -48,14 +41,13 @@ const Chart = () => {
       const data = await res.json();
       setLoading(false);
       if (res.ok) {
-        setChartData(
-          (data.transactions as { amount: number; category: string }[]).map(
-            ({ amount, category }) => ({
-              amount,
-              category,
-            })
-          )
-        );
+        const formattedData = (
+          data.spendingByCategory as { totalAmount: number; category: string }[]
+        ).map(({ totalAmount, category }) => ({
+          totalAmount,
+          category,
+        }));
+        setChartData(formattedData);
         setLoading(false);
         setShowCard(true);
       } else {
@@ -84,11 +76,7 @@ const Chart = () => {
               <CardTitle className="text-xl">Most Recent Spendings</CardTitle>
               <CardDescription>
                 <div className="leading-none text-muted-foreground">
-                  Showing last 5 transactions in which you spend
-                  <strong className="text-black dark:text-red-600">
-                    {' '}
-                    ${chartData.reduce((sum, item) => sum + item.amount, 0).toFixed(2)}
-                  </strong>
+                  Showing last 30 days spendings by category
                 </div>
               </CardDescription>
             </CardHeader>
@@ -115,9 +103,14 @@ const Chart = () => {
                     tickFormatter={(value) => value.slice(0, 3)}
                     hide
                   />
-                  <XAxis dataKey="amount" type="number" hide />
+                  <XAxis dataKey="totalAmount" type="number" hide />
                   <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-                  <Bar dataKey="amount" layout="vertical" fill="var(--color-desktop)" radius={4}>
+                  <Bar
+                    dataKey="totalAmount"
+                    layout="vertical"
+                    fill="var(--color-desktop)"
+                    radius={4}
+                  >
                     <LabelList
                       dataKey="category"
                       position="insideLeft"
@@ -126,7 +119,7 @@ const Chart = () => {
                       fontSize={12}
                     />
                     <LabelList
-                      dataKey="amount"
+                      dataKey="totalAmount"
                       position="right"
                       offset={8}
                       className="#000000"

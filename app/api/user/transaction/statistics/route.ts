@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { config } from '@/app/api/utils/env-config';
 import { NextResponse } from 'next/server';
 import Transaction from '@/app/model/Transaction';
+import mongoose from 'mongoose';
 
 export async function GET(req: Request) {
   await connectToDatabase();
@@ -18,9 +19,28 @@ export async function GET(req: Request) {
       return NextResponse.json({ message: 'Invalid token' }, { status: 403 });
     }
     const userId = decoded.id;
-    const transactions = await Transaction.find({ userId }).limit(5).sort({ createdAt: -1 });
-
-    return NextResponse.json({ transactions });
+    const spendingByCategory = await Transaction.aggregate([
+      {
+        $match: {
+          userId: new mongoose.Types.ObjectId(userId),
+        },
+      },
+      {
+        $group: {
+          _id: '$category',
+          totalAmount: { $sum: '$amount' },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          category: '$_id',
+          totalAmount: 1,
+        },
+      },
+    ]);
+    console.log(spendingByCategory);
+    return NextResponse.json({ spendingByCategory }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Something went wrong' }, { status: 500 });
