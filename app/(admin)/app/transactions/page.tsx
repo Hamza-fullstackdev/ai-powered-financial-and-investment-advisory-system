@@ -1,14 +1,23 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useEffect, useState } from 'react';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
 
 interface IDBTransaction {
   amount: number;
@@ -17,30 +26,39 @@ interface IDBTransaction {
   category: string;
   description: string;
 }
-export default function page() {
+
+export default function Page() {
   const [transactions, setTransactions] = useState<IDBTransaction[]>([]);
   const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const recordsPerPage = 10;
+  const totalPages = Math.ceil(transactions.length / recordsPerPage);
 
   useEffect(() => {
     const fetchUserSpendings = async () => {
       setLoading(true);
-      const res = await fetch('/api/user/transaction/get-spendings', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const res = await fetch('/api/user/transaction/get-spendings');
       const data = await res.json();
-      setLoading(false);
       if (res.ok) {
-        setTransactions(data.transactions);
-        setLoading(false);
-      } else {
-        setLoading(false);
+        setTransactions(data.transactions || []);
       }
+      setLoading(false);
     };
     fetchUserSpendings();
   }, []);
+
+  const paginatedData = transactions.slice(
+    (currentPage - 1) * recordsPerPage,
+    currentPage * recordsPerPage
+  );
+
+  const handlePageChange = (page: number) => {
+    if (page > 0 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <section>
       <h1 className="text-center text-2xl font-semibold">
@@ -50,57 +68,92 @@ export default function page() {
         <Table className="w-full">
           <TableHeader>
             <TableRow>
-              <TableHead className="text-black dark:text-gray-400 font-semibold">#</TableHead>
-              <TableHead className="text-black dark:text-gray-400 font-semibold">Date</TableHead>
-              <TableHead className="text-black dark:text-gray-400 font-semibold">Title</TableHead>
-              <TableHead className="text-black dark:text-gray-400 font-semibold">Amount</TableHead>
-              <TableHead className="text-black dark:text-gray-400 font-semibold">
-                Category
-              </TableHead>
-              <TableHead className="text-black dark:text-gray-400 font-semibold">
-                Description
-              </TableHead>
+              <TableHead>#</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Title</TableHead>
+              <TableHead>Amount</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Description</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {loading && (
+            {loading ? (
               <TableRow>
-                <TableCell colSpan={6} className="h-24 text-center">
+                <TableCell colSpan={6}>
                   <Skeleton className="w-full h-[400px]" />
                 </TableCell>
               </TableRow>
-            )}
-            {transactions.map((transaction, index) => (
-              <TableRow key={index}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell className="font-medium">
-                  {new Date(transaction?.date).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </TableCell>
-                <TableCell className="font-medium capitalize">
-                  {transaction?.merchantName}
-                </TableCell>
-                <TableCell className="font-medium">${transaction?.amount}</TableCell>
-                <TableCell className="capitalize">
-                  <span className="bg-green-700 text-sm px-2 py-1 rounded text-white">
-                    {transaction?.category}
-                  </span>
-                </TableCell>
-                <TableCell className="font-medium">
-                  {transaction?.description.slice(0, 20).concat('...')}
-                </TableCell>
-              </TableRow>
-            )) || (
+            ) : paginatedData.length > 0 ? (
+              paginatedData.map((transaction, index) => (
+                <TableRow key={index}>
+                  <TableCell>{(currentPage - 1) * recordsPerPage + index + 1}</TableCell>
+                  <TableCell>
+                    {new Date(transaction.date).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </TableCell>
+                  <TableCell className="capitalize">{transaction.merchantName}</TableCell>
+                  <TableCell>${transaction.amount}</TableCell>
+                  <TableCell>
+                    <span className="bg-green-700 text-sm px-2 py-1 rounded text-white capitalize">
+                      {transaction.category}
+                    </span>
+                  </TableCell>
+                  <TableCell>{transaction.description.slice(0, 20)}...</TableCell>
+                </TableRow>
+              ))
+            ) : (
               <TableRow>
-                <TableCell colSpan={6} className="h-24 text-center">
+                <TableCell colSpan={6} className="text-center">
                   No transactions found.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
+          <TableFooter>
+            <TableRow>
+              <TableCell colSpan={6}>
+                <Pagination>
+                  <PaginationContent>
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(currentPage - 1);
+                        }}
+                      />
+                    </PaginationItem>
+                    {[...Array(totalPages)].map((_, idx) => (
+                      <PaginationItem key={idx}>
+                        <PaginationLink
+                          href="#"
+                          isActive={currentPage === idx + 1}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handlePageChange(idx + 1);
+                          }}
+                        >
+                          {idx + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
+                    <PaginationItem>
+                      <PaginationNext
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handlePageChange(currentPage + 1);
+                        }}
+                      />
+                    </PaginationItem>
+                  </PaginationContent>
+                </Pagination>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
       </div>
     </section>
