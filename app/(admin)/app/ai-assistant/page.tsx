@@ -251,11 +251,15 @@ export default function AiAssistant() {
                     table: ({ node, ...props }) => <Table {...props} />,
                     thead: ({ node, ...props }) => <TableHeader {...props} />,
                     th: ({ node, ...props }) => (
-                      <TableHead className="italic text-gray-700" {...props} />
+                      <TableHead className="dark:text-gray-400" {...props} />
                     ),
                     tbody: ({ node, ...props }) => <TableBody {...props} />,
-                    tr: ({ node, ...props }) => <TableRow {...props} />,
-                    td: ({ node, ...props }) => <TableCell {...props} />,
+                    tr: ({ node, ...props }) => (
+                      <TableRow className="hover:dark:bg-slate-700" {...props} />
+                    ),
+                    td: ({ node, ...props }) => (
+                      <TableCell className="dark:text-gray-400" {...props} />
+                    ),
                   }}
                 >
                   {item?.response}
@@ -317,11 +321,15 @@ export default function AiAssistant() {
                       table: ({ node, ...props }) => <Table {...props} />,
                       thead: ({ node, ...props }) => <TableHeader {...props} />,
                       th: ({ node, ...props }) => (
-                        <TableHead className="italic text-gray-700" {...props} />
+                        <TableHead className="dark:text-gray-400" {...props} />
                       ),
                       tbody: ({ node, ...props }) => <TableBody {...props} />,
-                      tr: ({ node, ...props }) => <TableRow {...props} />,
-                      td: ({ node, ...props }) => <TableCell {...props} />,
+                      tr: ({ node, ...props }) => (
+                        <TableRow className="hover:dark:bg-slate-700" {...props} />
+                      ),
+                      td: ({ node, ...props }) => (
+                        <TableCell className="dark:text-gray-400" {...props} />
+                      ),
                     }}
                   >
                     {item.response}

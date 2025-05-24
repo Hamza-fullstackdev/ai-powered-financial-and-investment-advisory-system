@@ -14,7 +14,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
       <SidebarProvider>
         <AppSidebar />
         <main className="w-full bg-white dark:bg-slate-900">
-          <SidebarTrigger />
+          <SidebarTrigger className="sticky top-0 z-99" />
           <AppHeader />
           <div className="px-4 sm:px-6">{children}</div>
         </main>

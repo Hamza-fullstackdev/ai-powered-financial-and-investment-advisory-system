@@ -30,6 +30,7 @@ export default function Page() {
   const router = useRouter();
   useEffect(() => {
     const getUserDetails = async () => {
+      setLoading(true);
       const apis = ['/api/user/get-account', '/api/user/card-details'];
       const data = await Promise.all(
         apis.map((api) =>
@@ -38,8 +39,14 @@ export default function Page() {
             .catch((error) => console.log(error))
         )
       );
-      setFormData(data[0].getAccountInfo);
-      setCardDetails(data[1].getCardInfo[0]);
+      setLoading(false);
+      if (data) {
+        setFormData(data[0]?.getAccountInfo);
+        setCardDetails(data[1]?.getCardInfo[0]);
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
     };
     getUserDetails();
   }, []);
@@ -60,6 +67,7 @@ export default function Page() {
   const handleFormData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const res = await fetch('/api/user/account-details', {
         method: 'POST',
         headers: {
@@ -68,6 +76,7 @@ export default function Page() {
         body: JSON.stringify({ ...formData, ...cardDetails }),
       });
       const data = await res.json();
+      setLoading(false);
       if (res.ok) {
         router.push('/app');
       } else {
@@ -90,7 +99,8 @@ export default function Page() {
               type="number"
               id="totalBalance"
               name="totalBalance"
-              value={formData.totalBalance}
+              disabled={loading}
+              value={formData?.totalBalance}
               onChange={handleInputChangeForAccount}
             />
           </div>
@@ -100,7 +110,8 @@ export default function Page() {
               type="number"
               id="amountInvested"
               name="amountInvested"
-              value={formData.amountInvested}
+              disabled={loading}
+              value={formData?.amountInvested}
               onChange={handleInputChangeForAccount}
             />
           </div>
@@ -110,7 +121,8 @@ export default function Page() {
               type="number"
               id="monthlyIncome"
               name="monthlyIncome"
-              value={formData.monthlyIncome}
+              disabled={loading}
+              value={formData?.monthlyIncome}
               onChange={handleInputChangeForAccount}
             />
           </div>
@@ -120,7 +132,8 @@ export default function Page() {
               type="number"
               id="monthlyBudget"
               name="monthlyBudget"
-              value={formData.monthlyBudget}
+              disabled={loading}
+              value={formData?.monthlyBudget}
               onChange={handleInputChangeForAccount}
             />
           </div>
@@ -129,7 +142,8 @@ export default function Page() {
             <Select
               name="accountType"
               required
-              value={formData.accountType}
+              disabled={loading}
+              value={formData?.accountType}
               onValueChange={(value) => setFormData({ ...formData, accountType: value })}
             >
               <SelectTrigger className="w-full">
@@ -153,6 +167,7 @@ export default function Page() {
                 type="number"
                 id="cardNumber"
                 name="cardNumber"
+                disabled={loading}
                 value={cardDetails?.cardNumber}
                 onChange={handleInputChangeForCard}
               />
@@ -163,6 +178,7 @@ export default function Page() {
                 type="text"
                 id="cardHolder"
                 name="cardHolder"
+                disabled={loading}
                 value={cardDetails?.cardHolder}
                 onChange={handleInputChangeForCard}
               />
@@ -173,6 +189,7 @@ export default function Page() {
                 type="number"
                 id="cardCvc"
                 name="cardCvc"
+                disabled={loading}
                 value={cardDetails?.cardCvc}
                 onChange={handleInputChangeForCard}
               />
@@ -180,7 +197,7 @@ export default function Page() {
           </div>
         </div>
         <div>
-          <Button type="submit" className="w-full cursor-pointer" size={'lg'}>
+          <Button disabled={loading} type="submit" className="w-full cursor-pointer" size={'lg'}>
             Update
           </Button>
         </div>
