@@ -42,40 +42,69 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 403 });
     }
     const userId = decoded.id;
-    const isAccountExist = await Card.findOne({ cardNumber });
-    if (isAccountExist) {
-      return NextResponse.json({ message: 'Card already exists' }, { status: 400 });
+
+    const existingAccount = await Account.findOne({ userId });
+    if (existingAccount) {
+      await Account.updateOne(
+        { userId },
+        { totalBalance, amountInvested, monthlyIncome, monthlyBudget, accountType }
+      );
+
+      await Notification.create({
+        userId,
+        type: 'Account Update',
+        title: 'Account Updated',
+        message: 'Your account details were updated successfully',
+      });
+    } else {
+      await Account.create({
+        userId,
+        totalBalance,
+        amountInvested,
+        monthlyIncome,
+        monthlyBudget,
+        accountType,
+      });
+
+      await Notification.create({
+        userId,
+        type: 'Account Creation',
+        title: 'New Account Created',
+        message: 'Your account has been created successfully',
+      });
     }
-    const newAccount = new Account({
-      totalBalance,
-      amountInvested,
-      monthlyIncome,
-      monthlyBudget,
-      accountType,
-      userId,
-    });
-    const newCard = new Card({
-      cardNumber,
-      cardHolder,
-      cardCvc,
-      userId,
-    });
-    await newAccount.save();
-    await newCard.save();
-    await Notification.create({
-      userId,
-      type: 'Account Creation',
-      title: 'Account Creation',
-      message: 'Your account has been created successfully',
-    });
-    await Notification.create({
-      userId,
-      type: 'New Card',
-      title: 'New Card Added',
-      message: 'Your card has been added successfully',
-    });
-    return NextResponse.json({ message: 'Account created successfully' }, { status: 201 });
+    const existingCard = await Card.findOne({ userId });
+    if (existingCard) {
+      await Card.updateOne({ userId }, { cardNumber, cardHolder, cardCvc });
+
+      await Notification.create({
+        userId,
+        type: 'Card Update',
+        title: 'Card Updated',
+        message: 'Your card details were updated successfully',
+      });
+    } else {
+      await Card.create({
+        userId,
+        cardNumber,
+        cardHolder,
+        cardCvc,
+      });
+
+      await Notification.create({
+        userId,
+        type: 'New Card',
+        title: 'Card Added',
+        message: 'Your new card has been added successfully',
+      });
+    }
+
+    return NextResponse.json(
+      { message: 'Account and card processed successfully' },
+      { status: 201 }
+    );
   } catch (error) {
-    return NextResponse.json({ message: 'Error creating account' }, { status: 500 });
+    console.error('Error:', error);
+    return NextResponse.json({ message: 'Server error occurred' }, { status: 500 });
   }
 }

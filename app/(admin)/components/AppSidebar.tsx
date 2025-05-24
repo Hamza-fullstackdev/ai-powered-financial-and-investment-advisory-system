@@ -134,6 +134,14 @@ export function AppSidebar() {
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <a href={'/app/billing'}>
+                    <CreditCard />
+                    <span>Billing</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
