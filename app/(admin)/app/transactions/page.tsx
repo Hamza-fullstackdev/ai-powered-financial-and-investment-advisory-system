@@ -18,6 +18,17 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from '@/components/ui/pagination';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 
 interface IDBTransaction {
   amount: number;
@@ -25,6 +36,7 @@ interface IDBTransaction {
   date: string;
   category: string;
   description: string;
+  createdAt: string;
 }
 
 export default function Page() {
@@ -85,24 +97,64 @@ export default function Page() {
               </TableRow>
             ) : paginatedData.length > 0 ? (
               paginatedData.map((transaction, index) => (
-                <TableRow key={index}>
-                  <TableCell>{(currentPage - 1) * recordsPerPage + index + 1}</TableCell>
-                  <TableCell>
-                    {new Date(transaction.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                    })}
-                  </TableCell>
-                  <TableCell className="capitalize">{transaction.merchantName}</TableCell>
-                  <TableCell>${transaction.amount}</TableCell>
-                  <TableCell>
-                    <span className="bg-green-700 text-sm px-2 py-1 rounded text-white capitalize">
-                      {transaction.category}
-                    </span>
-                  </TableCell>
-                  <TableCell>{transaction.description.slice(0, 20)}...</TableCell>
-                </TableRow>
+                <Dialog key={index}>
+                  <DialogTrigger asChild>
+                    <TableRow>
+                      <TableCell>{(currentPage - 1) * recordsPerPage + index + 1}</TableCell>
+                      <TableCell>
+                        {new Date(transaction.date).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </TableCell>
+                      <TableCell className="capitalize">{transaction.merchantName}</TableCell>
+                      <TableCell>${transaction.amount}</TableCell>
+                      <TableCell>
+                        <span className="bg-green-700 text-sm px-2 py-1 rounded text-white capitalize">
+                          {transaction.category}
+                        </span>
+                      </TableCell>
+                      <TableCell>{transaction.description.slice(0, 20)}...</TableCell>
+                    </TableRow>
+                  </DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{transaction.merchantName}</DialogTitle>
+                      <DialogDescription>{transaction.description}</DialogDescription>
+                    </DialogHeader>
+                    <Separator />
+                    <div className="flex flex-col gap-2">
+                      <p>
+                        <span className="font-semibold">Amount:</span> ${transaction.amount}
+                      </p>
+                      <p className="capitalize">
+                        <span className="font-semibold">Category:</span> {transaction.category}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Date:</span>{' '}
+                        {new Date(transaction.date).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </p>
+                      <p>
+                        <span className="font-semibold">Transaction Added:</span>{' '}
+                        {new Date(transaction?.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                      </p>
+                    </div>
+                    <DialogFooter>
+                      <DialogTrigger>
+                        <Button className="cursor-pointer">Close</Button>
+                      </DialogTrigger>
+                    </DialogFooter>
+                  </DialogContent>
+                </Dialog>
               ))
             ) : (
               <TableRow>
