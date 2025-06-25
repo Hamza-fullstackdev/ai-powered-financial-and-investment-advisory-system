@@ -81,7 +81,7 @@ export default function AiAssistant() {
     e.preventDefault();
     setDirectConversation((prev) => [
       ...prev,
-      { prompt: promptToSend, response: '', loading: true },
+      { prompt: promptToSend.trim(), response: '', loading: true },
     ]);
     setTimeout(() => {
       bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -93,7 +93,7 @@ export default function AiAssistant() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt: promptToSend, userId: currentUser?._id }),
+        body: JSON.stringify({ prompt: promptToSend.trim(), userId: currentUser?._id }),
       });
       const data = await res.json();
       setLoading(false);
@@ -358,7 +358,7 @@ export default function AiAssistant() {
             <Button
               type="submit"
               className="absolute top-0 right-0 py-5 cursor-pointer rounded-full"
-              disabled={loading || !promptToSend}
+              disabled={loading || !promptToSend.trim()}
             >
               <ArrowUp size={20} />
             </Button>
