@@ -33,6 +33,7 @@ Traditional financial advisory services often lack personalization, require high
 - **AI-Based Financial Advice (via AI Modal):** Receive tailored financial guidance and investment recommendations based on your goals and risk profile.  
 - **Risk Profile Assessment:** Complete an AI-driven risk assessment to better understand your risk tolerance and get personalized investment strategies.  
 - **Goal-Based Planning:** Set and track financial goals such as retirement savings, wealth accumulation, or major purchases with AI-powered planning tools. 
+- **Financial Health Score:** Get a personalized score based on your income, expenses, savings, debt, and investments — helping you understand and improve your overall financial well-being.
 - **Investment Suggestions (AI Insights):** Get dynamic investment suggestions, rebalancing advice, and asset allocation tips based on market trends and your personal preferences.  
 - **News & Alerts Section:** Stay informed with the latest financial news, market alerts, and AI-curated updates relevant to your investments..
 - **Chat with AI Advisor:** Engage in real-time conversations with an AI financial advisor to get instant answers to investment questions and strategic advice.
