@@ -8,6 +8,7 @@ import {
   HandCoins,
   HandCoinsIcon,
   Handshake,
+  HeartPulse,
   Home,
   Inbox,
   Newspaper,
@@ -75,6 +76,11 @@ export function AppSidebar() {
       title: 'Goal-Based Planning',
       url: '/app/goal-based-planning',
       icon: Goal,
+    },
+    {
+      title: 'Health Score',
+      url: '/app/financial-health-score',
+      icon: HeartPulse,
     },
   ];
   return (
