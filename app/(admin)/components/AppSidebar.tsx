@@ -58,11 +58,6 @@ export function AppSidebar() {
       icon: Inbox,
     },
     {
-      title: 'Market place',
-      url: '/app/marketplace',
-      icon: ShoppingBag,
-    },
-    {
       title: 'Latest News',
       url: '/app/news',
       icon: Newspaper,

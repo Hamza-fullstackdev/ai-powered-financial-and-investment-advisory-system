@@ -89,7 +89,7 @@ export default function page() {
     }
   };
   return (
-    <section>
+    <section className="my-5">
       <form onSubmit={handleSubmitForm}>
         <Card className="mx-auto w-full md:w-[800px]">
           <CardHeader>
@@ -294,7 +294,7 @@ export default function page() {
                   Calculate Risk Using Ai
                 </Button>
               </DialogTrigger>
-              <DialogContent className="h-[500px] md:h-[570px] overflow-auto">
+              <DialogContent className="max-h-[500px] md:max-h-[550px] overflow-auto">
                 <DialogHeader>
                   <DialogTitle>Ai Analysis Result</DialogTitle>
                 </DialogHeader>

@@ -89,8 +89,8 @@ export default function HealthScore() {
     }
   };
   return (
-    <form onSubmit={handleFormData}>
-      <Card className="w-[80%] mx-auto">
+    <form className="my-5" onSubmit={handleFormData}>
+      <Card className="w-full sm:w-[80%] mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl">Financial Health Score</CardTitle>
           <CardDescription>Calculate your financial health score</CardDescription>
@@ -102,7 +102,7 @@ export default function HealthScore() {
               <AlertDescription>{errorMessage}</AlertDescription>
             </Alert>
           )}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {[
               {
                 label: 'Monthly Income',
@@ -170,7 +170,7 @@ export default function HealthScore() {
                   Calculate Score
                 </Button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className="max-h-[500px] md:max-h-[550px] overflow-auto">
                 <DialogHeader>
                   <DialogTitle>Financial Health Score</DialogTitle>
                   <DialogDescription>Score: {healthScore}</DialogDescription>

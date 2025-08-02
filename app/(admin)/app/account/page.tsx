@@ -16,7 +16,7 @@ const page = () => {
       <div>
         <Card className="mx-auto w-full md:w-[700px] my-10">
           <CardHeader>
-            <CardTitle>Account</CardTitle>
+            <CardTitle className="text-2xl">Account</CardTitle>
             <CardDescription>Manage your account settings</CardDescription>
           </CardHeader>
           <CardContent>

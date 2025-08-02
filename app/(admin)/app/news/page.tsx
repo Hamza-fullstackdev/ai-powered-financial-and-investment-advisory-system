@@ -168,27 +168,29 @@ export default function page() {
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button
-                        className="w-full bg-gradient-to-r from-green-700 via-green-600 to-green-500 text-white cursor-pointer"
+                        className="w-full bg-gradient-to-r bg-[#182641] text-white cursor-pointer"
                         size={'lg'}
                         onClick={() => callGeminiApi(item?.content?.canonicalUrl?.url)}
                       >
                         Summarize news using Ai
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="h-[500px] md:h-[570px] overflow-auto">
+                    <DialogContent className="max-h-[500px] md:max-h-[550px] overflow-auto">
                       <DialogHeader>
                         <DialogTitle>Summarized news using Ai</DialogTitle>
                       </DialogHeader>
                       <Separator />
-                      {loader ? (
-                        <div className="flex items-center justify-center">
-                          <Loader2 className="animate-spin" />
-                        </div>
-                      ) : (
-                        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
-                          {summary}
-                        </ReactMarkdown>
-                      )}
+                      <div>
+                        {loader ? (
+                          <div className="flex items-center justify-center">
+                            <Loader2 className="animate-spin" />
+                          </div>
+                        ) : (
+                          <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+                            {summary}
+                          </ReactMarkdown>
+                        )}
+                      </div>
                     </DialogContent>
                   </Dialog>
                 </div>
