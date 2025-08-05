@@ -8,49 +8,109 @@ import jwt from 'jsonwebtoken';
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
-export async function POST(req: Request) {
-  const { prompt, userId } = await req.json();
-  if (!prompt) {
-    return NextResponse.json({ message: 'Please give a prompt to continue' }, { status: 400 });
-  }
-  try {
-    const aiResponse = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
-      contents: `You are a professional financial and investment advisory assistant. Your tone is helpful, confident, and courteous.
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(() => {
+      reject(new Error('AI request timed out'));
+    }, ms);
 
-Your ONLY job is to provide detailed advice, analysis, or guidance related to:
-- finance
-- investment
-- personal wealth
-- stock markets
-- economics
-- retirement or savings planning
-
-ONLY answer if the user query is related to these topics.
-
-Avoid generic disclaimers like "I'm not a financial advisor", "consult with a qualified financial advisor" or "This is not financial advice.
-
-Here is the user prompt: ${prompt}`,
-    });
-
-    const aiResponseText = aiResponse.text;
-    const existing = await Conservation.findOne({ userId });
-
-    if (existing) {
-      await Conservation.updateOne(
-        { userId },
-        { $push: { conservation: { prompt, response: aiResponseText } } }
-      );
-    } else {
-      await Conservation.create({
-        userId,
-        conservation: [{ prompt, response: aiResponseText }],
+    promise
+      .then((value) => {
+        clearTimeout(timer);
+        resolve(value);
+      })
+      .catch((err) => {
+        clearTimeout(timer);
+        reject(err);
       });
+  });
+}
+export async function POST(req: Request) {
+  try {
+    await connectToDatabase();
+
+    const { prompt, userId } = await req.json();
+
+    if (!prompt || typeof prompt !== 'string') {
+      return NextResponse.json(
+        { message: 'Prompt is required and must be a string.' },
+        { status: 400 }
+      );
     }
+
+    if (!userId || typeof userId !== 'string') {
+      return NextResponse.json(
+        { message: 'User ID is required and must be a string.' },
+        { status: 400 }
+      );
+    }
+
+    const modelPrompt = `
+You are a finance and investment assistant. Reply confidently and helpfully on topics like:
+- finance, investment, wealth, stocks, economics, savings, retirement.
+
+Only respond if relevant. Do NOT include disclaimers.
+
+User prompt: ${prompt}
+`;
+    const aiResponse = await withTimeout(
+      ai.models.generateContent({
+        model: 'gemini-2.0-flash',
+        contents: modelPrompt,
+      }),
+      15000
+    );
+
+    const aiResponseText = aiResponse?.text?.trim();
+
+    if (!aiResponseText) {
+      return NextResponse.json({ message: 'AI failed to return a response.' }, { status: 502 });
+    }
+    try {
+      const existing = await Conservation.findOne({ userId });
+
+      if (existing) {
+        await Conservation.updateOne(
+          { userId },
+          { $push: { conservation: { prompt, response: aiResponseText } } }
+        );
+      } else {
+        await Conservation.create({
+          userId,
+          conservation: [{ prompt, response: aiResponseText }],
+        });
+      }
+    } catch (dbError: any) {
+      console.error('DB Error:', dbError);
+
+      if (dbError.name === 'MongoNetworkError') {
+        return NextResponse.json({ message: 'Database connection failed.' }, { status: 503 });
+      }
+
+      if (dbError.code === 11000) {
+        return NextResponse.json({ message: 'Duplicate entry error.' }, { status: 409 });
+      }
+
+      if (dbError.message?.includes('validation failed')) {
+        return NextResponse.json(
+          { message: 'Invalid data format while saving conversation.' },
+          { status: 400 }
+        );
+      }
+
+      return NextResponse.json({ message: 'Failed to save conversation.' }, { status: 500 });
+    }
+
     return NextResponse.json({ aiResponse: aiResponseText });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ message: 'Something went wrong' }, { status: 500 });
+  } catch (error: any) {
+    if (error.message === 'AI request timed out') {
+      return NextResponse.json(
+        { message: 'The request to the AI model timed out.' },
+        { status: 504 }
+      );
+    }
+
+    return NextResponse.json({ message: 'Something went wrong.' }, { status: 500 });
   }
 }
 
