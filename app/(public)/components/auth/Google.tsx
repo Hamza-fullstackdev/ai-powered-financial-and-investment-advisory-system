@@ -75,7 +75,7 @@ const Google = () => {
           className="w-6 h-6"
         />
         <span className="text-sm font-medium text-gray-700">
-          {loading ? 'loading...' : 'Sign up with Google'}
+          {loading ? 'loading...' : 'Continue with Google'}
         </span>
       </button>
     </>
