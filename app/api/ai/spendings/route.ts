@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { config } from '@/app/api/utils/env-config';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
+const genAI = new GoogleGenerativeAI(config.llmApiKey!);
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -20,7 +21,7 @@ export async function POST(req: Request) {
       - Date (in ISO format)
       - Description or items purchased (brief summary)
       - Merchant/store name
-      - Suggested category (one of: housing,transportation,groceries,utilities,entertainment,food,shopping,healthcare,education,personal,other-expense )
+      - Suggested category (one of: housing,transportation,groceries,utilities,entertainment,food,shopping,healthcare,education,personal,other-expense)
       
       Only respond with valid JSON in this exact format:
       {

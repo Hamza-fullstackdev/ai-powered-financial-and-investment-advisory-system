@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
+import { config } from '@/app/api/utils/env-config';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+const ai = new GoogleGenAI({ apiKey: config.llmApiKey! });
 export async function POST(req: Request) {
   const { title, targetAmount, savings, timeHorizon, riskPreference, monthlyInvestment } =
     await req.json();
@@ -17,7 +18,7 @@ export async function POST(req: Request) {
   }
   try {
     const aiResponse = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: config.llmModel!,
       contents: `Help the user plan for the following goal:
 
 Goal: ${title}

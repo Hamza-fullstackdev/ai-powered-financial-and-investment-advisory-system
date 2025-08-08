@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 import { config } from '@/app/api/utils/env-config';
 import jwt from 'jsonwebtoken';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+const ai = new GoogleGenAI({ apiKey: config.llmApiKey! });
 
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return new Promise((resolve, reject) => {
@@ -55,7 +55,7 @@ User prompt: ${prompt}
 `;
     const aiResponse = await withTimeout(
       ai.models.generateContent({
-        model: 'gemini-2.0-flash',
+        model: config.llmModel!,
         contents: modelPrompt,
       }),
       15000

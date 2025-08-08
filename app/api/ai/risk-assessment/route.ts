@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
+import { config } from '@/app/api/utils/env-config';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+const ai = new GoogleGenAI({ apiKey: config.llmApiKey! });
 export async function POST(req: Request) {
   const {
     age,
@@ -29,7 +30,7 @@ export async function POST(req: Request) {
   }
   try {
     const aiResponse = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: config.llmModel!,
       contents: `I want you to analyze a user's risk profile based on the following information. Classify the user as Low Risk, Medium Risk, or High Risk and explain why in 2-3 lines.
 
 User Info:

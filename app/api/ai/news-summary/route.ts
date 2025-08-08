@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
+import { config } from '@/app/api/utils/env-config';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+const ai = new GoogleGenAI({ apiKey: config.llmApiKey! });
 
 export async function POST(req: Request) {
   const { url } = await req.json();
@@ -10,7 +11,7 @@ export async function POST(req: Request) {
   }
   try {
     const aiResponse = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: config.llmModel!,
       contents: `Summarize the content of this article news: ${url}`,
     });
 

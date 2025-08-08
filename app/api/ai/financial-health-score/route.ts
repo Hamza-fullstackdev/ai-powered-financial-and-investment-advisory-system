@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI } from '@google/genai';
+import { config } from '@/app/api/utils/env-config';
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+const ai = new GoogleGenAI({ apiKey: config.llmApiKey! });
 export async function POST(req: Request) {
   const { monthlyIncome, totalExpenses, totalDebt, totalInvestments, totalSavings, emergencyFund } =
     await req.json();
@@ -35,7 +36,7 @@ export async function POST(req: Request) {
       return Math.max(0, Math.min(score, 100));
     };
     const aiResponse = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: config.llmModel!,
       contents: `I want you to analyze a user's financial health based on the following information. Classify the user's financial health as Low, Medium, or High and explain why in 2-3 lines.
 
 Monthly Income: $${monthlyIncome}
