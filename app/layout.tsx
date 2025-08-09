@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { Poppins } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import LayoutRapper from '@/app/(public)/components/LayoutRapper';
 import './globals.css';
 import StoreProvider from './StoreProvider';
 import { ThemeProvider } from '@/lib/themes/theme-provider';
 
-const poppins = Poppins({
+const montserrat = Montserrat({
   weight: ['100', '200', '300', '400', '600', '700', '800', '900'],
   subsets: ['latin'],
 });
@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${poppins.className} antialiased !bg-[#E2F3F9] !text-[#182641] dark:!text-white max-w-[1680px] mx-auto`}
+        className={`${montserrat.className} antialiased !bg-[#E2F3F9] !text-[#182641] dark:!text-white max-w-[1680px] mx-auto`}
       >
         <ThemeProvider
           attribute="class"

@@ -3,11 +3,12 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Image from 'next/image';
 import React from 'react';
+import { BadgeCheck } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="pt-20">
-      <div className="w-full md:w-[90%] mx-auto">
+    <section className="mt-20">
+      <div className="px-4 md:px-0 md:w-[90%] mx-auto">
         <div>
           <h1 className="font-bold text-4xl md:text-5xl text-center leading-tight">
             Ai Powered <span className="text-green-600">Financial and Investment</span> Advisory
@@ -53,7 +54,7 @@ const HeroSection = () => {
               </ul>
             </div>
           </div>
-          <div className="order-3 md:order-2 flex items-center justify-center">
+          <div className="relative order-3 md:order-2 flex items-center justify-center">
             <Image
               src={'/happy-family.png'}
               alt="happy-family"
@@ -61,6 +62,12 @@ const HeroSection = () => {
               height={500}
               className="object-cover"
             />
+            <div className="absolute top-[20%] left-[15%] border border-gray-300 rounded-full w-[20px] h-[20px] flex items-center justify-center">
+              <div className="w-2 h-2 rounded-full bg-green-500" />
+            </div>
+            <div className="absolute top-[10%] left-[65%] border border-gray-300 rounded-full w-[30px] h-[30px] flex items-center justify-center">
+              <BadgeCheck size={22} className="text-green-500" />
+            </div>
           </div>
           <div className="order-2 md:order-3 flex items-center justify-start md:justify-center relative">
             <div>

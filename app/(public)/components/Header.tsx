@@ -59,7 +59,7 @@ const Header = () => {
     }
   };
   return (
-    <header className="py-4">
+    <header className="mx-4 sm:mx-16 py-4">
       <div className="flex items-center justify-between">
         <div>
           <Link href={'/'}>
@@ -87,7 +87,7 @@ const Header = () => {
               <Link href={'/'}>Blog</Link>
             </li>
             <li>
-              <Link href={'/'}>Contact</Link>
+              <Link href={'/contact'}>Contact</Link>
             </li>
           </ul>
         </nav>

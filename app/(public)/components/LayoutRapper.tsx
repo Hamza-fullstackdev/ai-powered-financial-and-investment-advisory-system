@@ -23,7 +23,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
   }
 
   return (
-    <div className="px-4 sm:px-16 dark:bg-slate-900">
+    <div className="dark:bg-slate-900">
       <Header />
       {children}
     </div>
