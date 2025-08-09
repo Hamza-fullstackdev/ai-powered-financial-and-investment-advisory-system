@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 
     const modelPrompt = `
 You are a finance and investment assistant. Reply confidently and helpfully on topics like:
-- finance, investment, wealth, stocks, economics, savings, retirement.
+- finance, investment, wealth, stocks, crypto, real estate, economics, savings, retirement.
 
 Only respond if relevant. Do NOT include disclaimers.
 
@@ -130,7 +130,7 @@ export async function GET(req: Request) {
     const conservation = await Conservation.findOne({ userId }).sort({ createdAt: -1 });
     return NextResponse.json({ conservation });
   } catch (err) {
-    console.error('Notification fetch error:', err);
+    console.error('Chatting fetch error:', err);
     return NextResponse.json({ error: 'Something went wrong' }, { status: 500 });
   }
 }

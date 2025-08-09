@@ -210,7 +210,7 @@ export default function AiAssistant() {
         {conservations?.conservation?.map((item, index) => (
           <div key={index}>
             <div className="w-full flex justify-end items-center">
-              <p className="text-black max-w-[80%] w-fit p-5 bg-gray-100 dark:bg-slate-800 dark:text-gray-400 rounded-lg">
+              <p className="text-white max-w-[80%] w-fit p-5 bg-[#182641] dark:bg-slate-800 dark:text-gray-400 rounded-lg">
                 {item?.prompt}
               </p>
             </div>
@@ -272,7 +272,7 @@ export default function AiAssistant() {
           <div key={index}>
             <div className="w-full flex justify-end items-center">
               {item?.prompt && (
-                <p className="text-black max-w-[80%] w-fit p-5 bg-gray-100 dark:bg-slate-800 dark:text-gray-400 rounded-lg">
+                <p className="text-white max-w-[80%] w-fit p-5 bg-[#182641] dark:bg-slate-800 dark:text-gray-400 rounded-lg">
                   {item.prompt}
                 </p>
               )}

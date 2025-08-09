@@ -1,6 +1,7 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import Header from '@/app/(public)/components/Header';
+import Footer from '@/app/(public)/components/Footer';
 import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/app/(admin)/components/AppSidebar';
 import AppHeader from '@/app/(admin)/components/Header';
@@ -26,6 +27,7 @@ export default function LayoutWrapper({ children }: { children: React.ReactNode 
     <div className="dark:bg-slate-900">
       <Header />
       {children}
+      <Footer />
     </div>
   );
 }
