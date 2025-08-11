@@ -29,8 +29,7 @@ export async function POST(req: Request) {
   try {
     await connectToDatabase();
 
-    const { prompt, userId } = await req.json();
-
+    const { prompt, userId, userDetails, userName } = await req.json();
     if (!prompt || typeof prompt !== 'string') {
       return NextResponse.json(
         { message: 'Prompt is required and must be a string.' },
@@ -45,14 +44,42 @@ export async function POST(req: Request) {
       );
     }
 
-    const modelPrompt = `
+    let modelPrompt = '';
+
+    if (userDetails.totalBalance) {
+      modelPrompt = `
 You are a finance and investment assistant. Reply confidently and helpfully on topics like:
 - finance, investment, wealth, stocks, crypto, real estate, economics, savings, retirement.
 
-Only respond if relevant. Do NOT include disclaimers.
+Below are the user financial information:
+Username: ${userName}
+Total Balance: ${userDetails.totalBalance}
+Amount Invested: ${userDetails.amountInvested}
+Monthly Income: ${userDetails.monthlyIncome}
+Monthly Budget: ${userDetails.monthlyBudget}
+
+When responding:
+- Begin your first sentence by addressing the user by their username.
+- Instead of phrases like "Given your data", say "By reading and analyzing your profile".
+- Only respond if the user's question is relevant to the listed topics.
+- Do NOT include disclaimers.
 
 User prompt: ${prompt}
 `;
+    } else {
+      modelPrompt = `
+You are a finance and investment assistant. Reply confidently and helpfully on topics like:
+- finance, investment, wealth, stocks, crypto, real estate, economics, savings, retirement.
+
+When responding:
+- Begin your first sentence by addressing the user by their username.
+- Only respond if the user's question is relevant to the listed topics.
+- Do NOT include disclaimers.
+
+User Name: ${userName}
+User prompt: ${prompt}
+`;
+    }
     const aiResponse = await withTimeout(
       ai.models.generateContent({
         model: config.llmModel!,

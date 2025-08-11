@@ -44,38 +44,57 @@ export default function AiAssistant() {
   const [inilialLoading, setInilialLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [conservations, setConversations] = useState({} as Conversation);
+  const [account, setAccount] = useState({} as any);
   const currentUser = useSelector((state: RootState) => state.user);
   const [directConversation, setDirectConversation] = useState<
     { prompt: string; response: string; loading?: boolean }[]
   >([]);
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const getUserConservation = async () => {
-      try {
-        setInilialLoading(true);
-        const res = await fetch('/api/ai/ai-assistant', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-        const data = await res.json();
+  const getUserConservation = async () => {
+    try {
+      setInilialLoading(true);
+      const res = await fetch('/api/ai/ai-assistant', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const data = await res.json();
+      setInilialLoading(false);
+      if (res.ok) {
+        setConversations(data.conservation);
         setInilialLoading(false);
-        if (res.ok) {
-          setConversations(data.conservation);
-          setInilialLoading(false);
-          setTimeout(() => {
-            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-          }, 100);
-        } else {
-          setInilialLoading(false);
-        }
-      } catch (error) {
-        console.log(error);
+        setTimeout(() => {
+          bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        setInilialLoading(false);
       }
-    };
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getUserConsents = async () => {
+    setLoading(true);
+    const res = await fetch('/api/user/get-account', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const data = await res.json();
+    setLoading(false);
+    if (res.ok) {
+      setLoading(false);
+      setAccount(data.getAccountInfo);
+    }
+  };
+
+  useEffect(() => {
     getUserConservation();
+    getUserConsents();
   }, []);
   const handleFormData = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -93,7 +112,12 @@ export default function AiAssistant() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt: promptToSend.trim(), userId: currentUser?._id }),
+        body: JSON.stringify({
+          userDetails: account,
+          prompt: promptToSend.trim(),
+          userId: currentUser?._id,
+          userName: currentUser?.fname,
+        }),
       });
       const data = await res.json();
       setLoading(false);
@@ -141,7 +165,12 @@ export default function AiAssistant() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt, userId: currentUser?._id }),
+        body: JSON.stringify({
+          userDetails: account,
+          prompt,
+          userId: currentUser?._id,
+          userName: currentUser?.fname,
+        }),
       });
       const data = await res.json();
       setLoading(false);
