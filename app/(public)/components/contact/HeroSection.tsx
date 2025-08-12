@@ -6,13 +6,13 @@ import React from 'react';
 
 const HeroSection = () => {
   return (
-    <section className="mx-4 sm:mx-16 my-20 relative">
+    <section id='contact' className="mx-4 sm:mx-16 my-20 relative">
       <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
         <Image src="/arrow-2.png" alt="Arrow" width={100} height={100} className="object-cover" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8">
         <div>
-          <h1 className="font-bold text-4xl md:text-5xl leading-tight">
+          <h1 className="font-bold text-4xl leading-tight">
             Connect with us for expert advice
           </h1>
           <div className="my-8 grid grid-cols-1 md:grid-cols-2 gap-5">

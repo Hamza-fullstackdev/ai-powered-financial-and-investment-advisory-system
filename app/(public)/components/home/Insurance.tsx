@@ -22,15 +22,16 @@ const Insurance = () => {
             <BadgeCheck size={22} className="text-green-500" />
           </div>
         </div>
-        <div className="flex flex-col gap-5">
-          <h3 className="text-4xl md:text-5xl font-semibold leading-tight">
-            Your Trusted Insurance Agent since 1990
+        <div id='services' className="flex flex-col gap-4">
+          <h3 className="text-4xl font-semibold leading-tight">
+            Your AI-powered Personal Financial Advisor
           </h3>
           <p>
-            Consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna
-            aliquaenim aminim veniam nostrud consecte elit.
+            From paying off debt to saving for your future, Tendi is an AI-powered personal
+            financial advisor that helps you understand, plan, and achieve your financial goals with
+            ease.
           </p>
-          <div className="my-3 grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="my-2 grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <div className="border border-gray-300 rounded-md p-4">
                 <div className="flex items-center gap-2">
@@ -40,7 +41,7 @@ const Insurance = () => {
                   <h3 className="font-semibold">Easy to claim insurance</h3>
                 </div>
                 <p className="mt-2">
-                  Consectetur adipiscing elit sed do eiusmod tempor incididunt.
+                  Consectetur adipiscing elit sed do eiusmod tempor.
                 </p>
               </div>
             </div>
@@ -63,7 +64,7 @@ const Insurance = () => {
                   </div>
                   <h3 className="font-semibold">Retirement Planning</h3>
                 </div>
-                <p className="mt-2">Reprehenderit qui in ea voluptate velit esse quam nihil.</p>
+                <p className="mt-2">Reprehenderit qui in ea voluptate velit esse quam.</p>
               </div>
             </div>
             <div>

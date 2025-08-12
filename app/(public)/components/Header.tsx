@@ -73,21 +73,21 @@ const Header = () => {
           </Link>
         </div>
         <nav>
-          <ul className="hidden md:flex items-center justify-between gap-x-14">
+          <ul className="hidden md:flex items-center justify-between gap-x-8">
             <li>
-              <Link href={'/'}>Home</Link>
+              <Link href={'#services'} className='font-[500]'>Services</Link>
             </li>
             <li>
-              <Link href={'/'}>Service</Link>
+              <Link href={'#intro'} className='font-[500]'>What is Finovate?</Link>
             </li>
             <li>
-              <Link href={'/'}>Pages</Link>
+              <Link href={'#how-it-works'} className='font-[500]'>How it works</Link>
             </li>
             <li>
-              <Link href={'/'}>Blog</Link>
+              <Link href={'#why'} className='font-[500]'>Why we created it?</Link>
             </li>
             <li>
-              <Link href={'/contact'}>Contact</Link>
+              <Link href={'#contact'} className='font-[500]'>Contact</Link>
             </li>
           </ul>
         </nav>
