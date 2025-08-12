@@ -38,7 +38,6 @@ export default function HealthScore() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [healthScore, setHealthScore] = useState('');
   const [response, setResponse] = useState('');
   const [openModal, setOpenModal] = useState(false);
 
@@ -74,7 +73,6 @@ export default function HealthScore() {
           totalSavings: '',
           emergencyFund: '',
         });
-        setHealthScore(data.financialHealthScore ?? 'Failed to calculate');
         setResponse(data.aiResponse ?? 'Something went wrong');
       } else {
         setError(true);
@@ -173,7 +171,6 @@ export default function HealthScore() {
               <DialogContent className="max-h-[500px] md:max-h-[550px] overflow-auto">
                 <DialogHeader>
                   <DialogTitle>Financial Health Score</DialogTitle>
-                  <DialogDescription>Score: {healthScore}</DialogDescription>
                 </DialogHeader>
                 <Separator />
                 <div>

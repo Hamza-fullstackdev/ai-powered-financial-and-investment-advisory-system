@@ -7,7 +7,7 @@ import { BadgeCheck } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="mt-20">
+    <section className="mt-14 md:mt-20">
       <div className="px-4 md:px-0 md:w-[90%] mx-auto">
         <div>
           <h1 className="font-bold text-4xl md:text-5xl text-center leading-tight">
@@ -15,13 +15,13 @@ const HeroSection = () => {
             System
           </h1>
         </div>
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 items-center gap-10">
+        <div className="mt-6 md:mt-12 grid grid-cols-1 md:grid-cols-3 items-center gap-10">
           <div>
             <p className="text-gray-700 dark:text-gray-400">
               Our platform delivers personalized financial insights, portfolio strategies, and
               real-time market analysis.
             </p>
-            <div className="my-3 border-t border-gray-400"></div>
+            <div className="my-3 border-t border-gray-300"></div>
             <div>
               <ul className="flex flex-col gap-1 list-disc list-inside">
                 <li>
