@@ -45,7 +45,7 @@ Traditional financial advisory services often lack personalization, require high
 - **Framework:** Next.js, Tailwind Css, ShadCN, Redux Toolkit    
 - **Database:** MongoDB, Firebase 
 - **Cloud Storage:** Supabase (for image uploads)  
-- **AI Modal:** Gemini LLM
+- **AI Modal:** Trained LLM
 - **Authentication:** JSON Web Tokens (JWT), bcrypt  
 
 ---
@@ -72,7 +72,8 @@ Follow these steps to set up the project locally:
      DATABASE=mongodb-database-name
      SALT_ROUNDS=salt-rounds-int
      JWT_SECRET_KEY=your-jwt-key
-     GEMINI_API_KEY=your-gemini-api-key
+     FINANCIAL_LLM_API_KEY=LLM-api-key
+     FINANCIAL_LLM_MODEL=model-name
      NEXT_PUBLIC_FIREBASE_API_KEY=your-firebase-api-key
      NEXT_PUBLIC_SUPABASE_URL=your-supabase-URL
      NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anion-key
