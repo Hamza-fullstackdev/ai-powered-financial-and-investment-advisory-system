@@ -31,6 +31,15 @@ export async function POST(req: Request) {
   ) {
     return NextResponse.json({ message: 'Please fill the complete form' }, { status: 400 });
   }
+  if (cardNumber.length !== 16 || cardCvc.length !== 3) {
+    return NextResponse.json(
+      { message: 'Please enter a valid card number or cvc' },
+      { status: 400 }
+    );
+  }
+  if (cardHolder.length < 3) {
+    return NextResponse.json({ message: 'Please enter a valid card holder name' }, { status: 400 });
+  }
   try {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;

@@ -1,10 +1,10 @@
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const About = () => {
   return (
-    <section id='intro' className="my-20 mx-4 sm:mx-16">
+    <section id="intro" className="my-20 mx-4 sm:mx-16">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
         <div className="flex flex-col gap-4">
           <h3 className="text-4xl font-semibold leading-tight">
@@ -16,10 +16,13 @@ const About = () => {
             personalized insights and actionable strategies. With Finovate, you’ll understand where
             your money is going and how to make it work harder for you.
           </p>
-          <div>
-            <Button className="capitalize bg-green-500 hover:!bg-green-500/90 text-white p-6 rounded-full cursor-pointer">
+          <div className="mt-4">
+            <Link
+              href={'#contact'}
+              className="capitalize bg-green-500 hover:!bg-green-500/90 text-white px-6 py-4 text-sm rounded-full cursor-pointer"
+            >
               Share your feedback
-            </Button>
+            </Link>
           </div>
         </div>
         <div className="relative">
@@ -36,7 +39,7 @@ const About = () => {
               viewBox="0 0 750 750"
               width="230"
               height="230"
-              className='absolute bottom-0 left-8 rounded-2xl'
+              className="absolute bottom-0 left-8 rounded-2xl"
               preserveAspectRatio="xMidYMid meet"
             >
               <defs>

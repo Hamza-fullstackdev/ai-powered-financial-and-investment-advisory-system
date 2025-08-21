@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { BadgeCheck, Check } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const Insurance = () => {
@@ -22,7 +22,7 @@ const Insurance = () => {
             <BadgeCheck size={22} className="text-green-500" />
           </div>
         </div>
-        <div id='services' className="flex flex-col gap-4">
+        <div id="services" className="flex flex-col gap-4">
           <h3 className="text-4xl font-semibold leading-tight">
             Your AI-powered Personal Financial Advisor
           </h3>
@@ -40,9 +40,7 @@ const Insurance = () => {
                   </div>
                   <h3 className="font-semibold">Easy to claim insurance</h3>
                 </div>
-                <p className="mt-2">
-                  Consectetur adipiscing elit sed do eiusmod tempor.
-                </p>
+                <p className="mt-2">Consectetur adipiscing elit sed do eiusmod tempor.</p>
               </div>
             </div>
             <div>
@@ -79,13 +77,13 @@ const Insurance = () => {
               </div>
             </div>
           </div>
-          <div>
-            <Button
-              type="submit"
-              className="bg-green-500 hover:!bg-green-500/90 text-white px-10 py-6 rounded-full cursor-pointer"
+          <div className="mt-4">
+            <Link
+              href={'#contact'}
+              className="capitalize bg-green-500 hover:!bg-green-500/90 text-white px-6 py-4 text-sm rounded-full cursor-pointer"
             >
-              Contact Us
-            </Button>
+              Contact us
+            </Link>
           </div>
         </div>
       </div>

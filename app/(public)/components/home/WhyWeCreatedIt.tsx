@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/button';
 import { Check } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const WhyWeCreatedIt = () => {
@@ -20,10 +20,13 @@ const WhyWeCreatedIt = () => {
               bridge the wealth gap, fostering a future where effective financial management and
               literacy are within reach for everyone.
             </p>
-            <div>
-              <Button className="capitalize bg-green-500 hover:!bg-green-500/90 text-white p-6 rounded-full cursor-pointer">
+            <div className="mt-4">
+              <Link
+                href={'#contact'}
+                className="capitalize bg-green-500 hover:!bg-green-500/90 text-white px-6 py-4 text-sm rounded-full cursor-pointer"
+              >
                 Share your feedback
-              </Button>
+              </Link>
             </div>
           </div>
           <div className="rounded-2xl">
@@ -88,10 +91,13 @@ const WhyWeCreatedIt = () => {
                 </span>
               </li>
             </ul>
-            <div>
-              <Button className="capitalize bg-green-500 hover:!bg-green-500/90 text-white p-6 rounded-full cursor-pointer">
+            <div className="mt-4">
+              <Link
+                href={'#contact'}
+                className="capitalize bg-green-500 hover:!bg-green-500/90 text-white px-6 py-4 text-sm rounded-full cursor-pointer"
+              >
                 Share your feedback
-              </Button>
+              </Link>
             </div>
           </div>
         </div>

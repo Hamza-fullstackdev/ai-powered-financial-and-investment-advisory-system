@@ -29,14 +29,15 @@ interface Conversation {
 }
 export default function AiAssistant() {
   const promptOptions = [
-    { prompt: 'Best investment plans' },
-    { prompt: 'Should I invest in Bitcoin?' },
-    { prompt: 'Retirement portfolio strategies' },
-    { prompt: 'Top dividend stocks 2025' },
-    { prompt: 'Asset allocation for beginners' },
-    { prompt: 'High‑yield savings accounts' },
-    { prompt: 'Crypto vs. stocks comparison' },
-    { prompt: 'Tax‑efficient investing tips' },
+    { prompt: 'Best low-risk investment options in 2025' },
+    { prompt: 'How to build a diversified portfolio?' },
+    { prompt: 'Retirement planning strategies for early retirement' },
+    { prompt: 'How much emergency fund should I keep?' },
+    { prompt: 'Best mutual funds for long-term growth' },
+    { prompt: 'How to minimize taxes on investments?' },
+    { prompt: 'What percentage of my income should I invest?' },
+    { prompt: 'Index funds vs. ETFs: which is better?' },
+    { prompt: 'Top investment mistakes beginners make' },
   ];
   const [promptToSend, setPromptToSend] = useState('');
   const [inilialLoading, setInilialLoading] = useState(false);

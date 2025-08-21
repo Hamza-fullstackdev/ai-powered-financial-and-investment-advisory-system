@@ -1,6 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+html{
+  scroll-behavior: smooth;
+}
+
 ::selection{
   background-color: #182641;
   color: #ffffff;

@@ -52,7 +52,7 @@ const HeroSection = () => {
       <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
         <Image src="/arrow-2.png" alt="Arrow" width={100} height={100} className="object-cover" />
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div>
           <h1 className="font-bold text-4xl leading-tight">Connect with us for expert advice</h1>
           <div className="my-8 grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -88,7 +88,7 @@ const HeroSection = () => {
             ></iframe>
           </div>
         </div>
-        <div className="bg-white p-5 md:p-8">
+        <div className="bg-white dark:bg-gray-800 p-5 md:p-8">
           <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4">
               <Label className="text-lg" htmlFor="name">
