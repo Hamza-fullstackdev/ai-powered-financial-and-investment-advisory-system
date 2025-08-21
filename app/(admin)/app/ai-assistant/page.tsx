@@ -23,6 +23,7 @@ interface Conversation {
   conservation: Array<{
     prompt: string;
     response: string;
+    createdAt: string;
   }>;
   createdAt: string;
 }
@@ -36,9 +37,6 @@ export default function AiAssistant() {
     { prompt: 'High‑yield savings accounts' },
     { prompt: 'Crypto vs. stocks comparison' },
     { prompt: 'Tax‑efficient investing tips' },
-    { prompt: 'Emerging markets to watch' },
-    { prompt: 'Dollar‑cost averaging guide' },
-    { prompt: 'Risk management techniques' },
   ];
   const [promptToSend, setPromptToSend] = useState('');
   const [inilialLoading, setInilialLoading] = useState(false);

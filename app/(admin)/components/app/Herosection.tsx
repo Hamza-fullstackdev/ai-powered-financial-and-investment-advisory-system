@@ -37,47 +37,49 @@ const Herosection = () => {
 
   useEffect(() => {
     setLoading(true);
-    const getUserAccountInfo = async () => {
-      const res = await fetch('/api/user/get-account', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await res.json();
-      setLoading(false);
-      if (res.ok) {
-        setAccountInfo(data.getAccountInfo);
-        setLoading(false);
-      } else {
-        setShowButton(false);
-      }
-    };
-    const getSpendings = async () => {
-      setLoading(true);
-      const res = await fetch('/api/user/transaction/get-all-spendings', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const data = await res.json();
-      setLoading(false);
-      if (res.ok) {
-        setSpendings(data.totalAmount);
-        setLoading(false);
-      } else {
+
+    const fetchData = async () => {
+      try {
+        const [accountRes, spendingsRes] = await Promise.all([
+          fetch('/api/user/get-account', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          }),
+          fetch('/api/user/transaction/get-all-spendings', {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+          }),
+        ]);
+
+        const [accountData, spendingsData] = await Promise.all([
+          accountRes.json(),
+          spendingsRes.json(),
+        ]);
+        if (accountRes.ok) {
+          setAccountInfo(accountData.getAccountInfo);
+        } else {
+          setShowButton(false);
+        }
+        if (spendingsRes.ok) {
+          setSpendings(spendingsData.totalAmount);
+        } else {
+          setError(true);
+          setErrorMessage(spendingsData.message);
+          setTimeout(() => {
+            setError(false);
+            setErrorMessage('');
+          }, 2000);
+        }
+      } catch (err) {
+        console.error('Error fetching data:', err);
         setError(true);
-        setErrorMessage(data.message);
-        setTimeout(() => {
-          setError(false);
-          setErrorMessage('');
-        }, 2000);
+        setErrorMessage('Something went wrong!');
+      } finally {
         setLoading(false);
       }
     };
-    getUserAccountInfo();
-    getSpendings();
+
+    fetchData();
   }, []);
 
   const handleCheck = async () => {

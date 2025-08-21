@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Mail, Phone } from 'lucide-react';
@@ -5,16 +6,55 @@ import Image from 'next/image';
 import React from 'react';
 
 const HeroSection = () => {
+  const [formData, setFormData] = React.useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+  });
+  const [loading, setLoading] = React.useState(false);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      const res = await fetch('/api/user/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      setLoading(false);
+      if (res.ok) {
+        alert(data.message);
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        });
+      }
+    } catch (error) {
+      setLoading(false);
+      alert('Something went wrong, please try again later');
+    }
+  };
   return (
-    <section id='contact' className="mx-4 sm:mx-16 my-20 relative">
+    <section id="contact" className="mx-4 sm:mx-16 my-20 relative">
       <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
         <Image src="/arrow-2.png" alt="Arrow" width={100} height={100} className="object-cover" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-20 gap-y-8">
         <div>
-          <h1 className="font-bold text-4xl leading-tight">
-            Connect with us for expert advice
-          </h1>
+          <h1 className="font-bold text-4xl leading-tight">Connect with us for expert advice</h1>
           <div className="my-8 grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
               <div className="border border-gray-300 rounded-md p-4">
@@ -49,17 +89,21 @@ const HeroSection = () => {
           </div>
         </div>
         <div className="bg-white p-5 md:p-8">
-          <form className="flex flex-col gap-8">
+          <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-4">
               <Label className="text-lg" htmlFor="name">
                 Your Name
               </Label>
               <input
                 id="name"
+                name="name"
                 type="text"
+                autoComplete="on"
                 className="py-4 border-b border-gray-300 outline-none focus:border-green-500 placeholder:text-sm"
                 placeholder="Input your name"
                 required
+                value={formData.name}
+                onChange={handleChange}
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -69,10 +113,14 @@ const HeroSection = () => {
                 </Label>
                 <input
                   id="email"
+                  name="email"
                   type="email"
+                  autoComplete="on"
                   className="py-4 border-b border-gray-300 outline-none focus:border-green-500 placeholder:text-sm"
                   placeholder="Input your email"
                   required
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
               <div className="flex flex-col gap-4">
@@ -81,10 +129,13 @@ const HeroSection = () => {
                 </Label>
                 <input
                   id="subject"
+                  name="subject"
                   type="text"
                   className="py-4 border-b border-gray-300 outline-none focus:border-green-500 placeholder:text-sm"
                   placeholder="Input your subject"
                   required
+                  value={formData.subject}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -94,15 +145,19 @@ const HeroSection = () => {
               </Label>
               <textarea
                 id="message"
+                name="message"
                 rows={4}
                 className="w-full py-4 border-b border-gray-300 outline-none focus:border-green-500 placeholder:text-sm"
                 placeholder="Input your message"
                 required
+                value={formData.message}
+                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               ></textarea>
             </div>
             <div>
               <Button
                 type="submit"
+                disabled={loading}
                 className="bg-green-500 hover:!bg-green-500/90 text-white p-6 rounded-full cursor-pointer"
               >
                 Send Message
