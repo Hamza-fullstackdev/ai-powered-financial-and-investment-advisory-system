@@ -38,7 +38,7 @@ const Insurance = () => {
                   <div className="bg-green-500 rounded-full w-[30px] h-[30px] flex items-center justify-center">
                     <Check size={16} className="text-white" />
                   </div>
-                  <h3 className="font-semibold">Easy to claim insurance</h3>
+                  <h3 className="font-semibold">Easy to claim</h3>
                 </div>
                 <p className="mt-2">Consectetur adipiscing elit sed do eiusmod tempor.</p>
               </div>
