@@ -110,13 +110,13 @@ const page = () => {
     <section className="w-full my-10">
       <Card className="mx-auto w-full md:w-[700px]">
         <CardHeader>
-          <CardTitle className="text-center text-xl">
+          <CardTitle className="font-bold text-center text-2xl">
             <span className="text-green-600">
               {currentUser?.fname} {currentUser?.lname}&apos;s
             </span>{' '}
             Profile
           </CardTitle>
-          <CardDescription className="text-center">Update you profile</CardDescription>
+          <CardDescription className="text-center">Manage your profile</CardDescription>
           {uploading && <Progress value={progress} className={`w-[${progress}%]`} />}
           {error && (
             <Alert>

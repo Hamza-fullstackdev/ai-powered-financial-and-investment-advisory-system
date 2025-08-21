@@ -62,7 +62,7 @@ const CardDetails = () => {
                   <Wallet size={30} />
                   <Image
                     src={
-                      'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/Visa-logo-white.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2VhNzk2MTdiLWE1MTAtNDNhYy05YTkxLTZkOGMxOTdhMWEzOSJ9.eyJ1cmwiOiJhcHAvVmlzYS1sb2dvLXdoaXRlLndlYnAiLCJpYXQiOjE3NDcyMzMyOTAsImV4cCI6MTc3ODc2OTI5MH0.QpITS5jtRXJ8_sCaHgqVZneixCsNqUOOBUG1JZz2TVU'
+                      'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/Visa-logo-white.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84MGRjYTllNi02YmQ4LTRiMzgtYjI0MS03NjRiZTNmYzU0NTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcHAvVmlzYS1sb2dvLXdoaXRlLndlYnAiLCJpYXQiOjE3NTU3NDgyMzAsImV4cCI6MTc4NzI4NDIzMH0.uFZrFKfGmjAzrQyC0G8LDEYh2eguAAYf3dgcYK3OGFU'
                     }
                     alt="visa"
                     width={50}
@@ -72,7 +72,7 @@ const CardDetails = () => {
                 </div>
                 <div className="mt-10">
                   <div>
-                    <h3 className="text-[22px] flex gap-5 tracking-widest">
+                    <h3 className="text-[22px] flex gap-3 tracking-widest">
                       {cardNumberChunks.map((chunk, idx) => (
                         <span key={idx}>{chunk}</span>
                       ))}

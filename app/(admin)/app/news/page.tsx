@@ -144,7 +144,7 @@ export default function page() {
                 <img
                   src={`${
                     item?.content?.thumbnail?.resolutions?.[0]?.url ||
-                    'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/no-image.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2VhNzk2MTdiLWE1MTAtNDNhYy05YTkxLTZkOGMxOTdhMWEzOSJ9.eyJ1cmwiOiJhcHAvbm8taW1hZ2UucG5nIiwiaWF0IjoxNzQ3MjMzNjg4LCJleHAiOjE3Nzg3Njk2ODh9.DPkEM4fmPX2QfnK3BP6wv77O0f60md_0Fo_xbP13MSU'
+                    'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/no-image.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84MGRjYTllNi02YmQ4LTRiMzgtYjI0MS03NjRiZTNmYzU0NTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcHAvbm8taW1hZ2UucG5nIiwiaWF0IjoxNzU1NzQ4MzQzLCJleHAiOjE3ODcyODQzNDN9.oUxKld-IlAC-8WtyGfOrp6C_7iatEwwO4-oIh7R_7og'
                   }`}
                   alt="news"
                   width={300}

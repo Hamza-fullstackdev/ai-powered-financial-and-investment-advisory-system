@@ -67,14 +67,14 @@ const Google = () => {
       >
         <Image
           src={
-            'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/Google_Icons.webp?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5Xzk0NmRhMmU1LWU0MWEtNDhlZC04Y2MwLTkxYjMyN2EwNTNhZSJ9.eyJ1cmwiOiJhcHAvR29vZ2xlX0ljb25zLndlYnAiLCJpYXQiOjE3NDUyNDQ2NTAsImV4cCI6MTgwODMxNjY1MH0.T793YtXTrxc7CL-jSUaUcAIXxSIcmVhZul9TvM-uMUo'
+            'https://moicjaafyhsjcbmfeviv.supabase.co/storage/v1/object/sign/app/Google_Icons.webp?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV84MGRjYTllNi02YmQ4LTRiMzgtYjI0MS03NjRiZTNmYzU0NTYiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJhcHAvR29vZ2xlX0ljb25zLndlYnAiLCJpYXQiOjE3NTU3NDY1MTAsImV4cCI6MTc4NzI4MjUxMH0.jXtzzyjNzCR_0O55uQePacdyQl0tzpaAT9lr_9crfF4'
           }
           alt="Google-logo"
           width={20}
           height={20}
           className="w-6 h-6"
         />
-        <span className="text-sm font-medium text-gray-700">
+        <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:!text-black">
           {loading ? 'loading...' : 'Continue with Google'}
         </span>
       </button>
