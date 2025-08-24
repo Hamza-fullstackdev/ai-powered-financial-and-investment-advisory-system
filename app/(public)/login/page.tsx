@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { loginUser } from '@/lib/features/user/UserSlice';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Eye } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -93,7 +93,7 @@ const page = () => {
                 onChange={handleChange}
               />
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-1 relative">
               <Label htmlFor="password">Password</Label>
               <Input
                 type="password"
@@ -103,6 +103,15 @@ const page = () => {
                 autoComplete="on"
                 onChange={handleChange}
               />
+              <div className="absolute top-[50%] right-3 cursor-pointer">
+                <Eye
+                  size={20}
+                  onClick={() => {
+                    const input = document.getElementById('password') as HTMLInputElement;
+                    input.type = input.type === 'password' ? 'text' : 'password';
+                  }}
+                />
+              </div>
             </div>
           </div>
         </CardContent>

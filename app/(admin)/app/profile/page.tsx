@@ -11,7 +11,7 @@ import { createClient } from '@supabase/supabase-js';
 import { updateUser } from '@/lib/features/user/UserSlice';
 import { Progress } from '@/components/ui/progress';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Eye } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 const supabase = createClient(
@@ -182,7 +182,7 @@ const page = () => {
                   readOnly
                 />
               </div>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 relative">
                 <Label htmlFor="password">Password:</Label>
                 <Input
                   type="password"
@@ -191,6 +191,15 @@ const page = () => {
                   placeholder="********"
                   onChange={handleChange}
                 />
+                <div className="absolute top-[38%] right-3 cursor-pointer">
+                  <Eye
+                    size={20}
+                    onClick={() => {
+                      const input = document.getElementById('password') as HTMLInputElement;
+                      input.type = input.type === 'password' ? 'text' : 'password';
+                    }}
+                  />
+                </div>
                 {currentUser?.signupMethod === 'google' ? (
                   <span className="text-xs text-red-500">
                     Since you are signed using google, we recommend you to set password for the

@@ -21,12 +21,19 @@ const Footer = () => {
             <h5 className="text-lg font-semibold text-white">Stay Informed With Our Newsletter</h5>
             <form className="mt-4 flex items-center justify-between gap-x-3">
               <input
-                type="text"
+                type="email"
+                name="email"
+                id="email"
+                required
+                autoComplete="on"
                 placeholder="Your email address"
                 className="w-full py-2 px-4 rounded-sm bg-[#18192C] text-white placeholder:text-gray-400 placeholder:text-sm border-none outline-none"
               />
               <div>
-                <button className="bg-green-500 cursor-pointer py-2 px-4 rounded-sm text-white font-semibold text-sm">
+                <button
+                  type="submit"
+                  className="bg-green-500 cursor-pointer py-2 px-4 rounded-sm text-white font-semibold text-sm"
+                >
                   <Send size={22} />
                 </button>
               </div>

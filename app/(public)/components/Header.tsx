@@ -16,7 +16,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { AlertCircle } from 'lucide-react';
+import { AlertCircle, Eye } from 'lucide-react';
 import Google from './auth/Google';
 
 const Header = () => {
@@ -75,19 +75,29 @@ const Header = () => {
         <nav>
           <ul className="hidden md:flex items-center justify-between gap-x-8">
             <li>
-              <Link href={'#services'} className='font-[500]'>Services</Link>
+              <Link href={'#services'} className="font-[500]">
+                Services
+              </Link>
             </li>
             <li>
-              <Link href={'#intro'} className='font-[500]'>What is Finovate?</Link>
+              <Link href={'#intro'} className="font-[500]">
+                What is Finovate?
+              </Link>
             </li>
             <li>
-              <Link href={'#how-it-works'} className='font-[500]'>How it works</Link>
+              <Link href={'#how-it-works'} className="font-[500]">
+                How it works
+              </Link>
             </li>
             <li>
-              <Link href={'#why'} className='font-[500]'>Why we created it?</Link>
+              <Link href={'#why'} className="font-[500]">
+                Why we created it?
+              </Link>
             </li>
             <li>
-              <Link href={'#contact'} className='font-[500]'>Contact</Link>
+              <Link href={'#contact'} className="font-[500]">
+                Contact
+              </Link>
             </li>
           </ul>
         </nav>
@@ -156,7 +166,7 @@ const Header = () => {
                         onChange={handleChange}
                       />
                     </div>
-                    <div>
+                    <div className="relative">
                       <Label htmlFor="password" className="mb-2">
                         Password
                       </Label>
@@ -168,6 +178,15 @@ const Header = () => {
                         required
                         onChange={handleChange}
                       />
+                      <div className="absolute top-[50%] right-3 cursor-pointer">
+                        <Eye
+                          size={20}
+                          onClick={() => {
+                            const input = document.getElementById('password') as HTMLInputElement;
+                            input.type = input.type === 'password' ? 'text' : 'password';
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                   <DialogFooter className="mt-4">
