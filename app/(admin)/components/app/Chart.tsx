@@ -105,7 +105,7 @@ const Chart = () => {
                   />
                   <XAxis dataKey="totalAmount" type="number" hide />
                   <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-                  <Bar dataKey="totalAmount" layout="vertical" fill="#182641" radius={4}>
+                  <Bar dataKey="totalAmount" fill="#182641" radius={4}>
                     <LabelList
                       dataKey="category"
                       position="insideLeft"
