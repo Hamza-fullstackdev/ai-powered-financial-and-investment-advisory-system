@@ -130,6 +130,7 @@ User prompt: ${prompt}
 
     return NextResponse.json({ aiResponse: aiResponseText });
   } catch (error: any) {
+    console.log(error);
     if (error.message === 'AI request timed out') {
       return NextResponse.json(
         { message: 'The request to the AI model timed out.' },
